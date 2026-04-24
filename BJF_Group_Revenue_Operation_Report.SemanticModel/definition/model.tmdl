@@ -1,0 +1,32 @@
+model Model
+	culture: en-GB
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-GB
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["construction_projects"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table construction_projects
+ref table DateTableTemplate_68f5aebf-f12c-4255-8249-53ada902c4b5
+ref table LocalDateTable_a7c309b9-898e-4479-b526-f764b74f9bd7
+ref table LocalDateTable_7613ce87-b1ae-4a41-a15a-b8d114861f19
+ref table DimDate
+ref table LocalDateTable_9b6791f9-6b22-4dd6-9d34-f475adfca0e1
+ref table LocalDateTable_55723e04-11c5-492f-aad6-d169d52310c9
+ref table LocalDateTable_885b0fea-c1bb-47c7-9fe8-b1611283cf77
+ref table LocalDateTable_c47dc0b4-0d7a-44ee-a646-f645b96a2b61
+ref table LocalDateTable_2c37a498-6a4c-45b9-883c-36f26222168d
+ref table LocalDateTable_617c621c-815c-45af-92ff-9e607e4448e7
+ref table LocalDateTable_f48d2288-d4b4-4c55-8619-60a609cd0799
+ref table LocalDateTable_97405cde-5771-475e-8c2a-ee5d33dcdecf
+ref table LocalDateTable_08d81edf-9385-49ea-a4a9-984ad1567e65
+ref table KPIs
+
+ref cultureInfo en-GB
+

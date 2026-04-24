@@ -1,0 +1,351 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "b114e54dd0457d58c589",
+  "position": {
+    "x": 9.72644376899696,
+    "y": 25.288753799392097,
+    "z": 1000,
+    "height": 516.47416413373867,
+    "width": 762.55319148936178,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Project Profitability",
+                    "textStyle": {
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Measures the profit margin of a project by comparing revenue against total costs. ",
+                    "textStyle": {
+                      "fontSize": "11pt"
+                    }
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Formula:",
+                    "textStyle": {
+                      "fontStyle": "italic",
+                      "fontSize": "11pt"
+                    }
+                  },
+                  {
+                    "value": " (Revenue – Total Project Cost) ÷ Revenue × 100",
+                    "textStyle": {
+                      "fontSize": "11pt"
+                    }
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Why it matters:",
+                    "textStyle": {
+                      "fontStyle": "italic",
+                      "fontSize": "11pt"
+                    }
+                  },
+                  {
+                    "value": " Ensures projects remain financially viable and profitable.",
+                    "textStyle": {
+                      "fontSize": "11pt"
+                    }
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Project Performance",
+                    "textStyle": {
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Tracks whether a project is ahead of or behind schedule.",
+                    "textStyle": {
+                      "fontSize": "11pt"
+                    }
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Formula:",
+                    "textStyle": {
+                      "fontStyle": "italic",
+                      "fontSize": "11pt"
+                    }
+                  },
+                  {
+                    "value": " Planned Progress (%) – Actual Progress (%)",
+                    "textStyle": {
+                      "fontSize": "11pt"
+                    }
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Why it matters:",
+                    "textStyle": {
+                      "fontStyle": "italic",
+                      "fontSize": "11pt"
+                    }
+                  },
+                  {
+                    "value": " Helps manage deadlines, avoid delays, and optimise resource allocation.",
+                    "textStyle": {
+                      "fontSize": "11pt"
+                    }
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Project Cost Performance Index (CPI)",
+                    "textStyle": {
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Assesses cost efficiency by comparing budgeted vs. actual costs.",
+                    "textStyle": {
+                      "fontSize": "11pt"
+                    }
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Formula:",
+                    "textStyle": {
+                      "fontStyle": "italic",
+                      "fontSize": "11pt"
+                    }
+                  },
+                  {
+                    "value": " Earned Value (EV) ÷ Actual Cost (AC)",
+                    "textStyle": {
+                      "fontSize": "11pt"
+                    }
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Why it matters:",
+                    "textStyle": {
+                      "fontStyle": "italic",
+                      "fontSize": "11pt"
+                    }
+                  },
+                  {
+                    "value": " Indicates whether the project is under or over budget.",
+                    "textStyle": {
+                      "fontSize": "11pt"
+                    }
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Safety Incident Rate",
+                    "textStyle": {
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Measures the number of safety incidents per 100 employees.",
+                    "textStyle": {
+                      "fontSize": "11pt"
+                    }
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Formula:",
+                    "textStyle": {
+                      "fontStyle": "italic",
+                      "fontSize": "11pt"
+                    }
+                  },
+                  {
+                    "value": " (Number of Incidents × 200,000) ÷ Total Hours Worked",
+                    "textStyle": {
+                      "fontSize": "11pt"
+                    }
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Why it matters:",
+                    "textStyle": {
+                      "fontStyle": "italic",
+                      "fontSize": "11pt"
+                    }
+                  },
+                  {
+                    "value": " Affects worker safety, project efficiency, and insurance costs.",
+                    "textStyle": {
+                      "fontSize": "11pt"
+                    }
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Equipment Utilisation Rate",
+                    "textStyle": {
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Evaluates how efficiently construction equipment is being used.",
+                    "textStyle": {
+                      "fontSize": "11pt"
+                    }
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Formula:",
+                    "textStyle": {
+                      "fontStyle": "italic",
+                      "fontSize": "11pt"
+                    }
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": " (Equipment Operating Hours ÷ Total Available Hours) × 100",
+                    "textStyle": {
+                      "fontSize": "11pt"
+                    }
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Why it matters:",
+                    "textStyle": {
+                      "fontStyle": "italic",
+                      "fontSize": "11pt"
+                    }
+                  },
+                  {
+                    "value": " Reduces downtime, maximizes ROI on equipment, and lowers maintenance costs.",
+                    "textStyle": {
+                      "fontSize": "11pt"
+                    }
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

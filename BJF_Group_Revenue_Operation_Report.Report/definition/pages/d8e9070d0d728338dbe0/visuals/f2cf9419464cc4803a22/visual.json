@@ -1,0 +1,34 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "f2cf9419464cc4803a22",
+  "position": {
+    "x": 0,
+    "y": 0,
+    "z": 6000,
+    "height": 173.13069908814592,
+    "width": 308.68167202572346,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "PROJECT PERFORMANCE - DAYS TO COMPLETE"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "parentGroupName": "ade3f620d26d675e491c"
+}

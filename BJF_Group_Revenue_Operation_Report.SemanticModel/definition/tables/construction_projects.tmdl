@@ -1,0 +1,193 @@
+table construction_projects
+	lineageTag: 3bed3a34-3be4-44fc-abc8-f831f54b5115
+
+	column 'Project Name'
+		dataType: string
+		lineageTag: 23cec0c0-82a5-4eda-ad15-4285df0645c4
+		summarizeBy: none
+		sourceColumn: Project Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Planned Project Cost'
+		dataType: int64
+		lineageTag: f5629920-2873-4412-8164-635d97c11309
+		summarizeBy: sum
+		sourceColumn: Planned Project Cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Actual Project Cost'
+		dataType: int64
+		lineageTag: 62eaa341-bb22-41cf-8c69-1f314246a272
+		summarizeBy: sum
+		sourceColumn: Actual Project Cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Revenue
+		dataType: int64
+		lineageTag: 282866a7-7888-4b74-91d8-611f91e7c776
+		summarizeBy: sum
+		sourceColumn: Revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Project Start Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 02ebaf69-2a7f-4e01-b9b1-a67875f354f6
+		summarizeBy: none
+		sourceColumn: Project Start Date
+
+		variation Variation
+			isDefault
+			relationship: cc6c1265-5c9c-40b0-8595-85a083f52d6f
+			defaultHierarchy: LocalDateTable_a7c309b9-898e-4479-b526-f764b74f9bd7.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Planned Project End Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: b9440dc2-4ed6-4d21-909b-d740bd6587ee
+		summarizeBy: none
+		sourceColumn: Planned Project End Date
+
+		variation Variation
+			isDefault
+			relationship: e37d7593-375e-4cc5-ab4b-383d96edd7a0
+			defaultHierarchy: LocalDateTable_7613ce87-b1ae-4a41-a15a-b8d114861f19.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Actual End Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 275d0ad7-b692-44f3-8046-230336d3a2b2
+		summarizeBy: none
+		sourceColumn: Actual End Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'No of Safety Incident'
+		dataType: int64
+		formatString: 0
+		lineageTag: 28f4bb6c-beac-4097-aefd-516305e473e5
+		summarizeBy: sum
+		sourceColumn: No of Safety Incident
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'No Employee on Project'
+		dataType: int64
+		formatString: 0
+		lineageTag: 4e1296dd-795e-4ab0-bbaa-0cbec6b3decd
+		summarizeBy: sum
+		sourceColumn: No Employee on Project
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Equipment Operating Hours'
+		dataType: int64
+		formatString: 0
+		lineageTag: 49847f67-98ae-480b-90c0-6d3952ee4f1a
+		summarizeBy: sum
+		sourceColumn: Equipment Operating Hours
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Planned Operating Hours'
+		dataType: int64
+		formatString: 0
+		lineageTag: 628e4448-ddd4-4283-bdc6-f2a94442a946
+		summarizeBy: sum
+		sourceColumn: Planned Operating Hours
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Company Name'
+		dataType: string
+		lineageTag: b8315000-1cc6-4c6c-b82e-01dbc928b66b
+		summarizeBy: none
+		sourceColumn: Company Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Location ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: 12cc8768-9fe3-412b-aa68-31ab178964da
+		summarizeBy: count
+		sourceColumn: Location ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Location
+		dataType: string
+		lineageTag: c5a9cab2-fe16-4e5c-be01-09d811c4346e
+		summarizeBy: none
+		sourceColumn: Location
+
+		annotation SummarizationSetBy = Automatic
+
+	column Latitude
+		dataType: double
+		lineageTag: 6a725789-0d3a-46a2-bd34-e03f1be8f99f
+		summarizeBy: sum
+		sourceColumn: Latitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Longitude
+		dataType: double
+		lineageTag: 1b6fcb21-a998-455c-82b0-6dba668a234f
+		summarizeBy: sum
+		sourceColumn: Longitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Planned Days to Completion' = DATEDIFF(construction_projects[Project Start Date],construction_projects[Planned Project End Date],DAY)
+		formatString: 0
+		lineageTag: cb63c1f0-3b15-4af8-a50b-4c0029624f37
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Actual Days to Completion' = DATEDIFF(construction_projects[Project Start Date],construction_projects[Actual End Date],DAY)
+		formatString: 0
+		lineageTag: 9870ee48-793b-4aa5-b9db-650532162ad0
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition construction_projects = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\richa\Downloads\construction_projects.csv"),[Delimiter=",", Columns=16, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Project Name", type text}, {"Planned Project Cost", Int64.Type}, {"Actual Project Cost", Int64.Type}, {"Revenue", Int64.Type}, {"Project Start Date", type date}, {"Planned Project End Date", type date}, {"Actual End Date", type date}, {"No of Safety Incident", Int64.Type}, {"No Employee on Project", Int64.Type}, {"Equipment Operating Hours", Int64.Type}, {"Planned Operating Hours", Int64.Type}, {"Company Name", type text}, {"Location ID", Int64.Type}, {"Location", type text}, {"Latitude", type number}, {"Longitude", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,104 @@
+table KPIs
+	lineageTag: b7e83688-fa57-449e-b6ec-7f477e56fa2e
+
+	measure m_Revenue = SUM(construction_projects[Revenue])
+		formatString: "£"#,0;-"£"#,0;"£"#,0
+		lineageTag: bd667d99-cb67-4c7a-a65d-09e153a76571
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	measure m_Actual_Project_Cost = SUM(construction_projects[Actual Project Cost])
+		formatString: "£"#,0;-"£"#,0;"£"#,0
+		lineageTag: 80247228-115e-4d02-92a8-06fa3653af89
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	measure m_Planned_Project_Cost = SUM(construction_projects[Planned Project Cost])
+		formatString: "£"#,0;-"£"#,0;"£"#,0
+		lineageTag: 43377f1a-e1d7-4ef0-894b-51342dbbf1e7
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	measure m_Project_Profitability = ([m_Revenue]-[m_Actual_Project_Cost])/[m_Actual_Project_Cost]
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: a9adba86-a025-4f23-82fc-d4ca8bcb58f1
+
+	measure m_Actual_Days_To_Completion = SUM(construction_projects[Actual Days to Completion])
+		formatString: #,0
+		lineageTag: bfb55d16-3cf3-4be8-8cdc-bae88f10971a
+
+	measure m_Planned_Days_To_Completion = SUM(construction_projects[Planned Days to Completion])
+		formatString: #,0
+		lineageTag: 4aa5637c-9310-4f79-8ce1-f2f26c13307b
+
+	measure m_Project_Performance = ([m_Planned_Days_To_Completion]-[m_Actual_Days_To_Completion])/[m_Actual_Days_To_Completion]
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: fa9efedb-f63c-4ba5-92c6-a89af91e54e1
+
+	measure m_#_Employee_On_Project = SUM(construction_projects[No Employee on Project])
+		formatString: #,0
+		lineageTag: a4ee52de-dbc9-4f8c-aeb4-7952677cbcb7
+
+	measure m_#_Safety_Incidents_On_Project = SUM(construction_projects[No of Safety Incident])
+		formatString: #,0
+		lineageTag: 0d6ed5f0-5054-4080-86a9-6c8afd24dabf
+
+	measure m_Project_Safety_Rate = [m_#_Safety_Incidents_On_Project]/[m_#_Employee_On_Project]
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: fc418398-17e4-4912-9e2c-4890147444da
+
+	measure m_Equipment_Operating_Hours = SUM(construction_projects[Equipment Operating Hours])
+		formatString: #,0
+		lineageTag: 267b13ee-83f3-4433-8377-277adf67d5b7
+
+	measure m_Planned_Operating_Hours = SUM(construction_projects[Planned Operating Hours])
+		formatString: #,0
+		lineageTag: 7515cd59-2389-4b5d-aa2c-0a39a82c20f2
+
+	measure m_Project_Equipment_Utilisation_Rate = ([m_Planned_Operating_Hours]-[m_Equipment_Operating_Hours])/[m_Planned_Operating_Hours]
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: fdb31f6b-c214-4b7d-9fdf-83faf8b62265
+
+	measure m_Project_Planned_Vs_Actual_Cost = ([m_Planned_Project_Cost]-[m_Actual_Project_Cost])/[m_Actual_Project_Cost]
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 95991c87-0447-4be9-8660-86fb499f1351
+
+	measure m_Profitability = SUM(construction_projects[Revenue]) - SUM(construction_projects[Actual Project Cost])
+		formatString: "£"#,0;-"£"#,0;"£"#,0
+		lineageTag: a9c14c66-77ad-4fc6-8440-a53aa7e033f7
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	measure m_PY_Project_Profitability = CALCULATE([m_Project_Profitability],DATEADD(DimDate[Date],-2,YEAR))
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: e75ae17e-aae3-4479-b864-b69a83dff3f5
+
+	measure m_PY_Project_Performance = CALCULATE([m_Project_Performance],DATEADD(DimDate[Date],-1,YEAR))
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 1a06a674-3946-4a47-b292-27c3b80e64f5
+
+	measure m_PY_Project_Safety_Incident_Rate = CALCULATE([m_Project_Safety_Rate],DATEADD(DimDate[Date],-1,YEAR))
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: ef1a8e28-b71a-459b-8d0f-0e5ffebac18a
+
+	measure m_PY_Project_Equipment_Utilisation_Rate = CALCULATE([m_Project_Equipment_Utilisation_Rate],DATEADD(DimDate[Date],-1,YEAR))
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: af3aaf74-351b-4732-9be6-9cf3bea77cd3
+
+	column Column
+		formatString: 0
+		lineageTag: 14957188-83a0-4a1f-b612-3f042929bdc3
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition KPIs = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = e1b92436fd30402490700bc122335859
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

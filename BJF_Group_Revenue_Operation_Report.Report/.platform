@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "BJF_Group_Revenue_Operation_Report"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "fc99c4be-3a90-4235-80aa-7d3406ad4845"
+  }
+}

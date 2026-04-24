@@ -1,0 +1,59 @@
+relationship cc6c1265-5c9c-40b0-8595-85a083f52d6f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: construction_projects.'Project Start Date'
+	toColumn: LocalDateTable_a7c309b9-898e-4479-b526-f764b74f9bd7.Date
+
+relationship e37d7593-375e-4cc5-ab4b-383d96edd7a0
+	joinOnDateBehavior: datePartOnly
+	fromColumn: construction_projects.'Planned Project End Date'
+	toColumn: LocalDateTable_7613ce87-b1ae-4a41-a15a-b8d114861f19.Date
+
+relationship 3da98aa6-d81d-4eae-90de-4add4b937d3d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimDate.Date
+	toColumn: LocalDateTable_9b6791f9-6b22-4dd6-9d34-f475adfca0e1.Date
+
+relationship f5f7e0ad-4f21-49d2-935a-594c458872df
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimDate.'Start of Year'
+	toColumn: LocalDateTable_55723e04-11c5-492f-aad6-d169d52310c9.Date
+
+relationship 728099ee-40c2-47c3-8920-bdb6040b2416
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimDate.'End of Year'
+	toColumn: LocalDateTable_885b0fea-c1bb-47c7-9fe8-b1611283cf77.Date
+
+relationship 430172ac-d1f3-473c-80b2-5c5952f51c65
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimDate.'Start of Month'
+	toColumn: LocalDateTable_c47dc0b4-0d7a-44ee-a646-f645b96a2b61.Date
+
+relationship edab17a2-de4e-4c5c-a063-3a1d02a3c3e0
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimDate.'End of Month'
+	toColumn: LocalDateTable_2c37a498-6a4c-45b9-883c-36f26222168d.Date
+
+relationship 4732ea16-420a-4431-a622-5c4f347b817b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimDate.'Start of Quarter'
+	toColumn: LocalDateTable_617c621c-815c-45af-92ff-9e607e4448e7.Date
+
+relationship 02085a6e-6c36-45e8-8465-4d5e0478fa7d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimDate.'End of Quarter'
+	toColumn: LocalDateTable_f48d2288-d4b4-4c55-8619-60a609cd0799.Date
+
+relationship 8287a8a0-48e2-4575-97f3-8eb5ac60f16f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimDate.'Start of Week'
+	toColumn: LocalDateTable_97405cde-5771-475e-8c2a-ee5d33dcdecf.Date
+
+relationship ecd65e1a-023e-447c-8b0f-9c5b6598b448
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimDate.'End of Week'
+	toColumn: LocalDateTable_08d81edf-9385-49ea-a4a9-984ad1567e65.Date
+
+relationship 71e88637-c51f-428b-adaa-eab6c3a97eb0
+	fromColumn: construction_projects.'Actual End Date'
+	toColumn: DimDate.Date
+
