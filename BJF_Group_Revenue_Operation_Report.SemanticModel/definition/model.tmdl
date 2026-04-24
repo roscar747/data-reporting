@@ -10,7 +10,7 @@ annotation PBI_QueryOrder = ["construction_projects"]
 
 annotation __PBI_TimeIntelligenceEnabled = 1
 
-annotation PBI_ProTooling = ["DevMode"]
+annotation PBI_ProTooling = ["MCP-PBIModeling","DevMode"]
 
 ref table construction_projects
 ref table DateTableTemplate_68f5aebf-f12c-4255-8249-53ada902c4b5
@@ -27,6 +27,7 @@ ref table LocalDateTable_f48d2288-d4b4-4c55-8619-60a609cd0799
 ref table LocalDateTable_97405cde-5771-475e-8c2a-ee5d33dcdecf
 ref table LocalDateTable_08d81edf-9385-49ea-a4a9-984ad1567e65
 ref table KPIs
+ref table '_Time Intelligence'
 
 ref cultureInfo en-GB
 

@@ -1,0 +1,325 @@
+/// Dedicated table for all time intelligence and aggregation measures
+table '_Time Intelligence'
+	lineageTag: 0017d201-6183-46dd-a32b-5ead51c2fe8f
+
+	/// Total Revenue
+	measure 'Revenue Total' = [m_Revenue]
+		formatString: "£"#,0;-"£"#,0;"£"#,0
+		displayFolder: 01 - Aggregations\SUM
+		lineageTag: 682d0d5c-20e7-49cd-b7b8-c9c7d2172363
+
+	/// Revenue change vs prior month (absolute)
+	measure 'Revenue MoM Change' =
+			VAR _CurrentMonth = [m_Revenue]
+			VAR _PreviousMonth = CALCULATE([m_Revenue], DATEADD(DimDate[Date], -1, MONTH))
+			RETURN _CurrentMonth - _PreviousMonth
+		formatString: "£"#,0;-"£"#,0;"£"#,0
+		displayFolder: 02 - Month-on-Month (MoM)
+		lineageTag: 2a895948-90de-464e-a9e3-9c0182d9feb3
+
+	/// Revenue % change vs prior month
+	measure 'Revenue MoM %' =
+			VAR _CurrentMonth = [m_Revenue]
+			VAR _PreviousMonth = CALCULATE([m_Revenue], DATEADD(DimDate[Date], -1, MONTH))
+			RETURN DIVIDE(_CurrentMonth - _PreviousMonth, _PreviousMonth)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 02 - Month-on-Month (MoM)
+		lineageTag: 0052a863-3cde-4791-accd-20abe7e92db6
+
+	/// Revenue change vs prior year (absolute)
+	measure 'Revenue YoY Change' =
+			VAR _CurrentYear = [m_Revenue]
+			VAR _PreviousYear = CALCULATE([m_Revenue], DATEADD(DimDate[Date], -1, YEAR))
+			RETURN _CurrentYear - _PreviousYear
+		formatString: "£"#,0;-"£"#,0;"£"#,0
+		displayFolder: 03 - Year-on-Year (YoY)
+		lineageTag: 6af7c993-fcf2-4cb1-b1ef-a314f18b01d6
+
+	/// Revenue % change vs prior year
+	measure 'Revenue YoY %' =
+			VAR _CurrentYear = [m_Revenue]
+			VAR _PreviousYear = CALCULATE([m_Revenue], DATEADD(DimDate[Date], -1, YEAR))
+			RETURN DIVIDE(_CurrentYear - _PreviousYear, _PreviousYear)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 03 - Year-on-Year (YoY)
+		lineageTag: f5e542ae-753a-4fe9-8f4d-a5961739f115
+
+	/// Revenue for same period prior year
+	measure 'Revenue PY' = CALCULATE([m_Revenue], DATEADD(DimDate[Date], -1, YEAR))
+		formatString: "£"#,0;-"£"#,0;"£"#,0
+		displayFolder: 03 - Year-on-Year (YoY)
+		lineageTag: 67e63876-13e4-4eb5-8217-38204222d615
+
+	/// Revenue for prior month
+	measure 'Revenue PM' = CALCULATE([m_Revenue], DATEADD(DimDate[Date], -1, MONTH))
+		formatString: "£"#,0;-"£"#,0;"£"#,0
+		displayFolder: 02 - Month-on-Month (MoM)
+		lineageTag: 136938b8-e4dc-497f-8b08-5b5d7e395b02
+
+	/// Revenue Year-to-Date
+	measure 'Revenue YTD' = TOTALYTD([m_Revenue], DimDate[Date])
+		formatString: "£"#,0;-"£"#,0;"£"#,0
+		displayFolder: 01 - Aggregations\SUM
+		lineageTag: 5bc48009-f899-4f38-918c-eab6886f93b2
+
+	/// Revenue Month-to-Date
+	measure 'Revenue MTD' = TOTALMTD([m_Revenue], DimDate[Date])
+		formatString: "£"#,0;-"£"#,0;"£"#,0
+		displayFolder: 01 - Aggregations\SUM
+		lineageTag: 3c9afe09-a149-4667-87b0-2e5c722a1894
+
+	/// Revenue Quarter-to-Date
+	measure 'Revenue QTD' = TOTALQTD([m_Revenue], DimDate[Date])
+		formatString: "£"#,0;-"£"#,0;"£"#,0
+		displayFolder: 01 - Aggregations\SUM
+		lineageTag: f15e90fd-5d6b-4edc-a9c8-9b7e960fcb89
+
+	/// Revenue rolling 3-month sum
+	measure 'Revenue Rolling 3M' = CALCULATE([m_Revenue], DATESINPERIOD(DimDate[Date], LASTDATE(DimDate[Date]), -3, MONTH))
+		formatString: "£"#,0;-"£"#,0;"£"#,0
+		displayFolder: 04 - Rolling Periods
+		lineageTag: a7a6ff44-11d0-4cff-b712-16bb3e76e545
+
+	/// Revenue rolling 12-month sum
+	measure 'Revenue Rolling 12M' = CALCULATE([m_Revenue], DATESINPERIOD(DimDate[Date], LASTDATE(DimDate[Date]), -12, MONTH))
+		formatString: "£"#,0;-"£"#,0;"£"#,0
+		displayFolder: 04 - Rolling Periods
+		lineageTag: b6063050-760a-4daa-86bb-0e740690fd0b
+
+	/// Revenue as % of grand total
+	measure 'Revenue % of Total' = DIVIDE([m_Revenue], CALCULATE([m_Revenue], ALL(DimDate)))
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 05 - Percentages & Ratios
+		lineageTag: 52449dc6-aa5d-4cb9-ae8f-85cdff9d3771
+
+	/// Revenue as % of YTD total
+	measure 'Revenue % of YTD' = DIVIDE([m_Revenue], TOTALYTD([m_Revenue], DimDate[Date]))
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 05 - Percentages & Ratios
+		lineageTag: 53c613c1-8dd3-466e-849b-e9bbc8b46b80
+
+	/// Revenue change vs prior quarter (absolute)
+	measure 'Revenue QoQ Change' =
+			VAR _CurrentQ = [m_Revenue]
+			VAR _PreviousQ = CALCULATE([m_Revenue], DATEADD(DimDate[Date], -1, QUARTER))
+			RETURN _CurrentQ - _PreviousQ
+		formatString: "£"#,0;-"£"#,0;"£"#,0
+		displayFolder: 06 - Quarter-on-Quarter (QoQ)
+		lineageTag: 9b002e74-1022-411b-a6ac-30a051bcc3fa
+
+	/// Revenue % change vs prior quarter
+	measure 'Revenue QoQ %' =
+			VAR _CurrentQ = [m_Revenue]
+			VAR _PreviousQ = CALCULATE([m_Revenue], DATEADD(DimDate[Date], -1, QUARTER))
+			RETURN DIVIDE(_CurrentQ - _PreviousQ, _PreviousQ)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 06 - Quarter-on-Quarter (QoQ)
+		lineageTag: beada873-3d03-4961-a85d-58ac35194855
+
+	/// Profitability % change vs prior month
+	measure 'Profitability MoM %' =
+			VAR _Curr = [m_Profitability]
+			VAR _Prev = CALCULATE([m_Profitability], DATEADD(DimDate[Date], -1, MONTH))
+			RETURN DIVIDE(_Curr - _Prev, ABS(_Prev))
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 02 - Month-on-Month (MoM)
+		lineageTag: 8cc1da99-a7cc-4a4a-aaa5-392974a70a71
+
+	/// Profitability % change vs prior year
+	measure 'Profitability YoY %' =
+			VAR _Curr = [m_Profitability]
+			VAR _Prev = CALCULATE([m_Profitability], DATEADD(DimDate[Date], -1, YEAR))
+			RETURN DIVIDE(_Curr - _Prev, ABS(_Prev))
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 03 - Year-on-Year (YoY)
+		lineageTag: f13dea89-6c91-4ba9-961c-b177365c8d10
+
+	/// Actual project cost change vs prior month
+	measure 'Project Cost MoM Change' =
+			VAR _Curr = [m_Actual_Project_Cost]
+			VAR _Prev = CALCULATE([m_Actual_Project_Cost], DATEADD(DimDate[Date], -1, MONTH))
+			RETURN _Curr - _Prev
+		formatString: "£"#,0;-"£"#,0;"£"#,0
+		displayFolder: 02 - Month-on-Month (MoM)
+		lineageTag: c460fbf4-642b-455f-a552-b3553a3e88d9
+
+	/// Actual project cost % change vs prior year
+	measure 'Project Cost YoY %' =
+			VAR _Curr = [m_Actual_Project_Cost]
+			VAR _Prev = CALCULATE([m_Actual_Project_Cost], DATEADD(DimDate[Date], -1, YEAR))
+			RETURN DIVIDE(_Curr - _Prev, _Prev)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 03 - Year-on-Year (YoY)
+		lineageTag: 33d18890-95d8-47ef-b107-e9830e571efa
+
+	/// Actual revenue vs planned project cost ratio
+	measure 'Revenue % vs Budget' = DIVIDE([m_Revenue], [m_Planned_Project_Cost])
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 05 - Percentages & Ratios
+		lineageTag: 7abf89eb-fd55-4e23-8944-afddde56eb9b
+
+	/// Cost as a proportion of revenue (efficiency ratio)
+	measure 'Cost vs Revenue Ratio' = DIVIDE([m_Actual_Project_Cost], [m_Revenue])
+		formatString: 0.00;-0.00;0.00
+		displayFolder: 05 - Percentages & Ratios
+		lineageTag: 57394015-462f-476d-ae43-cb544baae47d
+
+	/// Total Profitability
+	measure 'Profitability Total' = [m_Profitability]
+		formatString: 0.00%
+		displayFolder: 01 - Aggregations\SUM
+		lineageTag: 356407e3-d233-4e80-a890-6f4120e09c14
+
+	/// Total Actual Project Cost
+	measure 'Project Cost Total' = [m_Actual_Project_Cost]
+		formatString: "£"#,0;-"£"#,0;"£"#,0
+		displayFolder: 01 - Aggregations\SUM
+		lineageTag: f457cb70-2a51-4c83-8ddf-8b479ab918fd
+
+	/// Actual Project Cost Year-to-Date
+	measure 'Project Cost YTD' = TOTALYTD([m_Actual_Project_Cost], 'Date'[Date])
+		formatString: "£"#,0;-"£"#,0;"£"#,0
+		displayFolder: 01 - Aggregations\SUM
+		lineageTag: 1ca9b053-19f0-477e-b98c-85f478c5d452
+
+	/// Actual Project Cost Month-to-Date
+	measure 'Project Cost MTD' = TOTALMTD([m_Actual_Project_Cost], 'Date'[Date])
+		formatString: "£"#,0;-"£"#,0;"£"#,0
+		displayFolder: 01 - Aggregations\SUM
+		lineageTag: 3e770693-de82-4167-97c4-1a3350391525
+
+	/// Actual Project Cost Quarter-to-Date
+	measure 'Project Cost QTD' = TOTALQTD([m_Actual_Project_Cost], 'Date'[Date])
+		formatString: "£"#,0;-"£"#,0;"£"#,0
+		displayFolder: 01 - Aggregations\SUM
+		lineageTag: 045420d6-9d99-4f6c-9f85-77ad918982fe
+
+	/// Profitability Year-to-Date
+	measure 'Profitability YTD' = DIVIDE(TOTALYTD([m_Revenue] - [m_Actual_Project_Cost], 'Date'[Date]), TOTALYTD([m_Revenue], 'Date'[Date]))
+		formatString: 0.00%
+		displayFolder: 01 - Aggregations\SUM
+		lineageTag: 8463d2b0-3c4e-42c7-9560-5992433a59d1
+
+	/// Profitability for prior month
+	measure 'Profitability PM' = CALCULATE([m_Profitability], PREVIOUSMONTH('Date'[Date]))
+		formatString: 0.00%
+		isHidden
+		displayFolder: 02 - Month-on-Month (MoM)
+		lineageTag: 3e520e7d-09ec-4fbc-b7e7-8e7c48bec691
+
+	/// Profitability change vs prior month (absolute)
+	measure 'Profitability MoM Change' = [m_Profitability] - [Profitability PM]
+		formatString: 0.00%
+		displayFolder: 02 - Month-on-Month (MoM)
+		lineageTag: 24e90ce8-84ba-4cc0-9416-cdcb6f8fe04d
+
+	/// Project Cost for prior month
+	measure 'Project Cost PM' = CALCULATE([m_Actual_Project_Cost], PREVIOUSMONTH('Date'[Date]))
+		formatString: "£"#,0;-"£"#,0;"£"#,0
+		isHidden
+		displayFolder: 02 - Month-on-Month (MoM)
+		lineageTag: 944d065a-ba7f-468b-ad3b-795df5b589d1
+
+	/// Project Cost % change vs prior month
+	measure 'Project Cost MoM %' = DIVIDE([Project Cost MoM Change], ABS([Project Cost PM]))
+		formatString: 0.00%
+		displayFolder: 02 - Month-on-Month (MoM)
+		lineageTag: ff701de3-51e1-4a5d-b65f-568ad679f98b
+
+	/// Project Cost for same period prior year
+	measure 'Project Cost PY' = CALCULATE([m_Actual_Project_Cost], SAMEPERIODLASTYEAR('Date'[Date]))
+		formatString: "£"#,0;-"£"#,0;"£"#,0
+		isHidden
+		displayFolder: 03 - Year-on-Year (YoY)
+		lineageTag: b3dc8e92-4ed6-499c-bd6c-fda6a05bcd7d
+
+	/// Profitability for same period prior year
+	measure 'Profitability PY' = CALCULATE([m_Profitability], SAMEPERIODLASTYEAR('Date'[Date]))
+		formatString: 0.00%
+		isHidden
+		displayFolder: 03 - Year-on-Year (YoY)
+		lineageTag: f2f531c0-2839-498e-8c55-7fb414f25b9a
+
+	/// Profitability change vs prior year (absolute)
+	measure 'Profitability YoY Change' = [m_Profitability] - [Profitability PY]
+		formatString: 0.00%
+		displayFolder: 03 - Year-on-Year (YoY)
+		lineageTag: a52eb1a8-fe6c-47ca-b32f-fe3bc06c5cde
+
+	/// Project Cost change vs prior year (absolute)
+	measure 'Project Cost YoY Change' = [m_Actual_Project_Cost] - [Project Cost PY]
+		formatString: "£"#,0;-"£"#,0;"£"#,0
+		displayFolder: 03 - Year-on-Year (YoY)
+		lineageTag: 8f1a67fa-df19-40f9-aef2-c8bdad216674
+
+	/// Project Cost rolling 3-month sum
+	measure 'Project Cost Rolling 3M' = CALCULATE([m_Actual_Project_Cost], DATESINPERIOD('Date'[Date], LASTDATE('Date'[Date]), -3, MONTH))
+		formatString: "£"#,0;-"£"#,0;"£"#,0
+		displayFolder: 04 - Rolling Periods
+		lineageTag: 68988d5b-be35-4261-92f0-5d9a2c82b260
+
+	/// Project Cost rolling 12-month sum
+	measure 'Project Cost Rolling 12M' = CALCULATE([m_Actual_Project_Cost], DATESINPERIOD('Date'[Date], LASTDATE('Date'[Date]), -12, MONTH))
+		formatString: "£"#,0;-"£"#,0;"£"#,0
+		displayFolder: 04 - Rolling Periods
+		lineageTag: 36d8ae1f-f680-4542-a2a7-efc63ec4ccd2
+
+	/// Profitability vs grand total profitability
+	measure 'Profitability % of Total' = DIVIDE([m_Profitability], CALCULATE([m_Profitability], ALL('Date')))
+		formatString: 0.00%
+		displayFolder: 05 - Percentages & Ratios
+		lineageTag: 0cdcdf69-987a-4cb1-b2e7-06564578b94f
+
+	/// Project Cost as % of Revenue
+	measure 'Project Cost % of Revenue' = DIVIDE([m_Actual_Project_Cost], [m_Revenue])
+		formatString: 0.00%
+		displayFolder: 05 - Percentages & Ratios
+		lineageTag: c7b5fccb-f572-4257-9ce0-8a880a4198d4
+
+	/// Actual Cost as % of Planned Cost — budget efficiency
+	measure 'Planned vs Actual Cost %' = DIVIDE([m_Actual_Project_Cost], [m_Planned_Project_Cost])
+		formatString: 0.00%
+		displayFolder: 05 - Percentages & Ratios
+		lineageTag: 31a0bf9b-2636-4f5c-a090-27b62667b951
+
+	/// Project Cost change vs prior quarter (absolute)
+	measure 'Project Cost QoQ Change' =
+			VAR _PrevQ = CALCULATE([m_Actual_Project_Cost], PREVIOUSQUARTER('Date'[Date]))
+			RETURN [m_Actual_Project_Cost] - _PrevQ
+		formatString: "£"#,0;-"£"#,0;"£"#,0
+		displayFolder: 06 - Quarter-on-Quarter (QoQ)
+		lineageTag: f66c7812-b715-4879-8744-685c2ed81210
+
+	/// Project Cost % change vs prior quarter
+	measure 'Project Cost QoQ %' =
+			VAR _PrevQ = CALCULATE([m_Actual_Project_Cost], PREVIOUSQUARTER('Date'[Date]))
+			RETURN DIVIDE([m_Actual_Project_Cost] - _PrevQ, ABS(_PrevQ))
+		formatString: 0.00%
+		displayFolder: 06 - Quarter-on-Quarter (QoQ)
+		lineageTag: 6765ea9b-9d34-457a-afbc-f57d14c42b0f
+
+	/// Profitability change vs prior quarter (absolute)
+	measure 'Profitability QoQ Change' =
+			VAR _PrevQ = CALCULATE([m_Profitability], PREVIOUSQUARTER('Date'[Date]))
+			RETURN [m_Profitability] - _PrevQ
+		formatString: 0.00%
+		displayFolder: 06 - Quarter-on-Quarter (QoQ)
+		lineageTag: 57e1db26-55e4-4a43-8179-1b7611626dd8
+
+	/// Profitability % change vs prior quarter
+	measure 'Profitability QoQ %' =
+			VAR _PrevQ = CALCULATE([m_Profitability], PREVIOUSQUARTER('Date'[Date]))
+			RETURN DIVIDE([m_Profitability] - _PrevQ, ABS(_PrevQ))
+		formatString: 0.00%
+		displayFolder: 06 - Quarter-on-Quarter (QoQ)
+		lineageTag: 8b556d4c-9a46-4843-b42d-2701adc2785f
+
+	column Value
+		lineageTag: 91707ab5-6222-46ac-9a5b-4245e1c8d2bf
+		isNameInferred
+		sourceColumn: [Value]
+
+	partition '_Time Intelligence' = calculated
+		mode: import
+		source = {"_Time Intelligence"}
+
