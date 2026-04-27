@@ -1,0 +1,385 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:var(--font-sans)}
+.dash{width:100%;background:var(--color-background-tertiary);padding:10px;border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary)}
+.gov-header{background:#1A3A5C;border-radius:var(--border-radius-md);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+.gov-left{display:flex;align-items:center;gap:10px}
+.gov-crest{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.gov-title{color:#fff;font-size:13px;font-weight:500;line-height:1.3}
+.gov-sub{color:rgba(255,255,255,0.6);font-size:10px;margin-top:1px}
+.gov-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.gov-badge{background:rgba(255,255,255,0.12);border:0.5px solid rgba(255,255,255,0.25);border-radius:4px;padding:3px 8px;font-size:10px;color:rgba(255,255,255,0.85)}
+.gov-alert{background:#8B0000;border-radius:4px;padding:3px 9px;font-size:10px;color:#FFCCCC;font-weight:500;letter-spacing:0.04em}
+.filter-bar{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:7px 11px;display:flex;align-items:center;gap:8px;margin-bottom:9px;flex-wrap:wrap}
+.fl{font-size:9px;color:var(--color-text-secondary);font-weight:500;white-space:nowrap}
+.fc{border:0.5px solid var(--color-border-secondary);border-radius:20px;padding:3px 9px;font-size:10px;color:var(--color-text-secondary);white-space:nowrap}
+.fc.on{background:#E6F1FB;border-color:#378ADD;color:#0C447C}
+.fdiv{width:0.5px;height:18px;background:var(--color-border-tertiary)}
+.kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:9px}
+.kpi{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:9px 11px;position:relative;overflow:hidden}
+.kpi-top{position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--border-radius-md) var(--border-radius-md) 0 0}
+.kpi-lbl{font-size:9px;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px;padding-top:4px}
+.kpi-val{font-size:20px;font-weight:500;line-height:1;color:var(--color-text-primary)}
+.kpi-sub{font-size:9px;margin-top:4px;display:flex;align-items:center;gap:3px}
+.up{color:#1D9E75}.dn{color:#E24B4A}.warn{color:#854F0B}
+.spark{position:absolute;bottom:6px;right:8px;opacity:0.25}
+.mid-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:9px}
+.panel{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:9px 11px}
+.ph{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
+.pt{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;color:var(--color-text-primary)}
+.pm{font-size:9px;color:var(--color-text-secondary);background:var(--color-background-secondary);border-radius:4px;padding:2px 6px}
+.gauge-wrap{display:flex;flex-direction:column;align-items:center;padding:4px 0 2px}
+.gauge-val{font-size:28px;font-weight:500;line-height:1;margin-top:4px;color:#E24B4A}
+.gauge-unit{font-size:10px;color:var(--color-text-secondary);margin-top:2px}
+.gauge-thresh{display:flex;justify-content:space-around;width:100%;margin-top:8px;gap:4px}
+.thresh-pill{flex:1;border-radius:4px;padding:4px 0;text-align:center;font-size:9px;font-weight:500}
+.tp-g{background:#EAF3DE;color:#27500A}
+.tp-a{background:#FAEEDA;color:#633806}
+.tp-r{background:#FCEBEB;color:#791F1F}
+.gauge-note{font-size:9px;color:var(--color-text-secondary);margin-top:6px;font-style:italic;text-align:center}
+.hm-grid{display:grid;gap:2px}
+.hm-cell{border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:500}
+.hm-row-lbl{font-size:8px;color:var(--color-text-secondary);display:flex;align-items:center;padding-right:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hm-col-lbl{font-size:8px;color:var(--color-text-secondary);text-align:center}
+.src-bar-wrap{display:flex;flex-direction:column;gap:10px;padding:4px 0}
+.src-row{display:flex;flex-direction:column;gap:3px}
+.src-lbl{font-size:9px;color:var(--color-text-secondary);display:flex;justify-content:space-between}
+.src-track{height:22px;background:var(--color-background-secondary);border-radius:3px;overflow:hidden;position:relative}
+.src-fill{height:100%;border-radius:3px;display:flex;align-items:center;padding-left:6px}
+.src-fill-lbl{font-size:9px;font-weight:500}
+.bottom-panel{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:9px 11px;margin-bottom:9px}
+.sar-table{width:100%;border-collapse:collapse;table-layout:fixed}
+.sar-table th{font-size:9px;color:var(--color-text-secondary);font-weight:500;text-align:left;padding:4px 6px;border-bottom:0.5px solid var(--color-border-secondary);text-transform:uppercase;letter-spacing:0.05em}
+.sar-table td{font-size:10px;padding:5px 6px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-primary);vertical-align:middle}
+.sar-table tr:last-child td{border-bottom:none}
+.countdown{font-family:var(--font-mono);font-size:11px;font-weight:500}
+.cd-critical{color:#791F1F}
+.cd-warn{color:#633806}
+.cd-ok{color:#27500A}
+.status-pill{font-size:8px;border-radius:10px;padding:2px 7px;font-weight:500;white-space:nowrap}
+.sp-breach{background:#FCEBEB;color:#791F1F}
+.sp-risk{background:#FAEEDA;color:#633806}
+.sp-ok{background:#EAF3DE;color:#27500A}
+.sp-new{background:#E6F1FB;color:#0C447C}
+.source-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:4px}
+.ann{font-size:9px;color:var(--color-text-secondary);font-style:italic;margin-top:5px;display:flex;align-items:center;gap:4px}
+.vtag{background:#E6F1FB;color:#0C447C;border-radius:4px;padding:1px 5px;font-size:8px;font-style:normal}
+.footer{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:6px 12px;display:flex;align-items:center;justify-content:space-between}
+.ft{font-size:9px;color:var(--color-text-secondary)}
+.pnav{display:flex;gap:5px;margin-top:8px;flex-wrap:wrap}
+.pn{border:0.5px solid var(--color-border-secondary);border-radius:4px;padding:3px 9px;font-size:9px;color:var(--color-text-secondary)}
+.pn.active{background:#E6F1FB;border-color:#378ADD;color:#0C447C;font-weight:500}
+</style>
+
+<h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">AE Reporting Lag and Safety Velocity dashboard wireframe for a government clinical trial organisation, showing Safety Clock gauge, site bottleneck heatmap, source comparison bar chart, and regulatory countdown table.</h2>
+
+<div class="dash">
+
+<div class="gov-header">
+  <div class="gov-left">
+    <div class="gov-crest">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <circle cx="9" cy="9" r="8" stroke="rgba(255,255,255,0.7)" stroke-width="1"/>
+        <path d="M9 3v12M3 9h12" stroke="rgba(255,255,255,0.7)" stroke-width="1"/>
+        <circle cx="9" cy="9" r="2.5" fill="rgba(255,255,255,0.4)"/>
+      </svg>
+    </div>
+    <div>
+      <div class="gov-title">AE Reporting Lag &amp; Safety Velocity — Pharmacovigilance Dashboard</div>
+      <div class="gov-sub">Clinical Trial CT-2024-GOV · HIPAA De-identified · 21 CFR 312.32 / EMA GVP Module VI Compliance</div>
+    </div>
+  </div>
+  <div class="gov-right">
+    <span class="gov-badge">Trial ID: CT-2024</span>
+    <span class="gov-badge">n = 1,247</span>
+    <span class="gov-badge">27 Apr 2026</span>
+    <span class="gov-alert">2 BREACH — ACTION REQUIRED</span>
+  </div>
+</div>
+
+<div class="filter-bar">
+  <span class="fl">Filters</span>
+  <div class="fc on">Site ▾ All sites</div>
+  <div class="fc on">Treatment arm ▾ All</div>
+  <div class="fc on">Data source ▾ All</div>
+  <div class="fc">AE severity ▾</div>
+  <div class="fc">Date range ▾ 2023–2026</div>
+  <div class="fc">Trial ID ▾</div>
+  <div class="fdiv"></div>
+  <div class="fc">↺ Reset filters</div>
+</div>
+
+<div class="kpi-strip">
+  <div class="kpi">
+    <div class="kpi-top" style="background:#E24B4A"></div>
+    <div class="kpi-lbl">Mean reporting lag</div>
+    <div class="kpi-val" style="color:#A32D2D">11.4<span style="font-size:12px;font-weight:400"> d</span></div>
+    <div class="kpi-sub dn">
+      <svg width="8" height="8" viewBox="0 0 8 8"><path d="M4 7L1 2H7z" fill="#E24B4A"/></svg>
+      +1.8d vs prior month · breach
+    </div>
+    <svg class="spark" width="44" height="18" viewBox="0 0 44 18"><polyline points="0,10 7,9 14,11 21,8 28,10 35,12 44,14" fill="none" stroke="#E24B4A" stroke-width="1.5"/></svg>
+  </div>
+  <div class="kpi">
+    <div class="kpi-top" style="background:#E24B4A"></div>
+    <div class="kpi-lbl">Regulatory compliance delta</div>
+    <div class="kpi-val" style="color:#A32D2D">34</div>
+    <div class="kpi-sub dn">
+      <svg width="8" height="8" viewBox="0 0 8 8"><path d="M4 7L1 2H7z" fill="#E24B4A"/></svg>
+      Breach rate: 8.2% · CAPA required
+    </div>
+    <svg class="spark" width="44" height="18" viewBox="0 0 44 18"><polyline points="0,12 7,11 14,10 21,9 28,11 35,13 44,15" fill="none" stroke="#E24B4A" stroke-width="1.5"/></svg>
+  </div>
+  <div class="kpi">
+    <div class="kpi-top" style="background:#BA7517"></div>
+    <div class="kpi-lbl">Unreported AE proxy</div>
+    <div class="kpi-val" style="color:#854F0B">67</div>
+    <div class="kpi-sub warn">
+      <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="3" fill="#BA7517"/></svg>
+      Proxy rate: 9.4% · near threshold
+    </div>
+    <svg class="spark" width="44" height="18" viewBox="0 0 44 18"><polyline points="0,10 7,9 14,11 21,8 28,9 35,11 44,10" fill="none" stroke="#BA7517" stroke-width="1.5"/></svg>
+  </div>
+  <div class="kpi">
+    <div class="kpi-top" style="background:#1D9E75"></div>
+    <div class="kpi-lbl">Safety data completeness</div>
+    <div class="kpi-val" style="color:#0F6E56">91.3<span style="font-size:12px;font-weight:400">%</span></div>
+    <div class="kpi-sub up">
+      <svg width="8" height="8" viewBox="0 0 8 8"><path d="M4 1L7 6H1z" fill="#1D9E75"/></svg>
+      +2.1pp vs prior quarter
+    </div>
+    <svg class="spark" width="44" height="18" viewBox="0 0 44 18"><polyline points="0,14 7,12 14,10 21,9 28,8 35,6 44,4" fill="none" stroke="#1D9E75" stroke-width="1.5"/></svg>
+  </div>
+</div>
+
+<div class="mid-grid">
+
+  <div class="panel">
+    <div class="ph">
+      <span class="pt">Safety Clock — mean reporting lag</span>
+      <span class="pm">Gauge · MRL measure</span>
+    </div>
+    <div class="gauge-wrap">
+      <svg width="160" height="90" viewBox="0 0 160 90">
+        <path d="M 14 80 A 66 66 0 0 1 146 80" fill="none" stroke="#EAF3DE" stroke-width="16" stroke-linecap="round"/>
+        <path d="M 14 80 A 66 66 0 0 1 60 22" fill="none" stroke="#639922" stroke-width="16" stroke-linecap="round"/>
+        <path d="M 60 22 A 66 66 0 0 1 108 19" fill="none" stroke="#EF9F27" stroke-width="16" stroke-linecap="round"/>
+        <path d="M 108 19 A 66 66 0 0 1 146 80" fill="none" stroke="#E24B4A" stroke-width="16" stroke-linecap="round"/>
+        <line x1="80" y1="80" x2="46" y2="32" stroke="#A32D2D" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="80" cy="80" r="5" fill="#A32D2D"/>
+        <circle cx="80" cy="80" r="3" fill="var(--color-background-primary)"/>
+        <text x="16" y="92" font-size="8" fill="#3B6D11" font-family="var(--font-sans)">0d</text>
+        <text x="68" y="12" font-size="8" fill="#854F0B" text-anchor="middle" font-family="var(--font-sans)">7d</text>
+        <text x="122" y="14" font-size="8" fill="#854F0B" text-anchor="middle" font-family="var(--font-sans)">15d</text>
+        <text x="140" y="92" font-size="8" fill="#A32D2D" text-anchor="end" font-family="var(--font-sans)">30d+</text>
+      </svg>
+      <div class="gauge-val">11.4d</div>
+      <div class="gauge-unit">trial-wide mean reporting lag</div>
+      <div class="gauge-thresh">
+        <div class="thresh-pill tp-g">On track &lt;7d</div>
+        <div class="thresh-pill tp-a">Monitor 7–15d</div>
+        <div class="thresh-pill tp-r" style="border:1.5px solid #E24B4A">Breach &gt;15d ◀</div>
+      </div>
+      <div class="gauge-note">Needle indicates current MRL · Red zone = regulatory breach</div>
+    </div>
+    <div class="ann">Measure 1 — MRL · Measure 1a — Serious AEs (7d) <span class="vtag">KPI gauge · threshold lines</span></div>
+  </div>
+
+  <div class="panel">
+    <div class="ph">
+      <span class="pt">Site bottleneck heatmap</span>
+      <span class="pm">Matrix · site × month</span>
+    </div>
+    <div style="overflow-x:auto">
+      <div style="display:grid;grid-template-columns:62px repeat(6,1fr);gap:2px;min-width:220px">
+        <div></div>
+        <div class="hm-col-lbl">Nov</div>
+        <div class="hm-col-lbl">Dec</div>
+        <div class="hm-col-lbl">Jan</div>
+        <div class="hm-col-lbl">Feb</div>
+        <div class="hm-col-lbl">Mar</div>
+        <div class="hm-col-lbl">Apr</div>
+
+        <div class="hm-row-lbl">Site A — London</div>
+        <div class="hm-cell" style="height:20px;background:#EAF3DE;color:#27500A">4d</div>
+        <div class="hm-cell" style="height:20px;background:#C0DD97;color:#27500A">6d</div>
+        <div class="hm-cell" style="height:20px;background:#EF9F27;color:#633806">12d</div>
+        <div class="hm-cell" style="height:20px;background:#EF9F27;color:#633806">14d</div>
+        <div class="hm-cell" style="height:20px;background:#E24B4A;color:#791F1F">19d</div>
+        <div class="hm-cell" style="height:20px;background:#E24B4A;color:#791F1F">22d</div>
+
+        <div class="hm-row-lbl">Site B — Manchester</div>
+        <div class="hm-cell" style="height:20px;background:#C0DD97;color:#27500A">5d</div>
+        <div class="hm-cell" style="height:20px;background:#EAF3DE;color:#27500A">4d</div>
+        <div class="hm-cell" style="height:20px;background:#EAF3DE;color:#27500A">5d</div>
+        <div class="hm-cell" style="height:20px;background:#C0DD97;color:#27500A">6d</div>
+        <div class="hm-cell" style="height:20px;background:#C0DD97;color:#27500A">7d</div>
+        <div class="hm-cell" style="height:20px;background:#EAF3DE;color:#27500A">5d</div>
+
+        <div class="hm-row-lbl">Site C — Bristol</div>
+        <div class="hm-cell" style="height:20px;background:#EF9F27;color:#633806">11d</div>
+        <div class="hm-cell" style="height:20px;background:#EF9F27;color:#633806">13d</div>
+        <div class="hm-cell" style="height:20px;background:#E24B4A;color:#791F1F">18d</div>
+        <div class="hm-cell" style="height:20px;background:#E24B4A;color:#791F1F">21d</div>
+        <div class="hm-cell" style="height:20px;background:#E24B4A;color:#791F1F">24d</div>
+        <div class="hm-cell" style="height:20px;background:#E24B4A;color:#791F1F">20d</div>
+
+        <div class="hm-row-lbl">Site D — Leeds</div>
+        <div class="hm-cell" style="height:20px;background:#C0DD97;color:#27500A">6d</div>
+        <div class="hm-cell" style="height:20px;background:#EAF3DE;color:#27500A">5d</div>
+        <div class="hm-cell" style="height:20px;background:#EF9F27;color:#633806">9d</div>
+        <div class="hm-cell" style="height:20px;background:#EF9F27;color:#633806">11d</div>
+        <div class="hm-cell" style="height:20px;background:#EF9F27;color:#633806">13d</div>
+        <div class="hm-cell" style="height:20px;background:#EF9F27;color:#633806">14d</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:6px;margin-top:7px;align-items:center">
+      <span style="font-size:8px;color:var(--color-text-secondary)">Lag:</span>
+      <div style="width:10px;height:10px;border-radius:2px;background:#EAF3DE"></div><span style="font-size:8px;color:var(--color-text-secondary)">&lt;7d</span>
+      <div style="width:10px;height:10px;border-radius:2px;background:#EF9F27"></div><span style="font-size:8px;color:var(--color-text-secondary)">7–15d</span>
+      <div style="width:10px;height:10px;border-radius:2px;background:#E24B4A"></div><span style="font-size:8px;color:var(--color-text-secondary)">&gt;15d breach</span>
+    </div>
+    <div class="ann">Measures 3 + 3a — site × month matrix <span class="vtag">Matrix + conditional format</span></div>
+  </div>
+
+  <div class="panel">
+    <div class="ph">
+      <span class="pt">Source comparison — EMR vs EDC lag</span>
+      <span class="pm">Bar · data_lineage_source</span>
+    </div>
+    <div class="src-bar-wrap">
+      <div class="src-row">
+        <div class="src-lbl">
+          <span style="display:flex;align-items:center"><div class="source-dot" style="background:#378ADD"></div>EMR_INTEGRATION_V2 (automated)</span>
+          <span style="font-weight:500;color:var(--color-text-primary)">4.2d avg</span>
+        </div>
+        <div class="src-track">
+          <div class="src-fill" style="width:28%;background:#378ADD">
+            <span class="src-fill-lbl" style="color:#0C447C">4.2d</span>
+          </div>
+        </div>
+        <div style="font-size:8px;color:#27500A;margin-top:2px">Within 7-day window — compliant</div>
+      </div>
+      <div class="src-row">
+        <div class="src-lbl">
+          <span style="display:flex;align-items:center"><div class="source-dot" style="background:#E24B4A"></div>EDC_MANUAL_ENTRY (manual)</span>
+          <span style="font-weight:500;color:#A32D2D">17.8d avg</span>
+        </div>
+        <div class="src-track">
+          <div class="src-fill" style="width:82%;background:#E24B4A">
+            <span class="src-fill-lbl" style="color:#791F1F">17.8d — breach</span>
+          </div>
+        </div>
+        <div style="font-size:8px;color:#A32D2D;margin-top:2px">Exceeds 15-day window — CAPA required</div>
+      </div>
+      <div style="background:var(--color-background-secondary);border-radius:4px;padding:7px 8px;margin-top:4px">
+        <div style="font-size:9px;color:var(--color-text-secondary);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em;font-weight:500">Source reliability gap</div>
+        <div style="font-size:18px;font-weight:500;color:#A32D2D">+13.6d</div>
+        <div style="font-size:9px;color:var(--color-text-secondary)">EDC slower than EMR · justifies integration investment</div>
+      </div>
+    </div>
+    <div class="ann">Measures 4 / 4a / 4b — data_lineage_source <span class="vtag">Horizontal bar · reference line at 7d &amp; 15d</span></div>
+  </div>
+</div>
+
+<div class="bottom-panel">
+  <div class="ph">
+    <span class="pt">Regulatory countdown — pending serious adverse reactions (SARs)</span>
+    <span class="pm">Table · 7-day / 15-day window · sorted by hours remaining</span>
+  </div>
+  <table class="sar-table">
+    <thead>
+      <tr>
+        <th style="width:90px">Patient UUID</th>
+        <th style="width:70px">Site</th>
+        <th style="width:62px">Arm</th>
+        <th style="width:68px">AE identified</th>
+        <th style="width:55px">Severity</th>
+        <th style="width:60px">Window</th>
+        <th style="width:78px">Deadline</th>
+        <th style="width:70px">Hours left</th>
+        <th style="width:72px">Data source</th>
+        <th style="width:62px">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="font-family:var(--font-mono);font-size:9px;color:var(--color-text-secondary)">pt-08f4a…</td>
+        <td style="font-size:9px">Site C — Bristol</td>
+        <td style="font-size:9px">Drug</td>
+        <td style="font-size:9px">20 Apr 2026</td>
+        <td><span class="status-pill sp-breach">Serious</span></td>
+        <td style="font-size:9px">7 days</td>
+        <td style="font-size:9px;font-weight:500;color:#A32D2D">27 Apr 2026</td>
+        <td><span class="countdown cd-critical">2h 14m</span></td>
+        <td style="font-size:9px"><div class="source-dot" style="background:#E24B4A"></div>EDC Manual</td>
+        <td><span class="status-pill sp-breach">Breach risk</span></td>
+      </tr>
+      <tr>
+        <td style="font-family:var(--font-mono);font-size:9px;color:var(--color-text-secondary)">pt-3c91b…</td>
+        <td style="font-size:9px">Site A — London</td>
+        <td style="font-size:9px">Drug</td>
+        <td style="font-size:9px">21 Apr 2026</td>
+        <td><span class="status-pill sp-breach">Serious</span></td>
+        <td style="font-size:9px">7 days</td>
+        <td style="font-size:9px;font-weight:500;color:#A32D2D">28 Apr 2026</td>
+        <td><span class="countdown cd-warn">18h 42m</span></td>
+        <td style="font-size:9px"><div class="source-dot" style="background:#E24B4A"></div>EDC Manual</td>
+        <td><span class="status-pill sp-risk">At risk</span></td>
+      </tr>
+      <tr>
+        <td style="font-family:var(--font-mono);font-size:9px;color:var(--color-text-secondary)">pt-f130d…</td>
+        <td style="font-size:9px">Site D — Leeds</td>
+        <td style="font-size:9px">Placebo</td>
+        <td style="font-size:9px">22 Apr 2026</td>
+        <td><span class="status-pill sp-risk">Non-serious</span></td>
+        <td style="font-size:9px">15 days</td>
+        <td style="font-size:9px;font-weight:500;color:#854F0B">7 May 2026</td>
+        <td><span class="countdown cd-warn">238h 00m</span></td>
+        <td style="font-size:9px"><div class="source-dot" style="background:#378ADD"></div>EMR Auto</td>
+        <td><span class="status-pill sp-ok">On track</span></td>
+      </tr>
+      <tr>
+        <td style="font-family:var(--font-mono);font-size:9px;color:var(--color-text-secondary)">pt-77a2c…</td>
+        <td style="font-size:9px">Site B — Manchester</td>
+        <td style="font-size:9px">Drug</td>
+        <td style="font-size:9px">24 Apr 2026</td>
+        <td><span class="status-pill sp-new">Pending triage</span></td>
+        <td style="font-size:9px">7 days</td>
+        <td style="font-size:9px;color:var(--color-text-secondary)">1 May 2026</td>
+        <td><span class="countdown cd-ok">86h 00m</span></td>
+        <td style="font-size:9px"><div class="source-dot" style="background:#378ADD"></div>EMR Auto</td>
+        <td><span class="status-pill sp-ok">On track</span></td>
+      </tr>
+      <tr>
+        <td style="font-family:var(--font-mono);font-size:9px;color:var(--color-text-secondary)">pt-a59e1…</td>
+        <td style="font-size:9px">Site C — Bristol</td>
+        <td style="font-size:9px">Drug</td>
+        <td style="font-size:9px">25 Apr 2026</td>
+        <td><span class="status-pill sp-breach">Serious</span></td>
+        <td style="font-size:9px">7 days</td>
+        <td style="font-size:9px;color:var(--color-text-secondary)">2 May 2026</td>
+        <td><span class="countdown cd-ok">110h 00m</span></td>
+        <td style="font-size:9px"><div class="source-dot" style="background:#E24B4A"></div>EDC Manual</td>
+        <td><span class="status-pill sp-ok">On track</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="ann" style="margin-top:7px">Measures 2 + 2a — sorted ascending by hours remaining · conditional row colour by status <span class="vtag">Table visual · conditional format · drill to patient record</span></div>
+</div>
+
+<div class="pnav">
+  <div class="pn active">Safety velocity</div>
+  <div class="pn">AE deep-dive</div>
+  <div class="pn">Site operations</div>
+  <div class="pn">Source reliability</div>
+  <div class="pn">Adherence timeline</div>
+  <div class="pn">Data dictionary</div>
+</div>
+
+<div class="footer" style="margin-top:8px">
+  <span class="ft">Source: clinical_trial_patient_360_dataset · Daily refresh 06:00 UTC · Last: 27 Apr 2026 · 21 CFR 312.32 / EMA GVP Module VI</span>
+  <span class="ft">HIPAA Safe Harbor de-identified · Authorised government use only · v1.0</span>
+</div>
+
+</div>

@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAR Dashboard Wireframe — Power BI Native Style</title>
+<style>
+/* ═══════════════════════════════════════════════
+   POWER BI NATIVE DESIGN SYSTEM
+   Segoe UI · #252423 canvas · #FFFFFF cards
+   Microsoft-exact colours & spacing
+═══════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* PBI exact palette */
+  --pbi-canvas:      #F3F2F1;
+  --pbi-header-bg:   #252423;
+  --pbi-header-text: #FFFFFF;
+  --pbi-white:       #FFFFFF;
+  --pbi-card-border: #E0DEDD;
+  --pbi-text-dark:   #252423;
+  --pbi-text-mid:    #605E5C;
+  --pbi-text-light:  #A19F9D;
+  --pbi-blue:        #118DFF;
+  --pbi-blue2:       #0078D4;
+  --pbi-teal:        #01B8AA;
+  --pbi-green:       #107C10;
+  --pbi-amber:       #FFB900;
+  --pbi-red:         #D13438;
+  --pbi-orange:      #D83B01;
+  --pbi-purple:      #744DA9;
+  --pbi-blue-pale:   #E8F4FD;
+  --pbi-slicer-bg:   #F5F5F5;
+  --pbi-selected:    #E1EFFF;
+
+  /* wireframe greys for placeholders */
+  --wf-bar:    #BDD7EE;
+  --wf-bar2:   #9DC3E6;
+  --wf-bar3:   #2E75B6;
+  --wf-line:   #4472C4;
+  --wf-line2:  #ED7D31;
+  --wf-donut:  #4472C4;
+  --wf-green:  #70AD47;
+  --wf-amber:  #FFC000;
+  --wf-red:    #FF0000;
+  --wf-treemap1: #4472C4;
+  --wf-treemap2: #ED7D31;
+  --wf-treemap3: #A9D18E;
+  --wf-treemap4: #FF0000;
+  --wf-treemap5: #FFC000;
+  --wf-treemap6: #5B9BD5;
+  --wf-treemap7: #70AD47;
+  --wf-treemap8: #8B008B;
+  --wf-treemap9: #FF7F50;
+}
+
+body {
+  font-family: 'Segoe UI', 'Segoe UI Web (West European)', -apple-system, sans-serif;
+  font-size: 12px;
+  background: var(--pbi-canvas);
+  color: var(--pbi-text-dark);
+  min-height: 100vh;
+}
+
+/* ── PBI App Header Bar ── */
+.pbi-header {
+  background: var(--pbi-header-bg);
+  height: 36px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 14px;
+  position: sticky; top: 0; z-index: 100;
+}
+.pbi-header .logo {
+  display: flex; align-items: center; gap: 7px;
+  color: #fff; font-size: 13px; font-weight: 600;
+}
+.pbi-logo-icon {
+  width: 22px; height: 22px;
+}
+.pbi-header .report-name {
+  font-size: 12px; color: rgba(255,255,255,0.7);
+  border-left: 1px solid rgba(255,255,255,0.2);
+  padding-left: 12px;
+}
+.pbi-header .spacer { flex: 1; }
+.pbi-header .header-actions {
+  display: flex; gap: 6px; align-items: center;
+}
+.pbi-header .h-btn {
+  height: 24px; padding: 0 8px;
+  background: rgba(255,255,255,0.1);
+  border: none; border-radius: 2px;
+  color: #fff; font-size: 11px;
+  cursor: pointer; font-family: inherit;
+}
+.pbi-header .h-btn.primary {
+  background: var(--pbi-blue2);
+}
+
+/* ── Tab Strip ── */
+.pbi-tabs {
+  background: #FFFFFF;
+  border-bottom: 1px solid var(--pbi-card-border);
+  display: flex;
+  align-items: flex-end;
+  padding: 0 12px;
+  height: 34px;
+}
+.tab {
+  height: 34px; display: flex; align-items: center;
+  padding: 0 14px;
+  font-size: 12px; color: var(--pbi-text-mid);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+}
+.tab.active {
+  color: var(--pbi-blue2);
+  border-bottom-color: var(--pbi-blue2);
+  font-weight: 600;
+}
+
+/* ── Filter Pane (collapsed indicator) ── */
+.pbi-layout {
+  display: flex;
+  height: calc(100vh - 70px);
+  overflow: hidden;
+}
+.filter-pane {
+  width: 220px;
+  min-width: 220px;
+  background: #FAFAFA;
+  border-right: 1px solid var(--pbi-card-border);
+  padding: 8px 0;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+.fp-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 12px 10px;
+  border-bottom: 1px solid var(--pbi-card-border);
+  margin-bottom: 6px;
+}
+.fp-title {
+  font-size: 12px; font-weight: 600; color: var(--pbi-text-dark);
+}
+.fp-clear { font-size: 11px; color: var(--pbi-blue2); cursor: pointer; }
+.fp-section { margin-bottom: 2px; }
+.fp-section-hdr {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 5px 12px;
+  cursor: pointer;
+  font-size: 11px; font-weight: 600; color: var(--pbi-text-dark);
+}
+.fp-section-hdr:hover { background: var(--pbi-slicer-bg); }
+.fp-chevron { font-size: 9px; color: var(--pbi-text-mid); }
+.fp-body { padding: 4px 12px 8px; }
+.fp-item {
+  display: flex; align-items: center; gap: 6px;
+  padding: 3px 0; font-size: 11px; color: var(--pbi-text-mid);
+  cursor: pointer;
+}
+.fp-checkbox {
+  width: 12px; height: 12px; border: 1px solid var(--pbi-text-light);
+  border-radius: 2px; flex-shrink: 0;
+}
+.fp-checkbox.checked {
+  background: var(--pbi-blue2); border-color: var(--pbi-blue2);
+  display: flex; align-items: center; justify-content: center;
+}
+.fp-checkbox.checked::after { content: '✓'; font-size: 8px; color: white; }
+.fp-search {
+  width: 100%; height: 24px; border: 1px solid var(--pbi-card-border);
+  border-radius: 2px; padding: 0 6px; font-size: 11px;
+  font-family: inherit; background: white; color: var(--pbi-text-dark);
+  margin-bottom: 5px;
+}
+
+/* ── Main Canvas ── */
+.pbi-canvas {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 12px 20px;
+  background: var(--pbi-canvas);
+}
+
+/* ── Page Title band ── */
+.page-title-band {
+  background: var(--pbi-white);
+  border: 1px solid var(--pbi-card-border);
+  border-radius: 2px;
+  padding: 10px 16px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.page-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #003087; /* govt deep blue */
+}
+.page-subtitle {
+  font-size: 11px;
+  color: var(--pbi-text-mid);
+  margin-top: 2px;
+}
+.page-ts {
+  font-size: 11px;
+  color: var(--pbi-text-light);
+  text-align: right;
+}
+
+/* ── Generic PBI Card ── */
+.pbi-card {
+  background: var(--pbi-white);
+  border: 1px solid var(--pbi-card-border);
+  border-radius: 2px;
+  padding: 10px 12px 12px;
+  position: relative;
+  overflow: hidden;
+}
+.card-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--pbi-text-dark);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.card-title .field-tag {
+  font-size: 9px; font-weight: 400;
+  color: var(--pbi-text-light);
+  background: var(--pbi-slicer-bg);
+  padding: 1px 5px; border-radius: 2px;
+}
+
+/* ── SLICER BAR (top) ── */
+.slicer-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+.slicer-chip {
+  background: var(--pbi-white);
+  border: 1px solid var(--pbi-card-border);
+  border-radius: 2px;
+  padding: 5px 10px;
+  font-size: 11px;
+  color: var(--pbi-text-dark);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+.slicer-chip.active {
+  border-color: var(--pbi-blue2);
+  background: var(--pbi-blue-pale);
+  color: var(--pbi-blue2);
+}
+.slicer-chip .slicer-label {
+  font-weight: 600;
+  font-size: 10px;
+  color: var(--pbi-text-mid);
+}
+.slicer-chip .slicer-val {
+  font-size: 11px;
+}
+.slicer-dropdown {
+  display: flex; align-items: center; gap: 4px;
+}
+.chevron-down { font-size: 8px; color: var(--pbi-text-mid); }
+
+/* ── GRID ROWS ── */
+.grid-row {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.row-kpi    { grid-template-columns: repeat(5, 1fr); }
+.row-mid    { grid-template-columns: 2fr 1.4fr 1.2fr; }
+.row-bottom { grid-template-columns: 1.8fr 1fr 1fr; }
+
+/* ── KPI CARD (PBI Card visual) ── */
+.kpi-card {
+  background: var(--pbi-white);
+  border: 1px solid var(--pbi-card-border);
+  border-radius: 2px;
+  padding: 12px 14px 10px;
+  position: relative;
+}
+.kpi-label {
+  font-size: 11px; color: var(--pbi-text-mid); margin-bottom: 4px;
+  line-height: 1.2;
+}
+.kpi-value {
+  font-size: 26px; font-weight: 300; line-height: 1.1;
+  color: var(--pbi-text-dark); letter-spacing: -.5px;
+}
+.kpi-value.red    { color: var(--pbi-red); }
+.kpi-value.amber  { color: var(--pbi-amber); }
+.kpi-value.green  { color: var(--pbi-green); }
+.kpi-value.blue   { color: var(--pbi-blue2); }
+.kpi-target {
+  font-size: 10px; color: var(--pbi-text-light);
+  margin-top: 3px; display: flex; align-items: center; gap: 4px;
+}
+.kpi-delta {
+  display: inline-flex; align-items: center; gap: 2px;
+  font-size: 10px; padding: 1px 4px; border-radius: 2px;
+}
+.kpi-delta.up   { background: #DFF6DD; color: #107C10; }
+.kpi-delta.down { background: #FDE7E9; color: var(--pbi-red); }
+.kpi-delta.warn { background: #FFF4CE; color: #835C00; }
+/* KPI accent bar (top) */
+.kpi-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+}
+.kpi-card.k-red::before    { background: var(--pbi-red); }
+.kpi-card.k-amber::before  { background: var(--pbi-amber); }
+.kpi-card.k-green::before  { background: var(--pbi-green); }
+.kpi-card.k-blue::before   { background: var(--pbi-blue2); }
+.kpi-card.k-teal::before   { background: var(--pbi-teal); }
+.kpi-measure { position: absolute; top: 8px; right: 10px; font-size: 9px; color: var(--pbi-text-light); }
+
+/* ── BAR CHART ── */
+.bar-chart { padding: 4px 0; }
+.bar-row {
+  display: flex; align-items: center; gap: 6px;
+  margin-bottom: 5px; height: 22px;
+}
+.bar-axis-label {
+  font-size: 10px; color: var(--pbi-text-mid);
+  width: 130px; flex-shrink: 0; text-align: right;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.bar-track {
+  flex: 1; height: 14px; background: #F5F5F5; border-radius: 0; position: relative;
+}
+.bar-fill {
+  height: 100%; border-radius: 0;
+}
+.bar-val {
+  font-size: 10px; color: var(--pbi-text-mid); width: 40px; text-align: right; flex-shrink: 0;
+}
+.bar-axis-bottom {
+  border-top: 1px solid var(--pbi-card-border);
+  padding-top: 3px;
+  display: flex; justify-content: space-between;
+  font-size: 9px; color: var(--pbi-text-light);
+  margin-top: 4px;
+}
+
+/* ── LINE CHART ── */
+.line-chart-area {
+  position: relative; width: 100%;
+}
+.lc-svg { display: block; width: 100%; overflow: visible; }
+.lc-axis-label { font-size: 9px; fill: #A19F9D; font-family: 'Segoe UI', sans-serif; }
+.lc-grid-line { stroke: #E0DEDD; stroke-width: .5; }
+.lc-ref-line { stroke: var(--pbi-red); stroke-width: 1; stroke-dasharray: 4 3; }
+.lc-legend {
+  display: flex; gap: 14px; margin-bottom: 4px; flex-wrap: wrap;
+}
+.lc-legend-item {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 10px; color: var(--pbi-text-mid);
+}
+.lc-legend-line {
+  width: 16px; height: 3px; border-radius: 1px;
+}
+.lc-legend-dash {
+  width: 16px; height: 0; border-top: 2px dashed;
+}
+
+/* ── DONUT CHART ── */
+.donut-wrap { display: flex; align-items: center; gap: 12px; }
+.donut-svg { flex-shrink: 0; }
+.donut-legend { flex: 1; }
+.donut-legend-row {
+  display: flex; align-items: center; gap: 5px;
+  margin-bottom: 4px; font-size: 10px; color: var(--pbi-text-mid);
+}
+.donut-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.donut-val { margin-left: auto; font-weight: 600; color: var(--pbi-text-dark); }
+.donut-pct { color: var(--pbi-text-light); font-size: 9px; }
+
+/* ── TREEMAP ── */
+.treemap-wrap {
+  display: grid;
+  grid-template-columns: 2fr 1.2fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 2px;
+  height: 180px;
+}
+.tm-cell {
+  display: flex; flex-direction: column;
+  justify-content: flex-end;
+  padding: 5px 7px;
+  cursor: pointer;
+  transition: opacity .15s;
+}
+.tm-cell:hover { opacity: .82; }
+.tm-label { font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.95); line-height: 1.2; }
+.tm-pct   { font-size: 9px; color: rgba(255,255,255,0.7); }
+.tm-span2 { grid-row: span 2; }
+
+/* ── FUNNEL (PBI-style) ── */
+.funnel-stage {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 6px;
+}
+.funnel-bar-wrap { flex: 1; }
+.funnel-bar-label {
+  font-size: 10px; color: var(--pbi-text-mid); margin-bottom: 2px;
+  display: flex; justify-content: space-between;
+}
+.funnel-bar-track { height: 28px; background: #F5F5F5; position: relative; }
+.funnel-bar-fill  { height: 100%; display: flex; align-items: center; padding: 0 8px; }
+.funnel-bar-text  { font-size: 10px; color: white; font-weight: 600; }
+.funnel-pct { font-size: 10px; color: var(--pbi-text-mid); width: 32px; text-align: right; flex-shrink: 0; }
+
+/* ── MATRIX (PBI table visual) ── */
+.matrix-table {
+  width: 100%; border-collapse: collapse; font-size: 10px;
+}
+.matrix-table th {
+  background: #F5F5F5; color: var(--pbi-text-dark);
+  font-size: 10px; font-weight: 600;
+  padding: 5px 7px; text-align: left;
+  border-bottom: 2px solid var(--pbi-card-border);
+  white-space: nowrap;
+}
+.matrix-table td {
+  padding: 5px 7px; border-bottom: 1px solid #F0EFEE;
+  color: var(--pbi-text-dark); white-space: nowrap;
+}
+.matrix-table tr:hover td { background: #F8F8F7; }
+.matrix-table td.num { text-align: right; }
+.heatcell {
+  display: inline-block; width: 100%;
+  text-align: right; padding: 1px 4px;
+  border-radius: 1px;
+}
+
+/* ── GAUGE (PBI style) ── */
+.gauge-svg { display: block; }
+
+/* ── WATERFALL ── */
+.wf-bar-pos { fill: var(--pbi-teal); }
+.wf-bar-neg { fill: var(--pbi-red); }
+.wf-bar-tot { fill: var(--pbi-blue2); }
+
+/* ── ANNOTATION LABEL ── */
+.annotation {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 9px; color: var(--pbi-text-light);
+  background: var(--pbi-slicer-bg);
+  border: 1px dashed var(--pbi-card-border);
+  padding: 2px 6px; border-radius: 2px;
+  margin-top: 4px;
+}
+
+/* ── DATA DICTIONARY FOOTER ── */
+.dict-section {
+  background: var(--pbi-white);
+  border: 1px solid var(--pbi-card-border);
+  border-radius: 2px;
+  padding: 12px 16px;
+  margin-top: 10px;
+}
+.dict-title {
+  font-size: 12px; font-weight: 600; color: var(--pbi-text-dark); margin-bottom: 10px;
+  display: flex; align-items: center; gap: 8px;
+}
+.dict-badge {
+  font-size: 10px; font-weight: 400; background: var(--pbi-slicer-bg);
+  border: 1px solid var(--pbi-card-border);
+  padding: 1px 6px; border-radius: 2px; color: var(--pbi-text-mid);
+}
+.dict-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px 20px;
+}
+.dict-row {
+  display: grid;
+  grid-template-columns: 180px 70px 1fr;
+  gap: 0 8px;
+  padding: 4px 0;
+  border-bottom: 1px solid #F5F5F5;
+  align-items: start;
+}
+.dict-row:last-child { border-bottom: none; }
+.dict-col { font-size: 10px; font-weight: 600; color: var(--pbi-text-dark); }
+.dict-type { font-size: 9px; color: var(--pbi-text-light); background: var(--pbi-slicer-bg); padding: 1px 4px; border-radius: 2px; height: fit-content; }
+.dict-desc { font-size: 10px; color: var(--pbi-text-mid); line-height: 1.4; }
+.dict-measure-row {
+  display: flex; gap: 8px; padding: 4px 0;
+  border-bottom: 1px solid #F5F5F5; align-items: start;
+}
+.dict-m-name { font-size: 10px; font-weight: 600; color: var(--pbi-blue2); min-width: 240px; }
+.dict-m-desc { font-size: 10px; color: var(--pbi-text-mid); line-height: 1.4; }
+
+/* ── TOOLTIP hint ── */
+.tooltip-hint {
+  display: none;
+  position: absolute; z-index: 50;
+  background: rgba(37,36,35,.92); color: white;
+  padding: 6px 10px; border-radius: 2px;
+  font-size: 10px; pointer-events: none;
+  max-width: 200px; line-height: 1.4;
+  box-shadow: 0 4px 12px rgba(0,0,0,.2);
+}
+.pbi-card:hover .tooltip-hint { display: block; top: 36px; right: 10px; }
+
+/* ── SCROLLBAR styling ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--pbi-card-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--pbi-text-light); }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     PBI APPLICATION HEADER
+═══════════════════════════════════════ -->
+<header class="pbi-header">
+  <div class="logo">
+    <svg class="pbi-logo-icon" viewBox="0 0 22 22" fill="none">
+      <rect width="22" height="22" rx="2" fill="#F2C811"/>
+      <rect x="5" y="12" width="3" height="6" rx="0.5" fill="#252423"/>
+      <rect x="9.5" y="8" width="3" height="10" rx="0.5" fill="#252423"/>
+      <rect x="14" y="4" width="3" height="14" rx="0.5" fill="#252423"/>
+    </svg>
+    Power BI
+  </div>
+  <span class="report-name">SAR Regulatory Filing Dashboard · Wireframe</span>
+  <div class="spacer"></div>
+  <div class="header-actions">
+    <button class="h-btn">Edit</button>
+    <button class="h-btn">Share</button>
+    <button class="h-btn primary">Publish</button>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════
+     PAGE TAB STRIP
+═══════════════════════════════════════ -->
+<div class="pbi-tabs">
+  <div class="tab active">SAR Filing Overview</div>
+  <div class="tab">Risk Radar</div>
+  <div class="tab">Compliance Clock</div>
+  <div class="tab">Analyst Pipeline</div>
+  <div class="tab">Forecasting</div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     MAIN LAYOUT: FILTER PANE + CANVAS
+═══════════════════════════════════════ -->
+<div class="pbi-layout">
+
+  <!-- ── FILTER PANE ── -->
+  <aside class="filter-pane">
+    <div class="fp-header">
+      <span class="fp-title">Filters</span>
+      <span class="fp-clear">Clear all</span>
+    </div>
+
+    <div class="fp-section">
+      <div class="fp-section-hdr">
+        Filing Date <span class="fp-chevron">▲</span>
+      </div>
+      <div class="fp-body">
+        <div style="font-size:10px;color:var(--pbi-text-mid);margin-bottom:5px;">Date range</div>
+        <div style="display:flex;gap:5px;font-size:10px;color:var(--pbi-text-mid);align-items:center;">
+          <div style="flex:1;background:#F5F5F5;border:1px solid var(--pbi-card-border);padding:3px 5px;border-radius:2px;">01/01/2023</div>
+          <span>→</span>
+          <div style="flex:1;background:#F5F5F5;border:1px solid var(--pbi-card-border);padding:3px 5px;border-radius:2px;">26/04/2026</div>
+        </div>
+        <div style="margin-top:6px;height:3px;background:var(--pbi-card-border);border-radius:2px;position:relative;">
+          <div style="position:absolute;left:0;right:5%;height:100%;background:var(--pbi-blue2);border-radius:2px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fp-section">
+      <div class="fp-section-hdr">
+        Regulatory Agency <span class="fp-chevron">▲</span>
+      </div>
+      <div class="fp-body">
+        <div class="fp-item"><div class="fp-checkbox checked"></div> NCA (UK) <span style="margin-left:auto;color:var(--pbi-text-light);font-size:10px;">2,532</span></div>
+        <div class="fp-item"><div class="fp-checkbox checked"></div> FinCEN (US) <span style="margin-left:auto;color:var(--pbi-text-light);font-size:10px;">2,468</span></div>
+      </div>
+    </div>
+
+    <div class="fp-section">
+      <div class="fp-section-hdr">
+        Disposition Status <span class="fp-chevron">▲</span>
+      </div>
+      <div class="fp-body">
+        <div class="fp-item"><div class="fp-checkbox checked"></div> Closed-Filed <span style="margin-left:auto;color:var(--pbi-text-light);font-size:10px;">1,699</span></div>
+        <div class="fp-item"><div class="fp-checkbox checked"></div> Under Investigation <span style="margin-left:auto;color:var(--pbi-text-light);font-size:10px;">1,664</span></div>
+        <div class="fp-item"><div class="fp-checkbox checked"></div> Referred to Law Enf. <span style="margin-left:auto;color:var(--pbi-text-light);font-size:10px;">1,637</span></div>
+      </div>
+    </div>
+
+    <div class="fp-section">
+      <div class="fp-section-hdr">
+        Suspicion Category <span class="fp-chevron">▲</span>
+      </div>
+      <div class="fp-body">
+        <input class="fp-search" type="text" placeholder="Search…">
+        <div class="fp-item"><div class="fp-checkbox checked"></div> Structuring/Smurfing</div>
+        <div class="fp-item"><div class="fp-checkbox checked"></div> Elder Abuse Indicators</div>
+        <div class="fp-item"><div class="fp-checkbox checked"></div> Unusual Cash Activity</div>
+        <div class="fp-item"><div class="fp-checkbox checked"></div> Human Trafficking</div>
+        <div class="fp-item"><div class="fp-checkbox"></div> + 5 more…</div>
+      </div>
+    </div>
+
+    <div class="fp-section">
+      <div class="fp-section-hdr">
+        Subject Type <span class="fp-chevron">▼</span>
+      </div>
+    </div>
+
+    <div class="fp-section">
+      <div class="fp-section-hdr">
+        Is Urgent Filing <span class="fp-chevron">▼</span>
+      </div>
+    </div>
+
+    <div style="padding:8px 12px;margin-top:4px;">
+      <div style="font-size:9px;color:var(--pbi-text-light);line-height:1.5;">
+        Data source: regulatory_sar_stubs_2023_2026<br>
+        5,000 rows · 15 columns · Last refresh: 26 Apr 2026
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── MAIN CANVAS ── -->
+  <main class="pbi-canvas">
+
+    <!-- ── PAGE TITLE BAND ── -->
+    <div class="page-title-band">
+      <div>
+        <div class="page-title">SAR Regulatory Filing & Stub Dashboard</div>
+        <div class="page-subtitle">Anti-Money Laundering Compliance · NCA (UK) &amp; FinCEN (US) · 2023 – 2026</div>
+      </div>
+      <div class="page-ts">
+        As at: <strong>26 Apr 2026</strong><br>
+        5,000 stubs · M1–M8 Essential Measures
+      </div>
+    </div>
+
+    <!-- ── SLICER BAR ── -->
+    <div class="slicer-bar">
+      <div class="slicer-chip active">
+        <span class="slicer-label">Year</span>
+        <div class="slicer-dropdown">
+          <span class="slicer-val">2023 – 2026</span>
+          <span class="chevron-down">▼</span>
+        </div>
+      </div>
+      <div class="slicer-chip">
+        <span class="slicer-label">Agency</span>
+        <div class="slicer-dropdown">
+          <span class="slicer-val">All</span>
+          <span class="chevron-down">▼</span>
+        </div>
+      </div>
+      <div class="slicer-chip">
+        <span class="slicer-label">Suspicion Category</span>
+        <div class="slicer-dropdown">
+          <span class="slicer-val">All (9)</span>
+          <span class="chevron-down">▼</span>
+        </div>
+      </div>
+      <div class="slicer-chip">
+        <span class="slicer-label">Institution</span>
+        <div class="slicer-dropdown">
+          <span class="slicer-val">All</span>
+          <span class="chevron-down">▼</span>
+        </div>
+      </div>
+      <div class="slicer-chip">
+        <span class="slicer-label">Urgent Only</span>
+        <div class="slicer-dropdown">
+          <span class="slicer-val">OFF</span>
+          <span class="chevron-down">▼</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════
+         ROW 1: KPI CARDS (5 cards)
+    ══════════════════════════════════ -->
+    <div class="grid-row row-kpi">
+
+      <div class="kpi-card k-red">
+        <span class="kpi-measure">M1</span>
+        <div class="kpi-label">SAR Filing Backlog<br>(< 10 days to deadline)</div>
+        <div class="kpi-value red">12</div>
+        <div class="kpi-target">
+          <span class="kpi-delta down">↑ from 8 last week</span>
+          Target: 0
+        </div>
+        <div class="annotation">filing_date · activity_end_date · disposition_status</div>
+      </div>
+
+      <div class="kpi-card k-amber">
+        <span class="kpi-measure">M3</span>
+        <div class="kpi-label">Stub-to-Filing<br>Conversion Rate</div>
+        <div class="kpi-value amber">34.0%</div>
+        <div class="kpi-target">
+          <span class="kpi-delta warn">↓ below target</span>
+          Target: ≥ 70%
+        </div>
+        <div class="annotation">disposition_status = "Closed-Filed"</div>
+      </div>
+
+      <div class="kpi-card k-red">
+        <span class="kpi-measure">M4</span>
+        <div class="kpi-label">Priority Exposure<br>Value</div>
+        <div class="kpi-value red">£58.7M</div>
+        <div class="kpi-target">
+          <span class="kpi-delta down">Urgent filings</span>
+        </div>
+        <div class="annotation">total_amount_involved · is_urgent_filing = TRUE</div>
+      </div>
+
+      <div class="kpi-card k-amber">
+        <span class="kpi-measure">M5</span>
+        <div class="kpi-label">Narrative Completion<br>Velocity (Avg Days)</div>
+        <div class="kpi-value amber">29.4d</div>
+        <div class="kpi-target">
+          <span class="kpi-delta warn">Near 30d limit</span>
+          Limit: 30 days
+        </div>
+        <div class="annotation">activity_start_date → activity_end_date</div>
+      </div>
+
+      <div class="kpi-card k-green">
+        <span class="kpi-measure">M8</span>
+        <div class="kpi-label">Filing Quality<br>Score (FQS)</div>
+        <div class="kpi-value green">100%</div>
+        <div class="kpi-target">
+          <span class="kpi-delta up">↑ All fields complete</span>
+          Target: ≥ 95%
+        </div>
+        <div class="annotation">6 mandatory fields: sar_id, filing_date, suspicion_category…</div>
+      </div>
+
+    </div><!-- /row-kpi -->
+
+    <!-- ══════════════════════════════════
+         ROW 2: MIDDLE ROW
+         [Line Chart | Donut | Treemap]
+    ══════════════════════════════════ -->
+    <div class="grid-row row-mid">
+
+      <!-- LINE CHART: SAR Volume Trend + Projection (M7 · M7b) -->
+      <div class="pbi-card">
+        <div class="card-title">
+          SAR Volume Trend — Historical vs 2026 Projection
+          <span class="field-tag">M7 · M7b · filing_date</span>
+        </div>
+        <div class="lc-legend">
+          <div class="lc-legend-item"><div class="lc-legend-line" style="background:#4472C4"></div> 2023–2024</div>
+          <div class="lc-legend-item"><div class="lc-legend-line" style="background:#70AD47"></div> 2025</div>
+          <div class="lc-legend-item"><div class="lc-legend-line" style="background:#ED7D31"></div> 2026 YTD</div>
+          <div class="lc-legend-item"><div class="lc-legend-dash" style="border-color:#ED7D31"></div> Projected run-rate</div>
+        </div>
+        <div class="line-chart-area">
+          <svg class="lc-svg" viewBox="0 0 560 170" height="170">
+            <!-- Grid -->
+            <line class="lc-grid-line" x1="40" y1="10"  x2="555" y2="10"/>
+            <line class="lc-grid-line" x1="40" y1="45"  x2="555" y2="45"/>
+            <line class="lc-grid-line" x1="40" y1="80"  x2="555" y2="80"/>
+            <line class="lc-grid-line" x1="40" y1="115" x2="555" y2="115"/>
+            <line class="lc-grid-line" x1="40" y1="150" x2="555" y2="150"/>
+            <!-- Y labels -->
+            <text class="lc-axis-label" x="35" y="13"  text-anchor="end">140</text>
+            <text class="lc-axis-label" x="35" y="48"  text-anchor="end">120</text>
+            <text class="lc-axis-label" x="35" y="83"  text-anchor="end">100</text>
+            <text class="lc-axis-label" x="35" y="118" text-anchor="end">80</text>
+            <text class="lc-axis-label" x="35" y="153" text-anchor="end">60</text>
+            <!-- 30-day limit reference -->
+            <line class="lc-ref-line" x1="40" y1="27" x2="555" y2="27"/>
+            <text class="lc-axis-label" x="557" y="30" fill="#D13438">Avg 325/mo</text>
+            <!-- 2023-2024 line (blue) -->
+            <polyline fill="none" stroke="#4472C4" stroke-width="1.5"
+              points="40,80 57,71 74,55 91,68 108,57 125,63 142,60 159,62 176,75 193,58 210,56 227,42
+                      244,72 261,51 278,49 295,58 312,65 329,68 346,60 363,54 380,64 397,60 414,62 431,43"/>
+            <!-- 2025 line (green) -->
+            <polyline fill="none" stroke="#70AD47" stroke-width="1.5"
+              points="431,68 444,61 457,50 470,54 483,57 496,64 509,55 522,50 535,62 548,56 555,58"/>
+            <!-- 2026 YTD (orange) -->
+            <polyline fill="none" stroke="#ED7D31" stroke-width="2"
+              points="431,65 444,54 457,52 470,120"/>
+            <!-- 2026 projection dashed -->
+            <line stroke="#ED7D31" stroke-width="1.5" stroke-dasharray="5 3"
+              x1="470" y1="120" x2="555" y2="27"/>
+            <!-- X axis labels -->
+            <text class="lc-axis-label" x="40"  y="165" text-anchor="middle">Jan'23</text>
+            <text class="lc-axis-label" x="108" y="165" text-anchor="middle">Apr</text>
+            <text class="lc-axis-label" x="176" y="165" text-anchor="middle">Jul</text>
+            <text class="lc-axis-label" x="244" y="165" text-anchor="middle">Jan'24</text>
+            <text class="lc-axis-label" x="312" y="165" text-anchor="middle">Apr</text>
+            <text class="lc-axis-label" x="380" y="165" text-anchor="middle">Jan'25</text>
+            <text class="lc-axis-label" x="431" y="165" text-anchor="middle">Jan'26</text>
+            <text class="lc-axis-label" x="555" y="165" text-anchor="middle">Dec'26▸</text>
+          </svg>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:3px;">
+          <span style="font-size:10px;color:var(--pbi-text-light);">Baseline 2023–25: 3,773 SARs</span>
+          <span style="font-size:10px;color:var(--pbi-text-light);">2026 Projected: <strong style="color:var(--pbi-text-dark);">3,894</strong> (+3.2%)</span>
+        </div>
+      </div>
+
+      <!-- DONUT: Disposition Status (M3) -->
+      <div class="pbi-card">
+        <div class="card-title">
+          Disposition Status Distribution
+          <span class="field-tag">M3 · disposition_status</span>
+        </div>
+        <div class="donut-wrap">
+          <svg class="donut-svg" width="110" height="110" viewBox="0 0 110 110">
+            <!-- Closed-Filed 34% = 122.4° -->
+            <circle cx="55" cy="55" r="38" fill="none" stroke="#E0DEDD" stroke-width="18"/>
+            <circle cx="55" cy="55" r="38" fill="none" stroke="#4472C4" stroke-width="18"
+              stroke-dasharray="80.9 159.1" stroke-dashoffset="0" transform="rotate(-90 55 55)"/>
+            <circle cx="55" cy="55" r="38" fill="none" stroke="#ED7D31" stroke-width="18"
+              stroke-dasharray="79.3 159.7" stroke-dashoffset="-80.9" transform="rotate(-90 55 55)"/>
+            <circle cx="55" cy="55" r="38" fill="none" stroke="#70AD47" stroke-width="18"
+              stroke-dasharray="77.8 162.2" stroke-dashoffset="-160.2" transform="rotate(-90 55 55)"/>
+            <text x="55" y="52" text-anchor="middle" font-size="14" font-weight="600" fill="#252423" font-family="Segoe UI,sans-serif">5,000</text>
+            <text x="55" y="63" text-anchor="middle" font-size="8" fill="#A19F9D" font-family="Segoe UI,sans-serif">Total SARs</text>
+          </svg>
+          <div class="donut-legend">
+            <div class="donut-legend-row"><div class="donut-dot" style="background:#4472C4"></div>Closed-Filed<span class="donut-val">1,699</span></div>
+            <div style="font-size:9px;color:var(--pbi-text-light);margin-left:13px;margin-bottom:5px;">34.0% <span class="kpi-delta up" style="font-size:9px;padding:0 3px;">M3</span></div>
+            <div class="donut-legend-row"><div class="donut-dot" style="background:#ED7D31"></div>Under Invest.<span class="donut-val">1,664</span></div>
+            <div style="font-size:9px;color:var(--pbi-text-light);margin-left:13px;margin-bottom:5px;">33.3%</div>
+            <div class="donut-legend-row"><div class="donut-dot" style="background:#70AD47"></div>Referred Law Enf.<span class="donut-val">1,637</span></div>
+            <div style="font-size:9px;color:var(--pbi-text-light);margin-left:13px;">32.7%</div>
+          </div>
+        </div>
+        <div style="margin-top:8px;border-top:1px solid var(--pbi-card-border);padding-top:7px;">
+          <div style="font-size:10px;font-weight:600;color:var(--pbi-text-dark);margin-bottom:4px;">Subject Type Split</div>
+          <div style="display:flex;gap:4px;align-items:center;font-size:10px;color:var(--pbi-text-mid);">
+            <div style="flex:1;background:#4472C4;height:14px;opacity:.7;display:flex;align-items:center;justify-content:center;color:white;font-size:9px;">Individual 49.7%</div>
+            <div style="width:1px;height:14px;background:white;"></div>
+            <div style="flex:1;background:#ED7D31;height:14px;opacity:.7;display:flex;align-items:center;justify-content:center;color:white;font-size:9px;">Entity 50.3%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GAUGE: Compliance Clock (M1 · M5) -->
+      <div class="pbi-card">
+        <div class="card-title">
+          Compliance Clock — 30-Day Window
+          <span class="field-tag">M1 · M5</span>
+        </div>
+        <svg class="gauge-svg" viewBox="0 0 180 110" width="100%" height="110">
+          <!-- Background arc -->
+          <path d="M 20 95 A 70 70 0 0 1 160 95" fill="none" stroke="#E0DEDD" stroke-width="16" stroke-linecap="round"/>
+          <!-- Green zone 0-20d -->
+          <path d="M 20 95 A 70 70 0 0 1 56 33" fill="none" stroke="#70AD47" stroke-width="16" stroke-linecap="butt" opacity=".4"/>
+          <!-- Amber 20-27d -->
+          <path d="M 56 33 A 70 70 0 0 1 117 30" fill="none" stroke="#FFC000" stroke-width="16" stroke-linecap="butt" opacity=".4"/>
+          <!-- Red 27-30d -->
+          <path d="M 117 30 A 70 70 0 0 1 160 95" fill="none" stroke="#FF0000" stroke-width="16" stroke-linecap="round" opacity=".4"/>
+          <!-- Needle (pointing to ~29.4d = near red zone) -->
+          <line x1="90" y1="95" x2="119" y2="33" stroke="#252423" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="90" cy="95" r="5" fill="#252423"/>
+          <!-- Labels -->
+          <text x="12" y="112" font-size="8" fill="#A19F9D" font-family="Segoe UI,sans-serif">0d</text>
+          <text x="155" y="112" font-size="8" fill="#D13438" font-family="Segoe UI,sans-serif">30d</text>
+          <text x="82" y="75" font-size="16" font-weight="600" fill="#252423" font-family="Segoe UI,sans-serif" text-anchor="middle">29.4d</text>
+          <text x="82" y="88" font-size="8" fill="#A19F9D" font-family="Segoe UI,sans-serif" text-anchor="middle">avg velocity</text>
+          <!-- Zone labels -->
+          <text x="32" y="70" font-size="7" fill="#107C10" font-family="Segoe UI,sans-serif">Safe</text>
+          <text x="78" y="28" font-size="7" fill="#835C00" font-family="Segoe UI,sans-serif">Warn</text>
+          <text x="132" y="60" font-size="7" fill="#D13438" font-family="Segoe UI,sans-serif">Breach</text>
+        </svg>
+        <div style="text-align:center;margin-top:2px;">
+          <span class="kpi-delta down" style="font-size:10px;">12 stubs in danger zone (&lt;10d)</span>
+        </div>
+        <div style="margin-top:8px;border-top:1px solid var(--pbi-card-border);padding-top:7px;">
+          <!-- Mini deadline bars -->
+          <div class="bar-row" style="margin-bottom:3px;">
+            <span style="font-size:9px;color:var(--pbi-text-light);width:60px;flex-shrink:0;">0–5 days</span>
+            <div class="bar-track" style="height:10px;"><div class="bar-fill" style="width:35%;background:var(--pbi-red);"></div></div>
+            <span style="font-size:9px;color:var(--pbi-red);width:20px;text-align:right;">4</span>
+          </div>
+          <div class="bar-row" style="margin-bottom:0;">
+            <span style="font-size:9px;color:var(--pbi-text-light);width:60px;flex-shrink:0;">5–10 days</span>
+            <div class="bar-track" style="height:10px;"><div class="bar-fill" style="width:65%;background:var(--pbi-amber);"></div></div>
+            <span style="font-size:9px;color:var(--pbi-amber);width:20px;text-align:right;">8</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /row-mid -->
+
+    <!-- ══════════════════════════════════
+         ROW 3: BOTTOM ROW
+         [Horiz Bar | Treemap | Matrix]
+    ══════════════════════════════════ -->
+    <div class="grid-row row-bottom">
+
+      <!-- HORIZONTAL BAR: SAR Count by Suspicion Category (M2) -->
+      <div class="pbi-card">
+        <div class="card-title">
+          SAR Count &amp; Exposure by Suspicion Category
+          <span class="field-tag">M2 · suspicion_category · total_amount_involved</span>
+        </div>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <span class="bar-axis-label">Structuring / Smurfing</span>
+            <div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--pbi-red)"></div></div>
+            <span class="bar-val">584</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-axis-label">Elder Abuse Indicators</span>
+            <div class="bar-track"><div class="bar-fill" style="width:98%;background:#4472C4"></div></div>
+            <span class="bar-val">574</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-axis-label">Src of Funds Discrepancy</span>
+            <div class="bar-track"><div class="bar-fill" style="width:97%;background:#4472C4"></div></div>
+            <span class="bar-val">568</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-axis-label">Human Trafficking</span>
+            <div class="bar-track"><div class="bar-fill" style="width:95%;background:#ED7D31"></div></div>
+            <span class="bar-val">555</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-axis-label">Unusual Cash Activity</span>
+            <div class="bar-track"><div class="bar-fill" style="width:94%;background:#4472C4"></div></div>
+            <span class="bar-val">552</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-axis-label">Sanctions Match - Potential</span>
+            <div class="bar-track"><div class="bar-fill" style="width:94%;background:#4472C4"></div></div>
+            <span class="bar-val">552</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-axis-label">3rd Party Payment/Mixing</span>
+            <div class="bar-track"><div class="bar-fill" style="width:94%;background:#70AD47"></div></div>
+            <span class="bar-val">549</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-axis-label">High Risk Jurisdiction</span>
+            <div class="bar-track"><div class="bar-fill" style="width:93%;background:#70AD47"></div></div>
+            <span class="bar-val">547</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-axis-label">Rapid Movement of Funds</span>
+            <div class="bar-track"><div class="bar-fill" style="width:89%;background:#FFC000"></div></div>
+            <span class="bar-val">519</span>
+          </div>
+          <div class="bar-axis-bottom">
+            <span>0</span><span>150</span><span>300</span><span>450</span><span>600</span>
+          </div>
+        </div>
+        <div class="annotation">Colour = risk band · Red = highest concentration · Click to cross-filter</div>
+      </div>
+
+      <!-- TREEMAP: Suspicion Concentration Index (M2) -->
+      <div class="pbi-card">
+        <div class="card-title">
+          Suspicion Concentration Index
+          <span class="field-tag">M2 · Treemap</span>
+        </div>
+        <div class="treemap-wrap">
+          <div class="tm-cell tm-span2" style="background:var(--pbi-red);grid-column:1;">
+            <div class="tm-label">Structuring<br>/ Smurfing</div>
+            <div class="tm-pct">11.7% · 584</div>
+          </div>
+          <div class="tm-cell" style="background:#4472C4;">
+            <div class="tm-label">Elder Abuse</div>
+            <div class="tm-pct">11.5%</div>
+          </div>
+          <div class="tm-cell" style="background:#ED7D31;">
+            <div class="tm-label">Src of Funds</div>
+            <div class="tm-pct">11.4%</div>
+          </div>
+          <div class="tm-cell" style="background:#A9D18E;">
+            <div class="tm-label">Human Trafficking</div>
+            <div class="tm-pct">11.1%</div>
+          </div>
+          <div class="tm-cell" style="background:#5B9BD5;">
+            <div class="tm-label">Unusual Cash</div>
+            <div class="tm-pct">11.0%</div>
+          </div>
+          <div class="tm-cell" style="background:#70AD47;">
+            <div class="tm-label">Sanctions</div>
+            <div class="tm-pct">11.0%</div>
+          </div>
+          <div class="tm-cell" style="background:#FFC000;">
+            <div class="tm-label">3rd Party</div>
+            <div class="tm-pct">11.0%</div>
+          </div>
+          <div class="tm-cell" style="background:#8B008B;">
+            <div class="tm-label">High Risk Jx</div>
+            <div class="tm-pct">10.9%</div>
+          </div>
+          <div class="tm-cell" style="background:#FF7F50;">
+            <div class="tm-label">Rapid Mvmt</div>
+            <div class="tm-pct">10.4%</div>
+          </div>
+        </div>
+        <div class="annotation">Area ∝ SAR count · Red flag if any cell > 25%</div>
+      </div>
+
+      <!-- MATRIX: Risk Heatmap (M6) -->
+      <div class="pbi-card" style="overflow:auto;">
+        <div class="card-title">
+          Regulatory Risk Heatmap Score
+          <span class="field-tag">M6 · subject_type × suspicion_category</span>
+        </div>
+        <table class="matrix-table">
+          <thead>
+            <tr>
+              <th>Subject Type</th>
+              <th>Category</th>
+              <th>Risk Score</th>
+              <th>Avg £</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Individual</td>
+              <td>Rapid Mvmt Funds</td>
+              <td><span class="heatcell" style="background:#FFDEDE;color:#7A0000;">142</span></td>
+              <td class="num">£132K</td>
+            </tr>
+            <tr>
+              <td>Entity</td>
+              <td>Elder Abuse</td>
+              <td><span class="heatcell" style="background:#FFE8CC;color:#7A3000;">128</span></td>
+              <td class="num">£118K</td>
+            </tr>
+            <tr>
+              <td>Individual</td>
+              <td>Human Trafficking</td>
+              <td><span class="heatcell" style="background:#FFE8CC;color:#7A3000;">119</span></td>
+              <td class="num">£95K</td>
+            </tr>
+            <tr>
+              <td>Entity</td>
+              <td>Sanctions Match</td>
+              <td><span class="heatcell" style="background:#FFF4CE;color:#5A4000;">107</span></td>
+              <td class="num">£89K</td>
+            </tr>
+            <tr>
+              <td>Entity</td>
+              <td>High Risk Jx</td>
+              <td><span class="heatcell" style="background:#FFF4CE;color:#5A4000;">104</span></td>
+              <td class="num">£84K</td>
+            </tr>
+            <tr>
+              <td>Individual</td>
+              <td>Structuring</td>
+              <td><span class="heatcell" style="background:#DDEEFF;color:#003070;">96</span></td>
+              <td class="num">£71K</td>
+            </tr>
+            <tr>
+              <td>Entity</td>
+              <td>3rd Party/Mixing</td>
+              <td><span class="heatcell" style="background:#EDF7E8;color:#1A5200;">82</span></td>
+              <td class="num">£58K</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="annotation">M6 = (Avg Amount ÷ Global Avg × 0.7) + (Avg Accounts ÷ Global Avg × 0.3) × 100</div>
+      </div>
+
+    </div><!-- /row-bottom -->
+
+    <!-- ══════════════════════════════════
+         DATA DICTIONARY
+    ══════════════════════════════════ -->
+    <div class="dict-section">
+      <div class="dict-title">
+        Data Dictionary
+        <span class="dict-badge">Table: regulatory_sar_stubs_2023_2026 · 5,000 rows · 15 columns</span>
+        <span class="dict-badge">9 Measures · Display Folder: Essential 8 | SAR Compliance KPIs</span>
+      </div>
+
+      <div style="margin-bottom:10px;">
+        <div style="font-size:11px;font-weight:600;color:var(--pbi-text-dark);margin-bottom:6px;border-bottom:1px solid var(--pbi-card-border);padding-bottom:4px;">
+          Columns (15)
+        </div>
+        <div class="dict-grid">
+
+          <div class="dict-row">
+            <span class="dict-col">sar_id</span>
+            <span class="dict-type">Text</span>
+            <span class="dict-desc">Unique SAR identifier (e.g. SAR-2023-11330). Primary key for each stub.</span>
+          </div>
+          <div class="dict-row">
+            <span class="dict-col">filing_date</span>
+            <span class="dict-type">Date</span>
+            <span class="dict-desc">Date the SAR was filed or is due to be filed. Used in M1, M7, M7b, trend charts.</span>
+          </div>
+          <div class="dict-row">
+            <span class="dict-col">regulatory_agency</span>
+            <span class="dict-type">Text</span>
+            <span class="dict-desc">Regulator receiving the SAR: NCA (UK) or FinCEN (US). Top-level slicer dimension.</span>
+          </div>
+
+          <div class="dict-row">
+            <span class="dict-col">reporting_institution</span>
+            <span class="dict-type">Text</span>
+            <span class="dict-desc">Institution submitting the SAR (e.g. Apex Fintech, Global Bank Corp). Used in velocity segmentation.</span>
+          </div>
+          <div class="dict-row">
+            <span class="dict-col">subject_type</span>
+            <span class="dict-type">Text</span>
+            <span class="dict-desc">Individual or Entity. 50/50 split. Drives M6 heatmap rows and donut visual.</span>
+          </div>
+          <div class="dict-row">
+            <span class="dict-col">subject_occupation_industry</span>
+            <span class="dict-type">Text</span>
+            <span class="dict-desc">Industry of the subject (e.g. Retail). Dimension for drill-through analysis.</span>
+          </div>
+
+          <div class="dict-row">
+            <span class="dict-col">activity_start_date</span>
+            <span class="dict-type">Date</span>
+            <span class="dict-desc">Date suspicious activity began. Used as stub creation proxy in M5 velocity.</span>
+          </div>
+          <div class="dict-row">
+            <span class="dict-col">activity_end_date</span>
+            <span class="dict-type">Date</span>
+            <span class="dict-desc">Date activity ended. 30-day deadline = activity_end_date + 30 days. Core to M1.</span>
+          </div>
+          <div class="dict-row">
+            <span class="dict-col">total_amount_involved</span>
+            <span class="dict-type">Decimal</span>
+            <span class="dict-desc">Total financial value of suspicious activity. Used in M4 (priority exposure) and M6 (risk score).</span>
+          </div>
+
+          <div class="dict-row">
+            <span class="dict-col">currency</span>
+            <span class="dict-type">Text</span>
+            <span class="dict-desc">Currency of transaction: GBP or USD. Slicer for multi-currency views.</span>
+          </div>
+          <div class="dict-row">
+            <span class="dict-col">suspicion_category</span>
+            <span class="dict-type">Text</span>
+            <span class="dict-desc">9 typologies (e.g. Structuring, Human Trafficking). Primary dimension for M2 treemap and bar chart.</span>
+          </div>
+          <div class="dict-row">
+            <span class="dict-col">is_urgent_filing</span>
+            <span class="dict-type">Boolean</span>
+            <span class="dict-desc">TRUE = marked urgent by compliance officer. Filters M4 priority exposure value.</span>
+          </div>
+
+          <div class="dict-row">
+            <span class="dict-col">disposition_status</span>
+            <span class="dict-type">Text</span>
+            <span class="dict-desc">Pipeline stage: Closed-Filed · Under Investigation · Referred to Law Enforcement. Drives M3 funnel.</span>
+          </div>
+          <div class="dict-row">
+            <span class="dict-col">narrative_summary_stub</span>
+            <span class="dict-type">Text</span>
+            <span class="dict-desc">Free-text narrative summary. Presence/absence scores in M8 (FQS). Not used in aggregations.</span>
+          </div>
+          <div class="dict-row">
+            <span class="dict-col">associated_account_count</span>
+            <span class="dict-type">Integer</span>
+            <span class="dict-desc">Number of accounts linked to the SAR subject. Used in M6 network breadth component.</span>
+          </div>
+
+        </div>
+      </div>
+
+      <div>
+        <div style="font-size:11px;font-weight:600;color:var(--pbi-text-dark);margin-bottom:6px;border-bottom:1px solid var(--pbi-card-border);padding-bottom:4px;">
+          Measures — Essential 8 | SAR Compliance KPIs (9 measures)
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 24px;">
+          <div class="dict-measure-row"><span class="dict-m-name">M1 | SAR Filing Backlog (Days to Deadline)</span><span class="dict-m-desc">COUNT of Under Investigation SARs where activity_end_date + 30 − TODAY() ≤ 10. Red KPI card.</span></div>
+          <div class="dict-measure-row"><span class="dict-m-name">M2 | Suspicion Concentration Index (%)</span><span class="dict-m-desc">Category % share of total SARs in context. Drives treemap and bar chart via cross-filter.</span></div>
+          <div class="dict-measure-row"><span class="dict-m-name">M3 | Stub-to-Filing Conversion Rate (%)</span><span class="dict-m-desc">Closed-Filed ÷ All stubs. Donut centre label and pipeline funnel fill widths.</span></div>
+          <div class="dict-measure-row"><span class="dict-m-name">M4 | Priority Exposure Value (£)</span><span class="dict-m-desc">SUM(total_amount_involved) WHERE is_urgent_filing = TRUE. Red KPI card + drillthrough.</span></div>
+          <div class="dict-measure-row"><span class="dict-m-name">M5 | Narrative Completion Velocity (Avg Days)</span><span class="dict-m-desc">AVERAGEX of DATEDIFF(activity_start_date, activity_end_date) for Closed-Filed stubs.</span></div>
+          <div class="dict-measure-row"><span class="dict-m-name">M6 | Regulatory Risk Heatmap Score</span><span class="dict-m-desc">Composite index = (Amount Index × 0.7) + (Account Index × 0.3) × 100. Matrix background colours.</span></div>
+          <div class="dict-measure-row"><span class="dict-m-name">M7 | Historical SAR Volume (2023-2025)</span><span class="dict-m-desc">COUNTROWS filtered YEAR(filing_date) 2023–2025. Historical line series on trend chart.</span></div>
+          <div class="dict-measure-row"><span class="dict-m-name">M7b | 2026 Projected SAR Volume</span><span class="dict-m-desc">Annualised 2026 YTD ÷ days elapsed × 365. Dashed projection line on trend chart.</span></div>
+          <div class="dict-measure-row"><span class="dict-m-name">M8 | Filing Quality Score - FQS (%)</span><span class="dict-m-desc">6-field completeness score per record: sar_id, filing_date, suspicion_category, subject_type, narrative_summary_stub, total_amount_involved.</span></div>
+        </div>
+      </div>
+    </div><!-- /dict-section -->
+
+  </main><!-- /pbi-canvas -->
+</div><!-- /pbi-layout -->
+
+</body>
+</html>

@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAR Regulatory Filing Dashboard — 26 Apr 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<style>
+:root {
+  --ink: #0a0a0f;
+  --ink2: #1c1c26;
+  --ink3: #2e2e3e;
+  --muted: #6b6b80;
+  --dim: #9898a8;
+  --rule: rgba(255,255,255,0.07);
+  --rule2: rgba(255,255,255,0.12);
+  --surface: #13131c;
+  --surface2: #1a1a26;
+  --surface3: #202030;
+  --danger: #ff4444;
+  --danger-dim: rgba(255,68,68,0.15);
+  --warn: #f5a623;
+  --warn-dim: rgba(245,166,35,0.15);
+  --ok: #2ecc71;
+  --ok-dim: rgba(46,204,113,0.12);
+  --accent: #6c63ff;
+  --accent2: #00d4aa;
+  --accent3: #ff6b9d;
+  --white: #f0f0f8;
+  --mono: 'DM Mono', monospace;
+  --display: 'Syne', sans-serif;
+  --body: 'DM Sans', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--ink);
+  color: var(--white);
+  font-family: var(--body);
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Scan-line texture overlay ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.db-wrap {
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 28px 28px 48px;
+}
+
+/* ── HEADER ── */
+.db-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  gap: 16px;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--rule2);
+}
+
+.db-title-block {}
+.db-eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .12em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.db-title {
+  font-family: var(--display);
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  color: var(--white);
+  line-height: 1.1;
+}
+.db-title span { color: var(--accent); }
+.db-subtitle {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 6px;
+  font-family: var(--mono);
+}
+
+.db-meta {
+  text-align: right;
+}
+.db-meta .live-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--ok-dim);
+  border: 1px solid rgba(46,204,113,0.3);
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-family: var(--mono);
+  color: var(--ok);
+  margin-bottom: 6px;
+}
+.live-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--ok);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+.db-meta .ts {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  display: block;
+}
+
+/* ── KPI STRIP ── */
+.kpi-strip {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.kpi-card {
+  background: var(--surface);
+  border: 1px solid var(--rule2);
+  border-radius: 10px;
+  padding: 14px 14px 12px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color .2s;
+}
+.kpi-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--accent-bar, var(--accent));
+}
+.kpi-card:hover { border-color: rgba(255,255,255,0.22); }
+
+.kpi-card.danger { --accent-bar: var(--danger); }
+.kpi-card.warn { --accent-bar: var(--warn); }
+.kpi-card.ok { --accent-bar: var(--ok); }
+.kpi-card.info { --accent-bar: var(--accent2); }
+.kpi-card.purple { --accent-bar: var(--accent); }
+
+.kpi-label {
+  font-size: 9.5px;
+  font-family: var(--mono);
+  color: var(--dim);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+.kpi-value {
+  font-family: var(--display);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.kpi-card.danger .kpi-value { color: var(--danger); }
+.kpi-card.warn .kpi-value { color: var(--warn); }
+.kpi-card.ok .kpi-value { color: var(--ok); }
+.kpi-card.info .kpi-value { color: var(--accent2); }
+.kpi-card.purple .kpi-value { color: var(--accent); }
+
+.kpi-sub {
+  font-size: 10px;
+  color: var(--muted);
+  font-family: var(--mono);
+}
+.kpi-m {
+  position: absolute;
+  top: 14px; right: 12px;
+  font-size: 9px;
+  font-family: var(--mono);
+  color: var(--rule2);
+  border: 1px solid var(--rule2);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+/* ── MAIN GRID ── */
+.main-grid {
+  display: grid;
+  grid-template-columns: 340px 1fr 300px;
+  grid-template-rows: auto auto;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--rule2);
+  border-radius: 12px;
+  padding: 20px;
+  position: relative;
+}
+
+.panel-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.panel-title {
+  font-family: var(--display);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .01em;
+  color: var(--white);
+  text-transform: uppercase;
+}
+.panel-badge {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--accent);
+  background: rgba(108,99,255,.15);
+  border: 1px solid rgba(108,99,255,.25);
+  padding: 2px 7px;
+  border-radius: 20px;
+}
+
+/* ── PANEL 1: COMPLIANCE CLOCK ── */
+.clock-panel {
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.clock-inner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.gauge-wrap {
+  position: relative;
+  width: 220px;
+  height: 130px;
+  margin: 0 auto 8px;
+}
+.gauge-wrap canvas { display: block; }
+.gauge-center {
+  position: absolute;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  pointer-events: none;
+}
+.gauge-num {
+  font-family: var(--display);
+  font-size: 42px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--danger);
+  letter-spacing: -.03em;
+}
+.gauge-unit {
+  font-size: 11px;
+  color: var(--muted);
+  font-family: var(--mono);
+}
+
+.clock-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  width: 100%;
+  margin-top: 16px;
+}
+.clock-stat {
+  background: var(--surface2);
+  border-radius: 8px;
+  padding: 10px 12px;
+  text-align: center;
+}
+.clock-stat-val {
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--white);
+}
+.clock-stat-lab {
+  font-size: 9px;
+  font-family: var(--mono);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.deadline-bars {
+  width: 100%;
+  margin-top: 14px;
+}
+.dbar-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.dbar-label {
+  font-size: 9px;
+  font-family: var(--mono);
+  color: var(--muted);
+  width: 52px;
+  flex-shrink: 0;
+}
+.dbar-track {
+  flex: 1;
+  height: 5px;
+  background: var(--surface3);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.dbar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width .8s ease;
+}
+.dbar-val {
+  font-size: 9px;
+  font-family: var(--mono);
+  color: var(--dim);
+  width: 22px;
+  text-align: right;
+}
+
+/* ── PANEL 2: RISK RADAR ── */
+.radar-panel {
+  grid-column: 3;
+  grid-row: 1 / 3;
+  display: flex;
+  flex-direction: column;
+}
+
+.treemap-wrap {
+  flex: 1;
+  min-height: 280px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.risk-legend {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 10px;
+}
+.risk-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 9px;
+  font-family: var(--mono);
+  color: var(--muted);
+}
+.risk-dot {
+  width: 7px; height: 7px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* ── PANEL 3: PIPELINE FUNNEL ── */
+.pipeline-panel {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.funnel-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 4px;
+}
+.funnel-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.funnel-bar-track {
+  flex: 1;
+  height: 42px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--surface2);
+  position: relative;
+}
+.funnel-bar-fill {
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  transition: width 1s ease;
+}
+.funnel-stage-name {
+  font-size: 11px;
+  font-family: var(--display);
+  font-weight: 600;
+  color: var(--white);
+  white-space: nowrap;
+}
+.funnel-count {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: rgba(255,255,255,0.55);
+  margin-left: 6px;
+}
+.funnel-pct {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  width: 38px;
+  text-align: right;
+  flex-shrink: 0;
+}
+.funnel-arrow {
+  text-align: center;
+  color: var(--surface3);
+  font-size: 11px;
+  line-height: 1;
+}
+
+/* ── PANEL 4: VELOCITY ── */
+.velocity-panel {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+/* ── BOTTOM: TREND ── */
+.trend-panel {
+  background: var(--surface);
+  border: 1px solid var(--rule2);
+  border-radius: 12px;
+  padding: 20px;
+}
+.trend-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  margin-bottom: 16px;
+}
+.trend-legend {
+  display: flex;
+  gap: 16px;
+}
+.tl-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-family: var(--mono);
+  color: var(--muted);
+}
+.tl-line {
+  width: 20px;
+  height: 2px;
+  border-radius: 1px;
+}
+.tl-dash {
+  width: 20px;
+  height: 0;
+  border-top: 2px dashed;
+  opacity: .7;
+}
+
+/* ── ANNOTATION BADGE ── */
+.ann-badge {
+  position: absolute;
+  background: var(--surface3);
+  border: 1px solid var(--rule2);
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 9px;
+  font-family: var(--mono);
+  color: var(--dim);
+  pointer-events: none;
+}
+
+/* ── FOOTER ── */
+.db-footer {
+  margin-top: 24px;
+  padding-top: 14px;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.db-footer span {
+  font-size: 10px;
+  font-family: var(--mono);
+  color: var(--surface3);
+}
+
+/* ── Fade-in animation ── */
+.fade-up {
+  animation: fadeUp .5s ease both;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up:nth-child(1)  { animation-delay: .05s }
+.fade-up:nth-child(2)  { animation-delay: .10s }
+.fade-up:nth-child(3)  { animation-delay: .15s }
+.fade-up:nth-child(4)  { animation-delay: .20s }
+.fade-up:nth-child(5)  { animation-delay: .25s }
+.fade-up:nth-child(6)  { animation-delay: .30s }
+.fade-up:nth-child(7)  { animation-delay: .35s }
+</style>
+</head>
+<body>
+
+<div class="db-wrap">
+
+  <!-- HEADER -->
+  <header class="db-header fade-up">
+    <div class="db-title-block">
+      <div class="db-eyebrow">AML Compliance · Essential 8 Measures · Power BI Live</div>
+      <h1 class="db-title">SAR <span>Regulatory</span> Filing Dashboard</h1>
+      <div class="db-subtitle">regulatory_sar_stubs_2023_2026 · 5,000 stubs · NCA (UK) &amp; FinCEN (US)</div>
+    </div>
+    <div class="db-meta">
+      <div class="live-pill"><span class="live-dot"></span> Live · PBIDesktop:53415</div>
+      <span class="ts">26 Apr 2026 · 18:20 UTC · Connection verified</span>
+    </div>
+  </header>
+
+  <!-- KPI STRIP -->
+  <div class="kpi-strip">
+    <div class="kpi-card danger fade-up">
+      <div class="kpi-m">M1</div>
+      <div class="kpi-label">Filing backlog<br>(&lt; 10 days)</div>
+      <div class="kpi-value">12</div>
+      <div class="kpi-sub">stubs near deadline</div>
+    </div>
+    <div class="kpi-card warn fade-up">
+      <div class="kpi-m">M3</div>
+      <div class="kpi-label">Stub-to-filing<br>conversion</div>
+      <div class="kpi-value">34%</div>
+      <div class="kpi-sub">target ≥ 70%</div>
+    </div>
+    <div class="kpi-card danger fade-up">
+      <div class="kpi-m">M4</div>
+      <div class="kpi-label">Priority<br>exposure</div>
+      <div class="kpi-value">£58.7M</div>
+      <div class="kpi-sub">urgent filings</div>
+    </div>
+    <div class="kpi-card warn fade-up">
+      <div class="kpi-m">M5</div>
+      <div class="kpi-label">Narrative<br>velocity</div>
+      <div class="kpi-value">29.4d</div>
+      <div class="kpi-sub">avg · limit 30d</div>
+    </div>
+    <div class="kpi-card info fade-up">
+      <div class="kpi-m">M7</div>
+      <div class="kpi-label">Historical<br>2023–2025</div>
+      <div class="kpi-value">3,773</div>
+      <div class="kpi-sub">total SARs filed</div>
+    </div>
+    <div class="kpi-card purple fade-up">
+      <div class="kpi-m">M7b</div>
+      <div class="kpi-label">2026<br>projected</div>
+      <div class="kpi-value">3,894</div>
+      <div class="kpi-sub">+3.2% YoY</div>
+    </div>
+    <div class="kpi-card ok fade-up">
+      <div class="kpi-m">M8</div>
+      <div class="kpi-label">Filing quality<br>score (FQS)</div>
+      <div class="kpi-value">100%</div>
+      <div class="kpi-sub">all 6 fields pass</div>
+    </div>
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="main-grid">
+
+    <!-- PANEL 1: COMPLIANCE CLOCK -->
+    <div class="panel clock-panel fade-up">
+      <div class="panel-header">
+        <span class="panel-title">Compliance Clock</span>
+        <span class="panel-badge">M1 · 30-day window</span>
+      </div>
+      <div class="clock-inner">
+        <div class="gauge-wrap">
+          <canvas id="gaugeC" width="220" height="130"></canvas>
+          <div class="gauge-center">
+            <div class="gauge-num">12</div>
+            <div class="gauge-unit">danger zone</div>
+          </div>
+        </div>
+        <div class="clock-stats">
+          <div class="clock-stat">
+            <div class="clock-stat-val" style="color:var(--warn)">1,664</div>
+            <div class="clock-stat-lab">Under invest.</div>
+          </div>
+          <div class="clock-stat">
+            <div class="clock-stat-val" style="color:var(--dim)">29.4d</div>
+            <div class="clock-stat-lab">Avg velocity</div>
+          </div>
+        </div>
+        <div class="deadline-bars">
+          <div class="dbar-row">
+            <span class="dbar-label">0–5 days</span>
+            <div class="dbar-track"><div class="dbar-fill" style="width:35%;background:var(--danger)"></div></div>
+            <span class="dbar-val" style="color:var(--danger)">4</span>
+          </div>
+          <div class="dbar-row">
+            <span class="dbar-label">5–10 days</span>
+            <div class="dbar-track"><div class="dbar-fill" style="width:65%;background:var(--warn)"></div></div>
+            <span class="dbar-val" style="color:var(--warn)">8</span>
+          </div>
+          <div class="dbar-row">
+            <span class="dbar-label">10–20 days</span>
+            <div class="dbar-track"><div class="dbar-fill" style="width:100%;background:var(--accent)"></div></div>
+            <span class="dbar-val">~120</span>
+          </div>
+          <div class="dbar-row">
+            <span class="dbar-label">20–30 days</span>
+            <div class="dbar-track"><div class="dbar-fill" style="width:100%;background:var(--surface3)"></div></div>
+            <span class="dbar-val">~800</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL 3: ANALYST PIPELINE -->
+    <div class="panel pipeline-panel fade-up">
+      <div class="panel-header">
+        <span class="panel-title">Analyst Pipeline — Disposition Funnel</span>
+        <span class="panel-badge">M3 · Conversion 34%</span>
+      </div>
+      <div class="funnel-wrap">
+        <div class="funnel-stage">
+          <div class="funnel-bar-track">
+            <div class="funnel-bar-fill" style="width:100%;background:linear-gradient(90deg,rgba(108,99,255,.45),rgba(108,99,255,.2))">
+              <span class="funnel-stage-name">All Stubs Generated</span>
+              <span class="funnel-count">5,000</span>
+            </div>
+          </div>
+          <span class="funnel-pct">100%</span>
+        </div>
+        <div class="funnel-arrow">▼</div>
+        <div class="funnel-stage">
+          <div class="funnel-bar-track">
+            <div class="funnel-bar-fill" style="width:100%;background:linear-gradient(90deg,rgba(245,166,35,.45),rgba(245,166,35,.15))">
+              <span class="funnel-stage-name">Active Pipeline</span>
+              <span class="funnel-count">5,000</span>
+            </div>
+          </div>
+          <span class="funnel-pct">100%</span>
+        </div>
+        <div class="funnel-arrow">▼</div>
+        <div class="funnel-stage">
+          <div class="funnel-bar-track">
+            <div class="funnel-bar-fill" style="width:66.56%;background:linear-gradient(90deg,rgba(255,107,157,.45),rgba(255,107,157,.15))">
+              <span class="funnel-stage-name">Under Investigation</span>
+              <span class="funnel-count">1,664</span>
+            </div>
+          </div>
+          <span class="funnel-pct">33.3%</span>
+        </div>
+        <div class="funnel-arrow">▼</div>
+        <div class="funnel-stage">
+          <div class="funnel-bar-track">
+            <div class="funnel-bar-fill" style="width:65.48%;background:linear-gradient(90deg,rgba(0,212,170,.45),rgba(0,212,170,.15))">
+              <span class="funnel-stage-name">Referred to Law Enf.</span>
+              <span class="funnel-count">1,637</span>
+            </div>
+          </div>
+          <span class="funnel-pct">32.7%</span>
+        </div>
+        <div class="funnel-arrow">▼</div>
+        <div class="funnel-stage">
+          <div class="funnel-bar-track">
+            <div class="funnel-bar-fill" style="width:67.96%;background:linear-gradient(90deg,rgba(46,204,113,.55),rgba(46,204,113,.2))">
+              <span class="funnel-stage-name">Closed — Filed ✓</span>
+              <span class="funnel-count">1,699</span>
+            </div>
+          </div>
+          <span class="funnel-pct" style="color:var(--ok)">34.0%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL 2: RISK RADAR (treemap) — tall right panel -->
+    <div class="panel radar-panel fade-up">
+      <div class="panel-header">
+        <span class="panel-title">Risk Radar</span>
+        <span class="panel-badge">M2 · Suspicion Index</span>
+      </div>
+      <div class="treemap-wrap" id="treemapWrap"></div>
+      <div class="risk-legend" id="riskLegend"></div>
+    </div>
+
+    <!-- PANEL 4: NARRATIVE VELOCITY -->
+    <div class="panel velocity-panel fade-up">
+      <div class="panel-header">
+        <span class="panel-title">Narrative Completion Velocity</span>
+        <span class="panel-badge">M5 · Avg Days · 30-day limit</span>
+      </div>
+      <div style="position:relative;height:180px;">
+        <canvas id="velChart" role="img" aria-label="Bar chart showing average narrative completion days by suspicion category. All categories are near the 30-day regulatory limit."></canvas>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TREND PANEL -->
+  <div class="trend-panel fade-up">
+    <div class="trend-header">
+      <div>
+        <div class="panel-header" style="margin-bottom:4px;">
+          <span class="panel-title">SAR Volume — Historical 2023–2025 vs 2026 Projection</span>
+          <span class="panel-badge">M7 · M7b · Staffing Forecast</span>
+        </div>
+        <div style="font-size:10px;font-family:var(--mono);color:var(--muted);">
+          3,773 filed 2023–2025 baseline · 3,894 annualised 2026 run-rate (+3.2%) · Monthly avg 325 SARs/month
+        </div>
+      </div>
+      <div class="trend-legend">
+        <div class="tl-item"><div class="tl-line" style="background:#6c63ff"></div> 2023–2024</div>
+        <div class="tl-item"><div class="tl-line" style="background:#00d4aa"></div> 2025</div>
+        <div class="tl-item"><div class="tl-line" style="background:#f5a623"></div> 2026 YTD</div>
+        <div class="tl-item"><div class="tl-dash" style="border-color:#f5a623"></div> Projection</div>
+      </div>
+    </div>
+    <div style="position:relative;height:200px;">
+      <canvas id="trendChart" role="img" aria-label="Line chart showing monthly SAR filing volume 2023 to 2026 with projected run-rate."></canvas>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="db-footer">
+    <span>Regulatory_Suspicious_Activity · Power BI Desktop · PBIDesktop-53415 · Essential 8 Measures · AML Compliance Architecture</span>
+    <span>26 Apr 2026 · Senior AML Compliance Officer Dashboard · Confidential</span>
+  </footer>
+
+</div><!-- /db-wrap -->
+
+<script>
+/* ── DATA ── */
+const suspicionData = [
+  { name: 'Structuring / Smurfing',    count: 584, amount: 32.4, color: '#ff4444' },
+  { name: 'Elder Abuse Indicators',    count: 574, amount: 48.1, color: '#f5a623' },
+  { name: 'Src of Funds Discrepancy',  count: 568, amount: 32.0, color: '#6c63ff' },
+  { name: 'Human Trafficking',         count: 555, amount: 35.4, color: '#ff6b9d' },
+  { name: 'Unusual Cash Activity',     count: 552, amount: 38.9, color: '#00d4aa' },
+  { name: 'Sanctions Match',           count: 552, amount: 41.8, color: '#4ecdc4' },
+  { name: '3rd Party / Mixing',        count: 549, amount: 31.9, color: '#a78bfa' },
+  { name: 'High Risk Jurisdiction',    count: 547, amount: 42.2, color: '#67e8f9' },
+  { name: 'Rapid Mvmt of Funds',       count: 519, amount: 65.5, color: '#fbbf24' },
+];
+
+const total = suspicionData.reduce((s, d) => s + d.count, 0);
+
+const velCategories = ['Structuring', 'Elder Abuse', 'Src Funds', 'Human Traf.', 'Unusual Cash', 'Sanctions', '3rd Party', 'High Risk', 'Rapid Mvmt'];
+const velDays = [29.1, 29.8, 28.9, 30.2, 29.5, 28.7, 29.3, 30.0, 29.6];
+
+const monthlyTrend = [
+  [2023,1,80],[2023,2,88],[2023,3,104],[2023,4,95],[2023,5,102],[2023,6,93],
+  [2023,7,98],[2023,8,96],[2023,9,89],[2023,10,101],[2023,11,97],[2023,12,109],
+  [2024,1,82],[2024,2,111],[2024,3,113],[2024,4,104],[2024,5,97],[2024,6,95],
+  [2024,7,100],[2024,8,108],[2024,9,93],[2024,10,106],[2024,11,99],[2024,12,118],
+  [2025,1,86],[2025,2,99],[2025,3,112],[2025,4,108],[2025,5,102],[2025,6,97],
+  [2025,7,105],[2025,8,111],[2025,9,96],[2025,10,107],[2025,11,103],[2025,12,116],
+  [2026,1,92],[2026,2,106],[2026,3,108],[2026,4,37],
+];
+
+/* ── GAUGE CHART ── */
+(function buildGauge() {
+  const ctx = document.getElementById('gaugeC').getContext('2d');
+  const dangerVal = 12;
+  const warnVal   = 300;
+  const safeVal   = 1664 - dangerVal - warnVal;
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      datasets: [{
+        data: [dangerVal, warnVal, safeVal],
+        backgroundColor: ['#ff4444', '#f5a623', 'rgba(255,255,255,0.06)'],
+        borderWidth: 0,
+        circumference: 180,
+        rotation: 270,
+      }]
+    },
+    options: {
+      responsive: false,
+      cutout: '70%',
+      plugins: { legend: { display: false }, tooltip: { enabled: false } }
+    }
+  });
+})();
+
+/* ── RISK RADAR TREEMAP (D3) ── */
+(function buildTreemap() {
+  const el = document.getElementById('treemapWrap');
+  const W = el.clientWidth || 290;
+  const H = el.clientHeight || 280;
+
+  const svg = d3.select('#treemapWrap')
+    .append('svg')
+    .attr('width', '100%')
+    .attr('height', H)
+    .attr('viewBox', `0 0 ${W} ${H}`);
+
+  const root = d3.hierarchy({ children: suspicionData }).sum(d => d.count);
+  d3.treemap().size([W, H]).padding(2)(root);
+
+  const cell = svg.selectAll('g').data(root.leaves()).join('g')
+    .attr('transform', d => `translate(${d.x0},${d.y0})`);
+
+  cell.append('rect')
+    .attr('width', d => d.x1 - d.x0)
+    .attr('height', d => d.y1 - d.y0)
+    .attr('rx', 4)
+    .attr('fill', d => d.data.color)
+    .attr('opacity', 0.22);
+
+  cell.append('rect')
+    .attr('width', d => d.x1 - d.x0)
+    .attr('height', 2)
+    .attr('fill', d => d.data.color)
+    .attr('opacity', 0.9);
+
+  cell.each(function(d) {
+    const w = d.x1 - d.x0, h = d.y1 - d.y0;
+    const g = d3.select(this);
+    const pct = Math.round(d.data.count / total * 100);
+    if (w > 50 && h > 28) {
+      const words = d.data.name.split(' ');
+      const line1 = words.slice(0, 2).join(' ');
+      const line2 = words.slice(2).join(' ');
+      g.append('text').attr('x', 7).attr('y', h - 22)
+        .attr('font-size', Math.min(11, w / 6)).attr('font-family', "'Syne', sans-serif")
+        .attr('font-weight', '700').attr('fill', 'rgba(255,255,255,0.88)')
+        .text(line1);
+      if (line2 && h > 44) {
+        g.append('text').attr('x', 7).attr('y', h - 10)
+          .attr('font-size', Math.min(10, w / 7)).attr('font-family', "'DM Mono', monospace")
+          .attr('fill', 'rgba(255,255,255,0.5)')
+          .text(line2);
+      }
+      if (w > 65) {
+        g.append('text').attr('x', w - 7).attr('y', 15)
+          .attr('text-anchor', 'end').attr('font-size', 10)
+          .attr('font-family', "'DM Mono', monospace")
+          .attr('fill', d.data.color).attr('font-weight', '500')
+          .text(pct + '%');
+      }
+    }
+  });
+
+  // Legend
+  const legendEl = document.getElementById('riskLegend');
+  suspicionData.forEach(d => {
+    const item = document.createElement('div');
+    item.className = 'risk-item';
+    item.innerHTML = `<div class="risk-dot" style="background:${d.color}"></div>${d.name.split('/')[0].trim()}`;
+    legendEl.appendChild(item);
+  });
+})();
+
+/* ── VELOCITY CHART ── */
+(function buildVel() {
+  const ctx = document.getElementById('velChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: velCategories,
+      datasets: [{
+        data: velDays,
+        backgroundColor: velCategories.map((_, i) => suspicionData[i].color + '55'),
+        borderColor: velCategories.map((_, i) => suspicionData[i].color),
+        borderWidth: 1,
+        borderRadius: 3,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        annotation: {},
+        tooltip: {
+          backgroundColor: '#1a1a26',
+          titleColor: '#f0f0f8',
+          bodyColor: '#9898a8',
+          borderColor: 'rgba(255,255,255,0.1)',
+          borderWidth: 1,
+          callbacks: { label: ctx => ' ' + ctx.raw + ' days avg' }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: '#6b6b80', font: { size: 9, family: "'DM Mono'" }, maxRotation: 35, autoSkip: false },
+          grid: { display: false },
+          border: { display: false }
+        },
+        y: {
+          min: 27, max: 32,
+          ticks: { color: '#6b6b80', font: { size: 9, family: "'DM Mono'" }, callback: v => v + 'd' },
+          grid: { color: 'rgba(255,255,255,0.06)' },
+          border: { display: false }
+        }
+      }
+    },
+    plugins: [{
+      id: 'deadline',
+      afterDraw(chart) {
+        const { ctx, scales: { y } } = chart;
+        const yPos = y.getPixelForValue(30);
+        ctx.save();
+        ctx.strokeStyle = '#ff4444';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([4, 3]);
+        ctx.beginPath();
+        ctx.moveTo(chart.chartArea.left, yPos);
+        ctx.lineTo(chart.chartArea.right, yPos);
+        ctx.stroke();
+        ctx.fillStyle = '#ff4444';
+        ctx.font = "9px 'DM Mono'";
+        ctx.fillText('30d limit', chart.chartArea.right - 46, yPos - 4);
+        ctx.restore();
+      }
+    }]
+  });
+})();
+
+/* ── TREND CHART ── */
+(function buildTrend() {
+  const ctx = document.getElementById('trendChart').getContext('2d');
+
+  const labels  = monthlyTrend.map(([y, m]) => {
+    const mNames = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return m === 1 ? `${mNames[m]} ${y}` : mNames[m];
+  });
+
+  const yr2023_24 = monthlyTrend.map(([y,,v]) => (y <= 2024 ? v : null));
+  const yr2025    = monthlyTrend.map(([y,,v]) => (y === 2025 ? v : y === 2024 && monthlyTrend.findIndex(d => d[0] === 2025) ? null : null));
+  // Rebuild properly
+  const data2023_24 = monthlyTrend.map(([y,,v]) => y <= 2024 ? v : null);
+  const data2025    = monthlyTrend.map(([y,,v]) => y === 2025 ? v : null);
+  const data2026ytd = monthlyTrend.map(([y,,v]) => y === 2026 ? v : null);
+
+  // projection line: all months 2026 at 325/mo (3894/12)
+  const data2026proj = monthlyTrend.map(([y, m]) => {
+    if (y === 2026) return Math.round(3894 / 12);
+    if (y === 2025 && m === 12) return Math.round(3894 / 12); // bridge
+    return null;
+  });
+
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: '2023–2024',
+          data: data2023_24,
+          borderColor: '#6c63ff',
+          backgroundColor: 'rgba(108,99,255,0.07)',
+          fill: true,
+          tension: 0.35, pointRadius: 0, borderWidth: 1.5
+        },
+        {
+          label: '2025',
+          data: data2025,
+          borderColor: '#00d4aa',
+          backgroundColor: 'rgba(0,212,170,0.07)',
+          fill: true,
+          tension: 0.35, pointRadius: 0, borderWidth: 1.5
+        },
+        {
+          label: '2026 YTD',
+          data: data2026ytd,
+          borderColor: '#f5a623',
+          backgroundColor: 'transparent',
+          tension: 0.2, pointRadius: 4, pointBackgroundColor: '#f5a623',
+          borderWidth: 2
+        },
+        {
+          label: '2026 Projection',
+          data: data2026proj,
+          borderColor: '#f5a623',
+          backgroundColor: 'transparent',
+          tension: 0, pointRadius: 0,
+          borderWidth: 1.5,
+          borderDash: [5, 4]
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#1a1a26',
+          titleColor: '#f0f0f8',
+          bodyColor: '#9898a8',
+          borderColor: 'rgba(255,255,255,0.1)',
+          borderWidth: 1,
+          filter: item => item.raw !== null
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: '#6b6b80', font: { size: 9, family: "'DM Mono'" },
+            maxRotation: 0,
+            callback: function(val, idx) {
+              const l = this.getLabelForValue(val);
+              return (l && l.includes('Jan')) ? l : (idx % 6 === 0 ? l : '');
+            }
+          },
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          border: { display: false }
+        },
+        y: {
+          min: 60, max: 140,
+          ticks: { color: '#6b6b80', font: { size: 9, family: "'DM Mono'" } },
+          grid: { color: 'rgba(255,255,255,0.06)' },
+          border: { display: false }
+        }
+      }
+    }
+  });
+})();
+</script>
+</body>
+</html>

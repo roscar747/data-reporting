@@ -1,0 +1,406 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.db{font-family:var(--font-sans);background:#F3F2F1;border-radius:0 0 4px 4px}
+.topbar{background:#1F3864;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;border-radius:4px 4px 0 0}
+.tb-l .tb-title{color:#fff;font-size:12px;font-weight:500;letter-spacing:.01em}
+.tb-l .tb-sub{color:#9BB8D4;font-size:10px;margin-top:2px}
+.tb-r{display:flex;align-items:center;gap:12px}
+.live{display:flex;align-items:center;gap:4px;color:#9BB8D4;font-size:10px}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#4CAF50;flex-shrink:0}
+.crit-badge{background:#A32D2D;color:#F7C1C1;font-size:9px;font-weight:500;padding:2px 8px;border-radius:3px}
+.canvas{padding:10px;display:flex;flex-direction:column;gap:9px}
+.panel{background:#fff;border:0.5px solid #C8C6C4;border-radius:3px;padding:9px 11px}
+.ptitle{font-size:8px;font-weight:500;color:#605E5C;text-transform:uppercase;letter-spacing:.09em;margin:0 0 7px}
+.slabel{font-size:7.5px;font-weight:500;color:#1F3864;background:#EFF6FC;border:0.5px solid #B3D7F2;border-radius:2px;padding:1px 6px;display:inline-block}
+.annot{font-size:7.5px;color:#A19F9D;margin-top:4px}
+.mbadge{display:inline-block;font-size:7px;padding:1px 5px;border-radius:2px;background:#EFF6FC;color:#0078D4;border:0.5px solid #B3D7F2;font-family:monospace;margin-right:2px}
+.ftag{display:inline-block;font-size:7px;padding:1px 5px;border-radius:2px;background:#F3F2F1;color:#605E5C;border:0.5px solid #C8C6C4;font-family:monospace;margin-right:2px}
+.vtag{display:inline-block;font-size:7px;padding:1px 5px;border-radius:2px;background:#EFF6FC;color:#0078D4;border:0.5px solid #B3D7F2;margin-right:2px}
+.hr{height:0.5px;background:#EDEBE9;margin:6px 0}
+.alert-r{background:#FDE7E9;border:0.5px solid #F1707B;border-radius:2px;padding:3px 8px;font-size:7.5px;color:#A4262C;display:flex;align-items:center;gap:5px;margin-top:5px}
+.warn-r{background:#FFF4CE;border:0.5px solid #C8A400;border-radius:2px;padding:3px 8px;font-size:7.5px;color:#835B00;display:flex;align-items:center;gap:5px;margin-top:4px}
+.ok-r{background:#DFF6DD;border:0.5px solid #107C10;border-radius:2px;padding:3px 8px;font-size:7.5px;color:#107C10;display:flex;align-items:center;gap:5px;margin-top:4px}
+.ind{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.cfrow{display:flex;align-items:center;gap:4px;font-size:7.5px;color:#605E5C}
+.sw{width:10px;height:10px;border-radius:1px;flex-shrink:0}
+.sbar{background:#fff;border:0.5px solid #C8C6C4;border-radius:3px;padding:6px 12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.spill{font-size:8.5px;padding:2px 8px;border-radius:10px;border:0.5px solid #C8C6C4;color:#605E5C;cursor:pointer;background:#fff}
+.spill.on{background:#1F3864;color:#fff;border-color:#1F3864}
+.slbl{font-size:8.5px;color:#605E5C;font-weight:500}
+.rank-grid{display:grid;grid-template-columns:18px minmax(0,1fr) 46px 46px 52px 50px 58px;border-collapse:collapse}
+.rh{font-size:7.5px;padding:3px 5px;font-weight:500;color:#605E5C;background:#F8F8F8;border-bottom:0.5px solid #EDEBE9;white-space:nowrap;overflow:hidden}
+.rc{font-size:7.5px;padding:4px 5px;color:#201F1E;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border-bottom:0.5px solid #EDEBE9}
+.rc:last-child{border-bottom:none}
+.tp{color:#A4262C;font-weight:500}
+.tn{color:#107C10;font-weight:500}
+.upg{display:inline-block;font-size:7px;padding:1px 4px;border-radius:2px;white-space:nowrap}
+.u1{background:#FDE7E9;color:#A4262C;border:0.5px solid #F1707B}
+.u2{background:#FFF4CE;color:#835B00;border:0.5px solid #C8A400}
+.u3{background:#DFF6DD;color:#107C10;border:0.5px solid #107C10}
+.footer{border-top:0.5px solid #C8C6C4;padding:5px 10px;display:flex;justify-content:space-between;align-items:center;background:#fff;border-radius:0 0 4px 4px}
+</style>
+
+<div class="db">
+<h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Grid Constraint and Capacity Heatmap dashboard wireframe — government network planning division, Power BI native visuals style</h2>
+
+<div class="topbar">
+  <div class="tb-l">
+    <div class="tb-title">Grid Constraint &amp; Capacity Heatmap — Network Planning Division</div>
+    <div class="tb-sub">Distribution Territory · zip_code &amp; substation_id · Dataset: grid_load_der_impact_2023_2026 · PJM Interconnection model</div>
+  </div>
+  <div class="tb-r">
+    <div class="live"><div class="live-dot"></div>On-demand refresh</div>
+    <div class="crit-badge">3 critical substations</div>
+    <span style="color:#9BB8D4;font-size:10px">Report period: Q1 2026</span>
+  </div>
+</div>
+
+<div class="canvas">
+
+  <div class="sbar">
+    <span class="slbl">Date</span>
+    <span class="spill on">Today</span><span class="spill">7 days</span><span class="spill">30 days</span><span class="spill">Custom</span>
+    <div style="width:0.5px;height:16px;background:#EDEBE9"></div>
+    <span class="slbl">Year</span>
+    <span class="spill on">2023</span><span class="spill">2024</span><span class="spill">2025</span><span class="spill">2026</span>
+    <div style="width:0.5px;height:16px;background:#EDEBE9"></div>
+    <span class="slbl">Zip code</span>
+    <span class="spill on">All</span><span class="spill">10001–10005</span><span class="spill">10006–10012</span>
+    <div style="width:0.5px;height:16px;background:#EDEBE9"></div>
+    <span class="slbl">Substation</span>
+    <span class="spill on">All</span><span class="spill">Critical only</span>
+  </div>
+
+  <div style="display:flex;gap:6px;align-items:center;padding:0 1px">
+    <span class="slabel">Row 1 — Voltage stability gauges</span>
+    <span class="annot">C02 VDI · C02 Voltage Status · C05 Frequency σ · ANSI C84.1 ±5% band</span>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px">
+
+    <div class="panel">
+      <div class="ptitle">Nodes in violation</div>
+      <div style="font-size:22px;font-weight:500;color:#A4262C;line-height:1.1">7</div>
+      <div style="font-size:9px;color:#605E5C;margin-bottom:5px">of 24 monitored nodes</div>
+      <svg width="100%" height="18" viewBox="0 0 100 18">
+        <rect x="0" y="2" width="100" height="14" rx="2" fill="#EDEBE9"/>
+        <rect x="0" y="2" width="29" height="14" rx="2" fill="#A4262C"/>
+        <text x="14" y="12" font-size="6.5" fill="#fff" text-anchor="middle" font-weight="500">7 viol.</text>
+        <rect x="31" y="2" width="17" height="14" fill="#C8A400"/>
+        <text x="39" y="12" font-size="6" fill="#fff" text-anchor="middle">4 warn</text>
+        <text x="72" y="12" font-size="6" fill="#888780" text-anchor="middle">13 normal</text>
+      </svg>
+      <div class="annot">Bullet bar · C02 Voltage Status split</div>
+    </div>
+
+    <div class="panel">
+      <div class="ptitle">Under-voltage (&lt;0.95 pu)</div>
+      <div style="font-size:22px;font-weight:500;color:#A4262C;line-height:1.1">4 <span style="font-size:11px;font-weight:400;color:#605E5C">nodes</span></div>
+      <svg width="100%" height="32" viewBox="0 0 100 32">
+        <rect x="0" y="6" width="100" height="16" rx="2" fill="#EDEBE9"/>
+        <rect x="42" y="6" width="16" height="16" rx="1" fill="#DFF6DD" opacity=".7"/>
+        <text x="50" y="17" font-size="6" fill="#107C10" text-anchor="middle">1.00</text>
+        <rect x="0" y="6" width="36" height="16" rx="2" fill="#F09595"/>
+        <circle cx="36" cy="14" r="4" fill="#A4262C"/>
+        <text x="18" y="17" font-size="6.5" fill="#791F1F" text-anchor="middle">0.93 pu</text>
+        <line x1="30" y1="4" x2="30" y2="24" stroke="#A4262C" stroke-width="0.5" stroke-dasharray="2 1"/>
+        <line x1="70" y1="4" x2="70" y2="24" stroke="#A4262C" stroke-width="0.5" stroke-dasharray="2 1"/>
+        <text x="30" y="30" font-size="6" fill="#A4262C" text-anchor="middle">0.95</text>
+        <text x="70" y="30" font-size="6" fill="#A4262C" text-anchor="middle">1.05</text>
+        <text x="0" y="5" font-size="5.5" fill="#A19F9D">0.90</text>
+        <text x="99" y="5" font-size="5.5" fill="#A19F9D" text-anchor="end">1.10</text>
+      </svg>
+      <div class="annot">Range gauge · ANSI thresholds · C02 VDI</div>
+    </div>
+
+    <div class="panel">
+      <div class="ptitle">Over-voltage (&gt;1.05 pu)</div>
+      <div style="font-size:22px;font-weight:500;color:#A4262C;line-height:1.1">3 <span style="font-size:11px;font-weight:400;color:#605E5C">nodes</span></div>
+      <svg width="100%" height="32" viewBox="0 0 100 32">
+        <rect x="0" y="6" width="100" height="16" rx="2" fill="#EDEBE9"/>
+        <rect x="42" y="6" width="16" height="16" rx="1" fill="#DFF6DD" opacity=".7"/>
+        <text x="50" y="17" font-size="6" fill="#107C10" text-anchor="middle">1.00</text>
+        <rect x="70" y="6" width="30" height="16" rx="2" fill="#F09595"/>
+        <circle cx="70" cy="14" r="4" fill="#A4262C"/>
+        <text x="85" y="17" font-size="6.5" fill="#791F1F" text-anchor="middle">1.08 pu</text>
+        <line x1="30" y1="4" x2="30" y2="24" stroke="#A4262C" stroke-width="0.5" stroke-dasharray="2 1"/>
+        <line x1="70" y1="4" x2="70" y2="24" stroke="#A4262C" stroke-width="0.5" stroke-dasharray="2 1"/>
+        <text x="30" y="30" font-size="6" fill="#A4262C" text-anchor="middle">0.95</text>
+        <text x="70" y="30" font-size="6" fill="#A4262C" text-anchor="middle">1.05</text>
+        <text x="0" y="5" font-size="5.5" fill="#A19F9D">0.90</text>
+        <text x="99" y="5" font-size="5.5" fill="#A19F9D" text-anchor="end">1.10</text>
+      </svg>
+      <div class="annot">Reverse flow risk · C04 flag linked</div>
+    </div>
+
+    <div class="panel">
+      <div class="ptitle">Avg voltage deviation (VDI)</div>
+      <div style="font-size:22px;font-weight:500;color:#835B00;line-height:1.1">0.0382 <span style="font-size:10px;font-weight:400;color:#605E5C">pu</span></div>
+      <svg width="100%" height="24" viewBox="0 0 100 24">
+        <polyline points="0,18 10,16 20,14 30,17 42,10 54,12 66,19 78,9 90,11 100,13" fill="none" stroke="#C8A400" stroke-width="1.5"/>
+        <line x1="0" y1="6" x2="100" y2="6" stroke="#A4262C" stroke-width="0.5" stroke-dasharray="2 1"/>
+        <text x="2" y="5" font-size="5.5" fill="#A4262C">0.05 threshold</text>
+      </svg>
+      <div class="annot">Sparkline trend · C02 VDI · 24-hr window</div>
+      <div style="margin-top:5px"><span class="mbadge">C02 Voltage Deviation Index</span></div>
+    </div>
+
+    <div class="panel">
+      <div class="ptitle">Worst node frequency σ</div>
+      <div style="font-size:22px;font-weight:500;color:#835B00;line-height:1.1">0.061 <span style="font-size:10px;font-weight:400;color:#605E5C">Hz</span></div>
+      <div class="warn-r"><div class="ind" style="background:#C8A400"></div>SUB-07 exceeds 0.05 Hz σ threshold</div>
+      <div class="ok-r" style="margin-top:4px"><div class="ind" style="background:#107C10"></div>17 of 24 nodes within normal band</div>
+      <div style="margin-top:5px"><span class="mbadge">C05 Frequency Stability Score</span><span class="ftag">frequency_hz</span></div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:6px;align-items:center;padding:0 1px;margin-top:1px">
+    <span class="slabel">Row 2 — Spatial heatmap (main view) &amp; temporal peak matrix</span>
+    <span class="annot">C01 Utilization % · C03 Congestion Hours · choropleth map + substation × hour matrix</span>
+  </div>
+
+  <div style="display:grid;grid-template-columns:57fr 43fr;gap:9px">
+
+    <div class="panel" style="min-height:265px">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px">
+        <div class="ptitle" style="margin:0">Spatial constraint heatmap — service territory by zip code</div>
+        <div><span class="vtag">ArcGIS Maps / Filled map</span><span class="mbadge">C01</span><span class="mbadge">C03</span></div>
+      </div>
+      <div style="background:#D9E4EC;border:0.5px solid #C8C6C4;border-radius:2px;height:196px;position:relative;overflow:hidden">
+        <svg width="100%" height="196" viewBox="0 0 370 196">
+          <rect x="0" y="0" width="370" height="196" fill="#D9E4EC"/>
+          <polygon points="55,22 112,14 168,28 162,78 104,90 50,68" fill="#3B6D11" stroke="#fff" stroke-width="0.8"/>
+          <text x="108" y="55" font-size="7" fill="#EAF3DE" text-anchor="middle" font-weight="500">10001</text>
+          <polygon points="168,28 228,18 278,36 271,84 212,96 162,78" fill="#97C459" stroke="#fff" stroke-width="0.8"/>
+          <text x="218" y="60" font-size="7" fill="#27500A" text-anchor="middle">10002</text>
+          <polygon points="50,68 104,90 98,138 44,144 38,98" fill="#EF9F27" stroke="#fff" stroke-width="0.8"/>
+          <text x="70" y="110" font-size="7" fill="#412402" text-anchor="middle" font-weight="500">10003</text>
+          <polygon points="104,90 162,78 166,130 108,142 98,138" fill="#EF9F27" stroke="#fff" stroke-width="0.8"/>
+          <text x="132" y="112" font-size="7" fill="#412402" text-anchor="middle">10004</text>
+          <polygon points="162,78 212,96 218,142 166,152 162,130" fill="#E24B4A" stroke="#fff" stroke-width="0.8"/>
+          <text x="190" y="118" font-size="7" fill="#fff" text-anchor="middle" font-weight="500">10005</text>
+          <polygon points="212,96 271,84 278,132 222,148 218,142" fill="#A32D2D" stroke="#fff" stroke-width="0.8"/>
+          <text x="247" y="118" font-size="7" fill="#fff" text-anchor="middle" font-weight="500">10006</text>
+          <polygon points="38,98 44,144 28,158 14,132 18,98" fill="#639922" stroke="#fff" stroke-width="0.8"/>
+          <text x="28" y="130" font-size="6.5" fill="#fff" text-anchor="middle">10007</text>
+          <polygon points="108,142 166,152 170,172 112,178 100,158" fill="#E24B4A" stroke="#fff" stroke-width="0.8"/>
+          <text x="136" y="163" font-size="7" fill="#fff" text-anchor="middle" font-weight="500">10008</text>
+          <polygon points="222,148 278,132 284,168 228,175 222,170" fill="#E24B4A" stroke="#fff" stroke-width="0.8"/>
+          <text x="254" y="156" font-size="7" fill="#fff" text-anchor="middle" font-weight="500">10009</text>
+          <polygon points="278,36 336,30 340,78 282,88 271,84" fill="#97C459" stroke="#fff" stroke-width="0.8"/>
+          <text x="307" y="62" font-size="7" fill="#27500A" text-anchor="middle">10010</text>
+          <polygon points="282,88 340,78 346,124 286,132 278,132" fill="#C8A400" stroke="#fff" stroke-width="0.8"/>
+          <text x="314" y="108" font-size="7" fill="#412402" text-anchor="middle">10011</text>
+          <polygon points="286,132 346,124 352,166 290,170 284,168" fill="#E24B4A" stroke="#fff" stroke-width="0.8"/>
+          <text x="318" y="150" font-size="7" fill="#fff" text-anchor="middle" font-weight="500">10012</text>
+          <circle cx="190" cy="116" r="9" fill="none" stroke="#fff" stroke-width="1.5" stroke-dasharray="2 1.5"/>
+          <circle cx="247" cy="116" r="9" fill="none" stroke="#fff" stroke-width="1.5" stroke-dasharray="2 1.5"/>
+          <circle cx="254" cy="154" r="9" fill="none" stroke="#fff" stroke-width="1.5" stroke-dasharray="2 1.5"/>
+          <rect x="156" y="2" width="96" height="12" fill="rgba(163,45,45,0.88)" rx="2"/>
+          <text x="204" y="11" font-size="7" fill="#fff" text-anchor="middle" font-weight="500">3 critical zones active</text>
+          <text x="368" y="194" font-size="5.5" fill="#A19F9D" text-anchor="end">© OpenStreetMap contributors</text>
+        </svg>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;margin-top:5px;flex-wrap:wrap">
+        <div class="cfrow"><div class="sw" style="background:#3B6D11"></div>Available &lt;70%</div>
+        <div class="cfrow"><div class="sw" style="background:#97C459"></div>70–80%</div>
+        <div class="cfrow"><div class="sw" style="background:#EF9F27"></div>80–90%</div>
+        <div class="cfrow"><div class="sw" style="background:#E24B4A"></div>90–100%</div>
+        <div class="cfrow"><div class="sw" style="background:#A32D2D"></div>Overloaded &gt;100%</div>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:4px;font-size:7px;color:#1F3864">
+          <svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" fill="none" stroke="#1F3864" stroke-width="0.8" stroke-dasharray="2 1"/></svg>
+          Critical zone annotation
+        </div>
+      </div>
+      <div style="margin-top:5px;display:flex;gap:4px;flex-wrap:wrap">
+        <span class="ftag">zip_code</span><span class="ftag">net_load_mw</span><span class="ftag">voltage_sensor_pu</span>
+        <span class="vtag">Choropleth fill = C01 Utilization %</span><span class="vtag">Tooltip = C02 VDI + C03 Congestion hrs</span>
+      </div>
+    </div>
+
+    <div class="panel" style="min-height:265px">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:5px">
+        <div class="ptitle" style="margin:0">Temporal peak matrix — substation × hour of day</div>
+        <div><span class="vtag">Matrix visual</span><span class="mbadge">C01</span><span class="mbadge">C05</span></div>
+      </div>
+      <div style="background:#FAFAFA;border:0.5px solid #EDEBE9;border-radius:2px;overflow:hidden">
+        <svg width="100%" height="206" viewBox="0 0 288 206">
+          <rect x="0" y="0" width="288" height="206" fill="#FAFAFA"/>
+          <text x="36" y="9" font-size="5.5" fill="#A19F9D" text-anchor="middle">00</text>
+          <text x="48" y="9" font-size="5.5" fill="#A19F9D" text-anchor="middle">02</text>
+          <text x="60" y="9" font-size="5.5" fill="#A19F9D" text-anchor="middle">04</text>
+          <text x="72" y="9" font-size="5.5" fill="#A19F9D" text-anchor="middle">06</text>
+          <text x="84" y="9" font-size="5.5" fill="#A19F9D" text-anchor="middle">08</text>
+          <text x="96" y="9" font-size="5.5" fill="#A19F9D" text-anchor="middle">10</text>
+          <text x="108" y="9" font-size="5.5" fill="#A19F9D" text-anchor="middle">12</text>
+          <text x="120" y="9" font-size="5.5" fill="#A19F9D" text-anchor="middle">14</text>
+          <text x="132" y="9" font-size="5.5" fill="#A19F9D" text-anchor="middle">16</text>
+          <text x="144" y="9" font-size="5.5" fill="#A19F9D" text-anchor="middle">18</text>
+          <text x="156" y="9" font-size="5.5" fill="#A19F9D" text-anchor="middle">20</text>
+          <text x="168" y="9" font-size="5.5" fill="#A19F9D" text-anchor="middle">22</text>
+          <text x="180" y="9" font-size="5.5" fill="#A19F9D" text-anchor="middle">24</text>
+          <text x="32" y="21" font-size="6" fill="#605E5C" text-anchor="end">SUB-01</text>
+          <text x="32" y="35" font-size="6" fill="#605E5C" text-anchor="end">SUB-02</text>
+          <text x="32" y="49" font-size="6" fill="#605E5C" text-anchor="end">SUB-03</text>
+          <text x="32" y="63" font-size="6" fill="#605E5C" text-anchor="end">SUB-04</text>
+          <text x="32" y="77" font-size="6" fill="#A4262C" text-anchor="end" font-weight="500">SUB-05</text>
+          <text x="32" y="91" font-size="6" fill="#605E5C" text-anchor="end">SUB-06</text>
+          <text x="32" y="105" font-size="6" fill="#A4262C" text-anchor="end" font-weight="500">SUB-07</text>
+          <text x="32" y="119" font-size="6" fill="#605E5C" text-anchor="end">SUB-08</text>
+          <text x="32" y="133" font-size="6" fill="#605E5C" text-anchor="end">SUB-09</text>
+          <text x="32" y="147" font-size="6" fill="#A4262C" text-anchor="end" font-weight="500">SUB-10</text>
+          <text x="32" y="161" font-size="6" fill="#605E5C" text-anchor="end">SUB-11</text>
+          <text x="32" y="175" font-size="6" fill="#605E5C" text-anchor="end">SUB-12</text>
+          <g id="r1"><rect x="34" y="12" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="47" y="12" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="60" y="12" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="73" y="12" width="11" height="10" rx="0.5" fill="#C0DD97"/><rect x="86" y="12" width="11" height="10" rx="0.5" fill="#EF9F27"/><rect x="99" y="12" width="11" height="10" rx="0.5" fill="#EF9F27"/><rect x="112" y="12" width="11" height="10" rx="0.5" fill="#C8A400"/><rect x="125" y="12" width="11" height="10" rx="0.5" fill="#EF9F27"/><rect x="138" y="12" width="11" height="10" rx="0.5" fill="#E24B4A"/><rect x="151" y="12" width="11" height="10" rx="0.5" fill="#E24B4A"/><rect x="164" y="12" width="11" height="10" rx="0.5" fill="#EF9F27"/><rect x="177" y="12" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="190" y="12" width="11" height="10" rx="0.5" fill="#97C459"/></g>
+          <g id="r2"><rect x="34" y="26" width="11" height="10" rx="0.5" fill="#C0DD97"/><rect x="47" y="26" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="60" y="26" width="11" height="10" rx="0.5" fill="#C0DD97"/><rect x="73" y="26" width="11" height="10" rx="0.5" fill="#C0DD97"/><rect x="86" y="26" width="11" height="10" rx="0.5" fill="#C8A400"/><rect x="99" y="26" width="11" height="10" rx="0.5" fill="#EF9F27"/><rect x="112" y="26" width="11" height="10" rx="0.5" fill="#EF9F27"/><rect x="125" y="26" width="11" height="10" rx="0.5" fill="#E24B4A"/><rect x="138" y="26" width="11" height="10" rx="0.5" fill="#A32D2D"/><rect x="151" y="26" width="11" height="10" rx="0.5" fill="#A32D2D"/><rect x="164" y="26" width="11" height="10" rx="0.5" fill="#E24B4A"/><rect x="177" y="26" width="11" height="10" rx="0.5" fill="#C8A400"/><rect x="190" y="26" width="11" height="10" rx="0.5" fill="#C0DD97"/></g>
+          <g id="r3"><rect x="34" y="40" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="47" y="40" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="60" y="40" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="73" y="40" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="86" y="40" width="11" height="10" rx="0.5" fill="#C0DD97"/><rect x="99" y="40" width="11" height="10" rx="0.5" fill="#EF9F27"/><rect x="112" y="40" width="11" height="10" rx="0.5" fill="#EF9F27"/><rect x="125" y="40" width="11" height="10" rx="0.5" fill="#C0DD97"/><rect x="138" y="40" width="11" height="10" rx="0.5" fill="#C8A400"/><rect x="151" y="40" width="11" height="10" rx="0.5" fill="#EF9F27"/><rect x="164" y="40" width="11" height="10" rx="0.5" fill="#C8A400"/><rect x="177" y="40" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="190" y="40" width="11" height="10" rx="0.5" fill="#97C459"/></g>
+          <g id="r4"><rect x="34" y="54" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="47" y="54" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="60" y="54" width="11" height="10" rx="0.5" fill="#C0DD97"/><rect x="73" y="54" width="11" height="10" rx="0.5" fill="#EF9F27"/><rect x="86" y="54" width="11" height="10" rx="0.5" fill="#EF9F27"/><rect x="99" y="54" width="11" height="10" rx="0.5" fill="#C8A400"/><rect x="112" y="54" width="11" height="10" rx="0.5" fill="#E24B4A"/><rect x="125" y="54" width="11" height="10" rx="0.5" fill="#EF9F27"/><rect x="138" y="54" width="11" height="10" rx="0.5" fill="#C8A400"/><rect x="151" y="54" width="11" height="10" rx="0.5" fill="#EF9F27"/><rect x="164" y="54" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="177" y="54" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="190" y="54" width="11" height="10" rx="0.5" fill="#97C459"/></g>
+          <g id="r5"><rect x="34" y="68" width="11" height="10" rx="0.5" fill="#C0DD97"/><rect x="47" y="68" width="11" height="10" rx="0.5" fill="#C0DD97"/><rect x="60" y="68" width="11" height="10" rx="0.5" fill="#EF9F27"/><rect x="73" y="68" width="11" height="10" rx="0.5" fill="#E24B4A"/><rect x="86" y="68" width="11" height="10" rx="0.5" fill="#A32D2D"/><rect x="99" y="68" width="11" height="10" rx="0.5" fill="#A32D2D"/><rect x="112" y="68" width="11" height="10" rx="0.5" fill="#A32D2D"/><rect x="125" y="68" width="11" height="10" rx="0.5" fill="#A32D2D"/><rect x="138" y="68" width="11" height="10" rx="0.5" fill="#E24B4A"/><rect x="151" y="68" width="11" height="10" rx="0.5" fill="#A32D2D"/><rect x="164" y="68" width="11" height="10" rx="0.5" fill="#E24B4A"/><rect x="177" y="68" width="11" height="10" rx="0.5" fill="#EF9F27"/><rect x="190" y="68" width="11" height="10" rx="0.5" fill="#C0DD97"/>
+            <rect x="72" y="66" width="56" height="14" fill="none" stroke="#1F3864" stroke-width="1" stroke-dasharray="2 1.5"/><text x="98" y="88" font-size="5.5" fill="#1F3864" text-anchor="middle">peak window</text>
+          </g>
+          <g id="r6"><rect x="34" y="82" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="47" y="82" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="60" y="82" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="73" y="82" width="11" height="10" rx="0.5" fill="#C0DD97"/><rect x="86" y="82" width="11" height="10" rx="0.5" fill="#C0DD97"/><rect x="99" y="82" width="11" height="10" rx="0.5" fill="#EF9F27"/><rect x="112" y="82" width="11" height="10" rx="0.5" fill="#C8A400"/><rect x="125" y="82" width="11" height="10" rx="0.5" fill="#EF9F27"/><rect x="138" y="82" width="11" height="10" rx="0.5" fill="#C8A400"/><rect x="151" y="82" width="11" height="10" rx="0.5" fill="#EF9F27"/><rect x="164" y="82" width="11" height="10" rx="0.5" fill="#C0DD97"/><rect x="177" y="82" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="190" y="82" width="11" height="10" rx="0.5" fill="#97C459"/></g>
+          <g id="r7"><rect x="34" y="96" width="11" height="10" rx="0.5" fill="#C0DD97"/><rect x="47" y="96" width="11" height="10" rx="0.5" fill="#EF9F27"/><rect x="60" y="96" width="11" height="10" rx="0.5" fill="#E24B4A"/><rect x="73" y="96" width="11" height="10" rx="0.5" fill="#A32D2D"/><rect x="86" y="96" width="11" height="10" rx="0.5" fill="#A32D2D"/><rect x="99" y="96" width="11" height="10" rx="0.5" fill="#E24B4A"/><rect x="112" y="96" width="11" height="10" rx="0.5" fill="#A32D2D"/><rect x="125" y="96" width="11" height="10" rx="0.5" fill="#A32D2D"/><rect x="138" y="96" width="11" height="10" rx="0.5" fill="#E24B4A"/><rect x="151" y="96" width="11" height="10" rx="0.5" fill="#A32D2D"/><rect x="164" y="96" width="11" height="10" rx="0.5" fill="#A32D2D"/><rect x="177" y="96" width="11" height="10" rx="0.5" fill="#E24B4A"/><rect x="190" y="96" width="11" height="10" rx="0.5" fill="#EF9F27"/>
+            <rect x="47" y="94" width="57" height="14" fill="none" stroke="#1F3864" stroke-width="1" stroke-dasharray="2 1.5"/>
+          </g>
+          <g id="r8"><rect x="34" y="110" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="47" y="110" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="60" y="110" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="73" y="110" width="11" height="10" rx="0.5" fill="#C0DD97"/><rect x="86" y="110" width="11" height="10" rx="0.5" fill="#EF9F27"/><rect x="99" y="110" width="11" height="10" rx="0.5" fill="#EF9F27"/><rect x="112" y="110" width="11" height="10" rx="0.5" fill="#C8A400"/><rect x="125" y="110" width="11" height="10" rx="0.5" fill="#C8A400"/><rect x="138" y="110" width="11" height="10" rx="0.5" fill="#EF9F27"/><rect x="151" y="110" width="11" height="10" rx="0.5" fill="#EF9F27"/><rect x="164" y="110" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="177" y="110" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="190" y="110" width="11" height="10" rx="0.5" fill="#97C459"/></g>
+          <g id="r9"><rect x="34" y="124" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="47" y="124" width="11" height="10" rx="0.5" fill="#C0DD97"/><rect x="60" y="124" width="11" height="10" rx="0.5" fill="#C0DD97"/><rect x="73" y="124" width="11" height="10" rx="0.5" fill="#EF9F27"/><rect x="86" y="124" width="11" height="10" rx="0.5" fill="#C8A400"/><rect x="99" y="124" width="11" height="10" rx="0.5" fill="#E24B4A"/><rect x="112" y="124" width="11" height="10" rx="0.5" fill="#EF9F27"/><rect x="125" y="124" width="11" height="10" rx="0.5" fill="#C8A400"/><rect x="138" y="124" width="11" height="10" rx="0.5" fill="#EF9F27"/><rect x="151" y="124" width="11" height="10" rx="0.5" fill="#C8A400"/><rect x="164" y="124" width="11" height="10" rx="0.5" fill="#C0DD97"/><rect x="177" y="124" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="190" y="124" width="11" height="10" rx="0.5" fill="#97C459"/></g>
+          <g id="r10"><rect x="34" y="138" width="11" height="10" rx="0.5" fill="#EF9F27"/><rect x="47" y="138" width="11" height="10" rx="0.5" fill="#E24B4A"/><rect x="60" y="138" width="11" height="10" rx="0.5" fill="#E24B4A"/><rect x="73" y="138" width="11" height="10" rx="0.5" fill="#A32D2D"/><rect x="86" y="138" width="11" height="10" rx="0.5" fill="#A32D2D"/><rect x="99" y="138" width="11" height="10" rx="0.5" fill="#A32D2D"/><rect x="112" y="138" width="11" height="10" rx="0.5" fill="#A32D2D"/><rect x="125" y="138" width="11" height="10" rx="0.5" fill="#A32D2D"/><rect x="138" y="138" width="11" height="10" rx="0.5" fill="#E24B4A"/><rect x="151" y="138" width="11" height="10" rx="0.5" fill="#A32D2D"/><rect x="164" y="138" width="11" height="10" rx="0.5" fill="#A32D2D"/><rect x="177" y="138" width="11" height="10" rx="0.5" fill="#E24B4A"/><rect x="190" y="138" width="11" height="10" rx="0.5" fill="#EF9F27"/>
+            <rect x="34" y="136" width="184" height="14" fill="none" stroke="#A4262C" stroke-width="1"/><text x="222" y="147" font-size="5.5" fill="#A4262C">broadband overload</text>
+          </g>
+          <g id="r11"><rect x="34" y="152" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="47" y="152" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="60" y="152" width="11" height="10" rx="0.5" fill="#C0DD97"/><rect x="73" y="152" width="11" height="10" rx="0.5" fill="#C8A400"/><rect x="86" y="152" width="11" height="10" rx="0.5" fill="#EF9F27"/><rect x="99" y="152" width="11" height="10" rx="0.5" fill="#EF9F27"/><rect x="112" y="152" width="11" height="10" rx="0.5" fill="#C8A400"/><rect x="125" y="152" width="11" height="10" rx="0.5" fill="#C8A400"/><rect x="138" y="152" width="11" height="10" rx="0.5" fill="#EF9F27"/><rect x="151" y="152" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="164" y="152" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="177" y="152" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="190" y="152" width="11" height="10" rx="0.5" fill="#97C459"/></g>
+          <g id="r12"><rect x="34" y="166" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="47" y="166" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="60" y="166" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="73" y="166" width="11" height="10" rx="0.5" fill="#C0DD97"/><rect x="86" y="166" width="11" height="10" rx="0.5" fill="#C0DD97"/><rect x="99" y="166" width="11" height="10" rx="0.5" fill="#EF9F27"/><rect x="112" y="166" width="11" height="10" rx="0.5" fill="#C8A400"/><rect x="125" y="166" width="11" height="10" rx="0.5" fill="#EF9F27"/><rect x="138" y="166" width="11" height="10" rx="0.5" fill="#C0DD97"/><rect x="151" y="166" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="164" y="166" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="177" y="166" width="11" height="10" rx="0.5" fill="#97C459"/><rect x="190" y="166" width="11" height="10" rx="0.5" fill="#97C459"/></g>
+          <line x1="34" y1="192" x2="200" y2="192" stroke="#EDEBE9" stroke-width="0.5"/>
+          <text x="34" y="200" font-size="5.5" fill="#A19F9D">Hour 00</text>
+          <text x="117" y="200" font-size="5.5" fill="#A19F9D" text-anchor="middle">Hour 12</text>
+          <text x="200" y="200" font-size="5.5" fill="#A19F9D" text-anchor="end">Hour 24</text>
+        </svg>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:4px;flex-wrap:wrap">
+        <div class="cfrow"><div class="sw" style="background:#97C459"></div>&lt;70%</div>
+        <div class="cfrow"><div class="sw" style="background:#C8A400"></div>80–90%</div>
+        <div class="cfrow"><div class="sw" style="background:#E24B4A"></div>90–100%</div>
+        <div class="cfrow"><div class="sw" style="background:#A32D2D"></div>&gt;100%</div>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:3px;font-size:7px;color:#1F3864">
+          <svg width="9" height="9" viewBox="0 0 9 9"><rect x="0.5" y="0.5" width="8" height="8" fill="none" stroke="#1F3864" stroke-width="0.8" stroke-dasharray="2 1.5"/></svg>Peak window
+        </div>
+      </div>
+      <div style="margin-top:4px;display:flex;gap:3px;flex-wrap:wrap">
+        <span class="ftag">substation_id</span><span class="ftag">timestamp (hour)</span>
+        <span class="vtag">Matrix visual · cell colour = C01 Utilization %</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:6px;align-items:center;padding:0 1px;margin-top:1px">
+    <span class="slabel">Row 3 — Investment priority list &amp; thermal stress scatter</span>
+    <span class="annot">C08 Constraint Growth % · C07 Thermal Stress Factor · ranked capital programme · scatter quadrant</span>
+  </div>
+
+  <div style="display:grid;grid-template-columns:3fr 2fr;gap:9px">
+
+    <div class="panel">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px">
+        <div class="ptitle" style="margin:0">Investment priority — substation constraint growth (2023 → 2026)</div>
+        <div><span class="vtag">Table visual</span><span class="mbadge">C08</span><span class="mbadge">C01</span></div>
+      </div>
+      <div style="border:0.5px solid #EDEBE9;border-radius:2px;overflow:hidden">
+        <div class="rank-grid">
+          <div class="rh">#</div><div class="rh">Substation</div><div class="rh" style="text-align:right">2023 hrs</div><div class="rh" style="text-align:right">2026 hrs</div><div class="rh" style="text-align:right">Growth %</div><div class="rh" style="text-align:right">Util %</div><div class="rh">Action</div>
+        </div>
+        <div class="rank-grid" style="background:#fff">
+          <div class="rc" style="color:#605E5C">1</div><div class="rc" style="color:#A4262C;font-weight:500">SUB-10</div><div class="rc" style="text-align:right;color:#605E5C">312</div><div class="rc" style="text-align:right;color:#201F1E">841</div><div class="rc" style="text-align:right"><span class="tp">+169.6%</span></div><div class="rc" style="text-align:right"><span class="tp">97.4%</span></div><div class="rc"><span class="upg u1">Urgent &lt;18m</span></div>
+        </div>
+        <div class="rank-grid" style="background:#FAFAFA">
+          <div class="rc" style="color:#605E5C">2</div><div class="rc" style="color:#A4262C;font-weight:500">SUB-05</div><div class="rc" style="text-align:right;color:#605E5C">428</div><div class="rc" style="text-align:right;color:#201F1E">1,024</div><div class="rc" style="text-align:right"><span class="tp">+139.3%</span></div><div class="rc" style="text-align:right"><span class="tp">94.1%</span></div><div class="rc"><span class="upg u1">Urgent &lt;18m</span></div>
+        </div>
+        <div class="rank-grid" style="background:#fff">
+          <div class="rc" style="color:#605E5C">3</div><div class="rc" style="color:#A4262C;font-weight:500">SUB-07</div><div class="rc" style="text-align:right;color:#605E5C">516</div><div class="rc" style="text-align:right;color:#201F1E">1,187</div><div class="rc" style="text-align:right"><span class="tp">+130.0%</span></div><div class="rc" style="text-align:right"><span class="tp">91.8%</span></div><div class="rc"><span class="upg u1">Urgent &lt;18m</span></div>
+        </div>
+        <div class="rank-grid" style="background:#FAFAFA">
+          <div class="rc" style="color:#605E5C">4</div><div class="rc">SUB-02</div><div class="rc" style="text-align:right;color:#605E5C">187</div><div class="rc" style="text-align:right;color:#201F1E">382</div><div class="rc" style="text-align:right"><span class="tp">+104.3%</span></div><div class="rc" style="text-align:right">86.2%</div><div class="rc"><span class="upg u2">Monitor</span></div>
+        </div>
+        <div class="rank-grid" style="background:#fff">
+          <div class="rc" style="color:#605E5C">5</div><div class="rc">SUB-09</div><div class="rc" style="text-align:right;color:#605E5C">241</div><div class="rc" style="text-align:right;color:#201F1E">463</div><div class="rc" style="text-align:right"><span class="tp">+92.1%</span></div><div class="rc" style="text-align:right">82.7%</div><div class="rc"><span class="upg u2">Monitor</span></div>
+        </div>
+        <div class="rank-grid" style="background:#FAFAFA">
+          <div class="rc" style="color:#605E5C">6</div><div class="rc">SUB-04</div><div class="rc" style="text-align:right;color:#605E5C">98</div><div class="rc" style="text-align:right;color:#201F1E">162</div><div class="rc" style="text-align:right"><span class="tp">+65.3%</span></div><div class="rc" style="text-align:right">77.4%</div><div class="rc"><span class="upg u2">Monitor</span></div>
+        </div>
+        <div class="rank-grid" style="background:#fff">
+          <div class="rc" style="color:#605E5C">7</div><div class="rc">SUB-11</div><div class="rc" style="text-align:right;color:#605E5C">44</div><div class="rc" style="text-align:right;color:#201F1E">62</div><div class="rc" style="text-align:right"><span class="tp">+40.9%</span></div><div class="rc" style="text-align:right">68.1%</div><div class="rc"><span class="upg u3">Planned</span></div>
+        </div>
+        <div class="rank-grid" style="background:#FAFAFA;border-bottom:none">
+          <div class="rc" style="border-bottom:none;color:#605E5C">8</div><div class="rc" style="border-bottom:none">SUB-01</div><div class="rc" style="border-bottom:none;text-align:right;color:#605E5C">211</div><div class="rc" style="border-bottom:none;text-align:right;color:#201F1E">248</div><div class="rc" style="border-bottom:none;text-align:right"><span class="tp">+17.5%</span></div><div class="rc" style="border-bottom:none;text-align:right">61.3%</div><div class="rc" style="border-bottom:none"><span class="upg u3">Planned</span></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;margin-top:5px;flex-wrap:wrap;align-items:center">
+        <span class="upg u1">Urgent — capital programme within 18 months</span>
+        <span class="upg u2">Monitor — review at next annual planning cycle</span>
+        <span class="upg u3">Planned — standard 5-year programme</span>
+      </div>
+      <div style="margin-top:5px;display:flex;gap:4px;flex-wrap:wrap">
+        <span class="ftag">substation_id</span>
+        <span class="mbadge">C08 Overloaded Hours 2023</span><span class="mbadge">C08 Overloaded Hours 2026</span><span class="mbadge">C08 Constraint Growth %</span><span class="mbadge">C01 Substation Utilization %</span>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px">
+        <div class="ptitle" style="margin:0">Thermal stress quadrant — utilization vs temperature</div>
+        <div><span class="vtag">Scatter chart</span><span class="mbadge">C07</span><span class="mbadge">C01</span></div>
+      </div>
+      <div style="background:#FAFAFA;border:0.5px solid #EDEBE9;border-radius:2px">
+        <svg width="100%" height="188" viewBox="0 0 240 188">
+          <line x1="30" y1="10" x2="30" y2="155" stroke="#EDEBE9" stroke-width="0.5"/>
+          <line x1="30" y1="155" x2="232" y2="155" stroke="#EDEBE9" stroke-width="0.5"/>
+          <line x1="30" y1="82" x2="232" y2="82" stroke="#EDEBE9" stroke-width="0.5" stroke-dasharray="2 2"/>
+          <line x1="131" y1="10" x2="131" y2="155" stroke="#EDEBE9" stroke-width="0.5" stroke-dasharray="2 2"/>
+          <rect x="131" y="10" width="101" height="72" fill="#FDE7E9" opacity=".22"/>
+          <rect x="30" y="82" width="101" height="73" fill="#DFF6DD" opacity=".22"/>
+          <text x="182" y="22" font-size="6.5" fill="#A32D2D" text-anchor="middle">High temp + High load</text>
+          <text x="182" y="30" font-size="6" fill="#A32D2D" text-anchor="middle">Critical thermal zone</text>
+          <text x="80" y="135" font-size="6.5" fill="#107C10" text-anchor="middle">Safe operating zone</text>
+          <text x="27" y="158" font-size="5.5" fill="#A19F9D" text-anchor="end">0%</text>
+          <text x="27" y="85" font-size="5.5" fill="#A19F9D" text-anchor="end">50%</text>
+          <text x="27" y="14" font-size="5.5" fill="#A19F9D" text-anchor="end">100%</text>
+          <text x="30" y="166" font-size="5.5" fill="#A19F9D">−10°</text>
+          <text x="131" y="166" font-size="5.5" fill="#A19F9D" text-anchor="middle">18°C</text>
+          <text x="230" y="166" font-size="5.5" fill="#A19F9D" text-anchor="end">45°C</text>
+          <text x="131" y="176" font-size="6" fill="#605E5C" text-anchor="middle">temp_celsius →</text>
+          <circle cx="55" cy="122" r="4" fill="#97C459" stroke="#3B6D11" stroke-width="0.5"/>
+          <text x="55" y="118" font-size="5.5" fill="#3B6D11" text-anchor="middle">01</text>
+          <circle cx="72" cy="108" r="4.5" fill="#C0DD97" stroke="#3B6D11" stroke-width="0.5"/>
+          <text x="72" y="104" font-size="5.5" fill="#3B6D11" text-anchor="middle">03</text>
+          <circle cx="88" cy="96" r="5" fill="#EF9F27" stroke="#854F0B" stroke-width="0.5"/>
+          <text x="88" y="92" font-size="5.5" fill="#854F0B" text-anchor="middle">04</text>
+          <circle cx="108" cy="88" r="5" fill="#EF9F27" stroke="#854F0B" stroke-width="0.5"/>
+          <text x="108" y="84" font-size="5.5" fill="#854F0B" text-anchor="middle">09</text>
+          <circle cx="144" cy="66" r="6" fill="#E24B4A" stroke="#791F1F" stroke-width="0.5"/>
+          <text x="144" y="62" font-size="5.5" fill="#fff" text-anchor="middle">02</text>
+          <circle cx="162" cy="52" r="7" fill="#E24B4A" stroke="#791F1F" stroke-width="0.5"/>
+          <text x="162" y="48" font-size="5.5" fill="#fff" text-anchor="middle">07</text>
+          <circle cx="178" cy="38" r="8" fill="#A32D2D" stroke="#501313" stroke-width="0.5"/>
+          <text x="178" y="34" font-size="5.5" fill="#fff" text-anchor="middle">05</text>
+          <circle cx="196" cy="26" r="9" fill="#A32D2D" stroke="#501313" stroke-width="0.5"/>
+          <text x="196" y="22" font-size="5.5" fill="#fff" text-anchor="middle">10</text>
+          <circle cx="210" cy="18" r="8.5" fill="#A32D2D" stroke="#501313" stroke-width="0.5"/>
+          <text x="210" y="14" font-size="5.5" fill="#fff" text-anchor="middle">07</text>
+          <text x="229" y="157" font-size="5.5" fill="#A19F9D" text-anchor="end">bubble size = C07 score</text>
+        </svg>
+      </div>
+      <div class="alert-r"><div class="ind" style="background:#A4262C"></div>SUB-05, SUB-07, SUB-10 in critical quadrant — IEEE C57.91 insulation degradation risk</div>
+      <div style="margin-top:5px;display:flex;gap:3px;flex-wrap:wrap">
+        <span class="ftag">temp_celsius</span><span class="ftag">net_load_mw</span>
+        <span class="mbadge">C01 (Y axis)</span><span class="mbadge">C07 (bubble size)</span>
+        <span class="vtag">Scatter · quadrant reference lines at 50% util and 18°C</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <span style="font-size:7.5px;color:#A19F9D">Grid Constraint &amp; Capacity Heatmap · Network Planning Division · Restricted — Official Use Only · FERC Order 890 compliant planning evidence</span>
+  <span style="font-size:7.5px;color:#A19F9D">Model: grid_load_der_impact_2023_2026 · 5,000 records · 20 measures deployed · Rated capacity constant: 5,000 MW</span>
+</div>
+</div>
