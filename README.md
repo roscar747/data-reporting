@@ -77,7 +77,7 @@ Whether you're a recruiter, a public-sector reviewer, or a fellow analyst, the g
 | 2 | Banking &amp; Fintech | [Liquidity &amp; Settlement Risk](projects/banking-and-fintech/02-liquidity-settlement-risk/) | Are we within liquidity coverage and intraday settlement tolerances? | v1 |
 | 3 | Banking &amp; Fintech | [Regulatory Suspicious Activity (SAR)](projects/banking-and-fintech/03-regulatory-suspicious-activity/) | Where are SAR backlogs and which typologies are emerging? | v1 |
 | 4 | Construction &amp; Buildings | [BJF Group Revenue &amp; Operations](projects/construction-and-buildings/01-bjf-group-revenue-operations/) | How is each construction project performing on revenue, margin and schedule? | v1 |
-| 5 | Energy &amp; Utilities | [Grid Load Forecasting &amp; DER Impact](projects/energy-and-utilities/01-grid-load-forecasting-der/) | Where will distributed energy resources stress the grid next? | v1 |
+| 5 | Energy &amp; Utilities | [Grid Load Forecasting &amp; DER Impact](projects/energy-and-utilities/01-grid-load-forecasting-der/) · [🌐 live wireframe](https://htmlpreview.github.io/?https://github.com/roscar747/data-reporting/blob/main/projects/energy-and-utilities/01-grid-load-forecasting-der/wireframes/low-fidelity/grid_load_forecast_der_dashboard_wireframe_v1.html) | Where will distributed energy resources stress the grid next? | v1 |
 | 6 | Healthcare &amp; Life Sciences | [Patient 360 &amp; Clinical Trial Funnel](projects/healthcare-and-life-sciences/01-patient-360-clinical-trials/) | Which trial sites convert patients fastest and where are AE risks concentrating? | v1 |
 
 Every project page contains: business problem, dataset description, KPI definitions, wireframe-vs-final comparison, screenshots, and a link to the `.pbix`.

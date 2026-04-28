@@ -57,14 +57,14 @@ Full DAX: [`docs/kpi-definitions.md`](docs/kpi-definitions.md).
 
 ## Wireframe vs final dashboard
 
-This project has three exploratory wireframes that show iteration on the heatmap visual — keep them all.
+This project has three exploratory wireframes that show iteration on the heatmap visual — keep them all. The forecast-view wireframe has a **live preview** link that renders the HTML directly in the browser via [htmlpreview.github.io](https://htmlpreview.github.io/) — no clone needed.
 
-| Stage | File |
-|-------|------|
-| Low-fidelity wireframe (heatmap concept) | [`wireframes/low-fidelity/grid_constraint_capacity_heatmap_wireframe_v1.html`](wireframes/low-fidelity/grid_constraint_capacity_heatmap_wireframe_v1.html) |
-| Low-fidelity wireframe (heatmap, v2) | [`wireframes/low-fidelity/grid_constraint_capacity_heatmap_dashboard_wireframe_v2.html`](wireframes/low-fidelity/grid_constraint_capacity_heatmap_dashboard_wireframe_v2.html) |
-| Low-fidelity wireframe (forecast view) | [`wireframes/low-fidelity/grid_load_forecast_der_dashboard_wireframe_v1.html`](wireframes/low-fidelity/grid_load_forecast_der_dashboard_wireframe_v1.html) |
-| Final Power BI report | [`reports/pbix/Grid_Load_Forecasting_and_DER_Impact_Analysis_v1.pbix`](reports/pbix/Grid_Load_Forecasting_and_DER_Impact_Analysis_v1.pbix) |
+| Stage | File | Live preview |
+|-------|------|--------------|
+| Low-fidelity wireframe (heatmap concept) | [`wireframes/low-fidelity/grid_constraint_capacity_heatmap_wireframe_v1.html`](wireframes/low-fidelity/grid_constraint_capacity_heatmap_wireframe_v1.html) | — |
+| Low-fidelity wireframe (heatmap, v2) | [`wireframes/low-fidelity/grid_constraint_capacity_heatmap_dashboard_wireframe_v2.html`](wireframes/low-fidelity/grid_constraint_capacity_heatmap_dashboard_wireframe_v2.html) | — |
+| Low-fidelity wireframe (forecast view) | [`wireframes/low-fidelity/grid_load_forecast_der_dashboard_wireframe_v1.html`](wireframes/low-fidelity/grid_load_forecast_der_dashboard_wireframe_v1.html) | 🌐 [Open rendered wireframe](https://htmlpreview.github.io/?https://github.com/roscar747/data-reporting/blob/main/projects/energy-and-utilities/01-grid-load-forecasting-der/wireframes/low-fidelity/grid_load_forecast_der_dashboard_wireframe_v1.html) |
+| Final Power BI report | [`reports/pbix/Grid_Load_Forecasting_and_DER_Impact_Analysis_v1.pbix`](reports/pbix/Grid_Load_Forecasting_and_DER_Impact_Analysis_v1.pbix) | — |
 
 **What changed between wireframe and final.**
 

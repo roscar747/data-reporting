@@ -59,13 +59,38 @@ When a new major version ships, keep the previous one in the same folder so revi
 
 ## Sharing publicly
 
-Three options, in order of fidelity:
+Four options, in order of fidelity:
 
 1. **Power BI service "Publish to web"** — produces an embeddable iframe. Anyone with the link can view, no login. *Only ever use this with synthetic data*. The link is in the project README under "Live report".
 2. **PDF export** — `File → Export → Export to PDF` in Desktop. Produces one page per report page. Saved to `reports/exports/pdf/`. Good for offline reviewers and recruiters.
 3. **PNG screenshots** — one per page, plus a hero `preview.png`. Saved to `reports/exports/screenshots/`. These are what render in the project README.
+4. **Live HTML wireframe via htmlpreview.github.io** — for the HTML wireframes in `wireframes/low-fidelity/` and `wireframes/high-fidelity/`. GitHub serves committed `.html` files as raw text, but [htmlpreview.github.io](https://htmlpreview.github.io/) is a free relay that fetches the raw file and renders it as HTML. Anyone with the URL can see the wireframe live without cloning the repo.
 
-For the public sector / regulated-data audience, never use option 1 with anything other than fabricated data. Use options 2 and 3 plus the `.pbix` file gated behind a clone.
+For the public sector / regulated-data audience, never use option 1 with anything other than fabricated data. Use options 2, 3 and 4 plus the `.pbix` file gated behind a clone.
+
+### htmlpreview.github.io URL pattern
+
+Take any HTML file's GitHub `blob/main/...` URL and prefix it with `https://htmlpreview.github.io/?`:
+
+```
+https://htmlpreview.github.io/?https://github.com/<user>/<repo>/blob/main/<path-to>.html
+```
+
+Worked example for this repo (live preview of the Grid Load Forecasting wireframe):
+
+```
+https://htmlpreview.github.io/?https://github.com/roscar747/data-reporting/blob/main/projects/energy-and-utilities/01-grid-load-forecasting-der/wireframes/low-fidelity/grid_load_forecast_der_dashboard_wireframe_v1.html
+```
+
+Caveats:
+
+- The URL is the public-GitHub URL. It only works once the file is pushed to `main` (or whichever branch you reference).
+- htmlpreview.github.io is a third-party relay. It is widely used and reliable, but it is not under your control — for mission-critical demos, host the rendered HTML on GitHub Pages instead (see below).
+- Pages with cross-origin script imports may render with reduced functionality. Self-contained HTML wireframes work flawlessly.
+
+### Alternative: GitHub Pages
+
+If you want a custom-domain, fully reliable rendering, enable GitHub Pages on the repo (`Settings → Pages → Build and deployment → Branch: main / root`). HTML files are then served directly at `https://<user>.github.io/<repo>/<path>.html` without the htmlpreview indirection. This is the production-grade option once your portfolio is settled.
 
 ## Capturing screenshots that look professional
 
