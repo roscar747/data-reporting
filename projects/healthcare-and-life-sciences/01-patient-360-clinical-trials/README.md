@@ -57,13 +57,15 @@ Full DAX: [`docs/kpi-definitions.md`](docs/kpi-definitions.md).
 
 This project has four wireframes covering the three intended views; together they show how a Patient 360 model can be sliced for different audiences.
 
-| Wireframe | Audience | File |
-|-----------|----------|------|
-| Patient 360 (overall view) | Medical affairs | [`wireframes/low-fidelity/patient_360_dashboard_wireframe_v1.html`](wireframes/low-fidelity/patient_360_dashboard_wireframe_v1.html) |
-| Patient pulse (engagement) | Medical monitors | [`wireframes/low-fidelity/patient_pulse_dashboard_wireframe_v2.html`](wireframes/low-fidelity/patient_pulse_dashboard_wireframe_v2.html) |
-| Site enrolment funnel | Clin-ops | [`wireframes/low-fidelity/clinical_trial_site_enrollment_funnel_wireframe_v1.html`](wireframes/low-fidelity/clinical_trial_site_enrollment_funnel_wireframe_v1.html) |
-| AE safety velocity | Pharmacovigilance | [`wireframes/low-fidelity/ae_safety_velocity_dashboard_wireframe_v1.html`](wireframes/low-fidelity/ae_safety_velocity_dashboard_wireframe_v1.html) |
-| Final Power BI report | All audiences | [`reports/pbix/Patient_360_and_Clinical_Trial_Operational_Funnel_v1.pbix`](reports/pbix/Patient_360_and_Clinical_Trial_Operational_Funnel_v1.pbix) |
+Each HTML wireframe has a **Live preview** link that renders the file directly in your browser via [htmlpreview.github.io](https://htmlpreview.github.io/) — no clone needed.
+
+| Wireframe | Audience | File | Live preview |
+|-----------|----------|------|--------------|
+| Patient 360 (overall view) | Medical affairs | [`wireframes/low-fidelity/patient_360_dashboard_wireframe_v1.html`](wireframes/low-fidelity/patient_360_dashboard_wireframe_v1.html) | 🌐 [Open rendered wireframe](https://htmlpreview.github.io/?https://github.com/roscar747/data-reporting/blob/main/projects/healthcare-and-life-sciences/01-patient-360-clinical-trials/wireframes/low-fidelity/patient_360_dashboard_wireframe_v1.html) |
+| Patient pulse (engagement) | Medical monitors | [`wireframes/low-fidelity/patient_pulse_dashboard_wireframe_v2.html`](wireframes/low-fidelity/patient_pulse_dashboard_wireframe_v2.html) | 🌐 [Open rendered wireframe](https://htmlpreview.github.io/?https://github.com/roscar747/data-reporting/blob/main/projects/healthcare-and-life-sciences/01-patient-360-clinical-trials/wireframes/low-fidelity/patient_pulse_dashboard_wireframe_v2.html) |
+| Site enrolment funnel | Clin-ops | [`wireframes/low-fidelity/clinical_trial_site_enrollment_funnel_wireframe_v1.html`](wireframes/low-fidelity/clinical_trial_site_enrollment_funnel_wireframe_v1.html) | 🌐 [Open rendered wireframe](https://htmlpreview.github.io/?https://github.com/roscar747/data-reporting/blob/main/projects/healthcare-and-life-sciences/01-patient-360-clinical-trials/wireframes/low-fidelity/clinical_trial_site_enrollment_funnel_wireframe_v1.html) |
+| AE safety velocity | Pharmacovigilance | [`wireframes/low-fidelity/ae_safety_velocity_dashboard_wireframe_v1.html`](wireframes/low-fidelity/ae_safety_velocity_dashboard_wireframe_v1.html) | 🌐 [Open rendered wireframe](https://htmlpreview.github.io/?https://github.com/roscar747/data-reporting/blob/main/projects/healthcare-and-life-sciences/01-patient-360-clinical-trials/wireframes/low-fidelity/ae_safety_velocity_dashboard_wireframe_v1.html) |
+| Final Power BI report | All audiences | [`reports/pbix/Patient_360_and_Clinical_Trial_Operational_Funnel_v1.pbix`](reports/pbix/Patient_360_and_Clinical_Trial_Operational_Funnel_v1.pbix) | — |
 
 **What changed between wireframe and final.**
 

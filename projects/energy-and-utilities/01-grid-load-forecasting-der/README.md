@@ -61,8 +61,8 @@ This project has three exploratory wireframes that show iteration on the heatmap
 
 | Stage | File | Live preview |
 |-------|------|--------------|
-| Low-fidelity wireframe (heatmap concept) | [`wireframes/low-fidelity/grid_constraint_capacity_heatmap_wireframe_v1.html`](wireframes/low-fidelity/grid_constraint_capacity_heatmap_wireframe_v1.html) | — |
-| Low-fidelity wireframe (heatmap, v2) | [`wireframes/low-fidelity/grid_constraint_capacity_heatmap_dashboard_wireframe_v2.html`](wireframes/low-fidelity/grid_constraint_capacity_heatmap_dashboard_wireframe_v2.html) | — |
+| Low-fidelity wireframe (heatmap concept) | [`wireframes/low-fidelity/grid_constraint_capacity_heatmap_wireframe_v1.html`](wireframes/low-fidelity/grid_constraint_capacity_heatmap_wireframe_v1.html) | 🌐 [Open rendered wireframe](https://htmlpreview.github.io/?https://github.com/roscar747/data-reporting/blob/main/projects/energy-and-utilities/01-grid-load-forecasting-der/wireframes/low-fidelity/grid_constraint_capacity_heatmap_wireframe_v1.html) |
+| Low-fidelity wireframe (heatmap, v2) | [`wireframes/low-fidelity/grid_constraint_capacity_heatmap_dashboard_wireframe_v2.html`](wireframes/low-fidelity/grid_constraint_capacity_heatmap_dashboard_wireframe_v2.html) | 🌐 [Open rendered wireframe](https://htmlpreview.github.io/?https://github.com/roscar747/data-reporting/blob/main/projects/energy-and-utilities/01-grid-load-forecasting-der/wireframes/low-fidelity/grid_constraint_capacity_heatmap_dashboard_wireframe_v2.html) |
 | Low-fidelity wireframe (forecast view) | [`wireframes/low-fidelity/grid_load_forecast_der_dashboard_wireframe_v1.html`](wireframes/low-fidelity/grid_load_forecast_der_dashboard_wireframe_v1.html) | 🌐 [Open rendered wireframe](https://htmlpreview.github.io/?https://github.com/roscar747/data-reporting/blob/main/projects/energy-and-utilities/01-grid-load-forecasting-der/wireframes/low-fidelity/grid_load_forecast_der_dashboard_wireframe_v1.html) |
 | Final Power BI report | [`reports/pbix/Grid_Load_Forecasting_and_DER_Impact_Analysis_v1.pbix`](reports/pbix/Grid_Load_Forecasting_and_DER_Impact_Analysis_v1.pbix) | — |
 

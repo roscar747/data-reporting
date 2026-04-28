@@ -59,11 +59,13 @@ Full DAX definitions and business meaning: [`docs/kpi-definitions.md`](docs/kpi-
 
 ## Wireframe vs final dashboard
 
-| Stage | File |
-|-------|------|
-| Low-fidelity wireframe | [`wireframes/low-fidelity/fraud_detection_dashboard_wireframe_v1.html`](wireframes/low-fidelity/fraud_detection_dashboard_wireframe_v1.html) |
-| High-fidelity mock | [`wireframes/high-fidelity/real_time_fraud_signals_dashboard_v1.html`](wireframes/high-fidelity/real_time_fraud_signals_dashboard_v1.html) |
-| Final Power BI report | [`reports/pbix/Fraud_Detection_v1.pbix`](reports/pbix/Fraud_Detection_v1.pbix) |
+The HTML wireframes have a **Live preview** link that renders the file directly in your browser via [htmlpreview.github.io](https://htmlpreview.github.io/) — no clone needed.
+
+| Stage | File | Live preview |
+|-------|------|--------------|
+| Low-fidelity wireframe | [`wireframes/low-fidelity/fraud_detection_dashboard_wireframe_v1.html`](wireframes/low-fidelity/fraud_detection_dashboard_wireframe_v1.html) | 🌐 [Open rendered wireframe](https://htmlpreview.github.io/?https://github.com/roscar747/data-reporting/blob/main/projects/banking-and-fintech/01-fraud-detection/wireframes/low-fidelity/fraud_detection_dashboard_wireframe_v1.html) |
+| High-fidelity mock | [`wireframes/high-fidelity/real_time_fraud_signals_dashboard_v1.html`](wireframes/high-fidelity/real_time_fraud_signals_dashboard_v1.html) | 🌐 [Open rendered wireframe](https://htmlpreview.github.io/?https://github.com/roscar747/data-reporting/blob/main/projects/banking-and-fintech/01-fraud-detection/wireframes/high-fidelity/real_time_fraud_signals_dashboard_v1.html) |
+| Final Power BI report | [`reports/pbix/Fraud_Detection_v1.pbix`](reports/pbix/Fraud_Detection_v1.pbix) | — |
 
 **What changed between wireframe and final.**
 

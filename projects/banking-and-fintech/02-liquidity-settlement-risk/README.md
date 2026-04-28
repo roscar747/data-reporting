@@ -57,11 +57,13 @@ Full DAX: [`docs/kpi-definitions.md`](docs/kpi-definitions.md).
 
 ## Wireframe vs final dashboard
 
-| Stage | File |
-|-------|------|
-| Low-fidelity wireframe | [`wireframes/low-fidelity/liquidity_settlement_risk_dashboard_wireframe_v1.html`](wireframes/low-fidelity/liquidity_settlement_risk_dashboard_wireframe_v1.html) |
-| High-fidelity mock | [`wireframes/high-fidelity/liquidity_settlement_risk_dashboard_v1.html`](wireframes/high-fidelity/liquidity_settlement_risk_dashboard_v1.html) |
-| Final Power BI report | [`reports/pbix/Liquidity_and_Settlement_Risk_v1.pbix`](reports/pbix/Liquidity_and_Settlement_Risk_v1.pbix) |
+The HTML wireframes have a **Live preview** link that renders the file directly in your browser via [htmlpreview.github.io](https://htmlpreview.github.io/) — no clone needed.
+
+| Stage | File | Live preview |
+|-------|------|--------------|
+| Low-fidelity wireframe | [`wireframes/low-fidelity/liquidity_settlement_risk_dashboard_wireframe_v1.html`](wireframes/low-fidelity/liquidity_settlement_risk_dashboard_wireframe_v1.html) | 🌐 [Open rendered wireframe](https://htmlpreview.github.io/?https://github.com/roscar747/data-reporting/blob/main/projects/banking-and-fintech/02-liquidity-settlement-risk/wireframes/low-fidelity/liquidity_settlement_risk_dashboard_wireframe_v1.html) |
+| High-fidelity mock | [`wireframes/high-fidelity/liquidity_settlement_risk_dashboard_v1.html`](wireframes/high-fidelity/liquidity_settlement_risk_dashboard_v1.html) | 🌐 [Open rendered wireframe](https://htmlpreview.github.io/?https://github.com/roscar747/data-reporting/blob/main/projects/banking-and-fintech/02-liquidity-settlement-risk/wireframes/high-fidelity/liquidity_settlement_risk_dashboard_v1.html) |
+| Final Power BI report | [`reports/pbix/Liquidity_and_Settlement_Risk_v1.pbix`](reports/pbix/Liquidity_and_Settlement_Risk_v1.pbix) | — |
 
 **What changed between wireframe and final.**
 
