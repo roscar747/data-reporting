@@ -1,0 +1,38 @@
+# Power BI Desktop local state — do NOT commit
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
+**/.pbi/editorSettings.json
+
+# Power BI temp files
+*.pbix.bak
+~$*.pbix
+~$*.pbit
+
+# OS junk
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Python (if you generate datasets locally)
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+
+# Node (if you build wireframes with anything Node-based)
+node_modules/
+
+# Local-only credential & connection files (defensive — should never exist here, but in case)
+*.pbids
+*.pq.local
+secrets.json
+.env.*
+!.env.example

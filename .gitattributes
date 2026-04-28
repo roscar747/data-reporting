@@ -1,0 +1,39 @@
+# Git LFS rules for the Power BI portfolio repository
+# ----------------------------------------------------
+# Power BI artifacts are binary and grow quickly with embedded data + visuals.
+# Tracking them through LFS keeps the main repo light and lets contributors
+# clone without downloading every historical version of every report.
+#
+# Run `git lfs install` once per machine before cloning, then `git lfs pull`
+# to materialize the binary content.
+
+# Power BI packaged reports
+*.pbix              filter=lfs diff=lfs merge=lfs -text
+*.pbit              filter=lfs diff=lfs merge=lfs -text
+
+# Power BI Project (.pbip) is text-based — keep it diffable, do NOT LFS-track
+# *.pbip is intentionally NOT listed here.
+
+# Large CSV / Parquet datasets (>1 MB tend to bloat clones)
+*.parquet           filter=lfs diff=lfs merge=lfs -text
+
+# Image and PDF assets
+*.png               binary
+*.jpg               binary
+*.jpeg              binary
+*.gif               binary
+*.pdf               binary
+
+# Office documents
+*.docx              binary
+*.xlsx              binary
+*.pptx              binary
+
+# Normalize line endings for text-based Power BI Project files
+*.tmdl              text eol=lf
+*.pbir              text eol=lf
+*.pbism             text eol=lf
+*.json              text eol=lf
+*.md                text eol=lf
+*.html              text eol=lf
+*.csv               text eol=lf
